@@ -8,6 +8,9 @@ import {FooterComponent} from "./footer/footer.component";
 import {HomeComponent} from "./home/home.component";
 import {RouterModule} from "@angular/router";
 import {routes} from './app.router';
+import {LoginService} from "../services/login.service";
+import {ValidationService} from "../services/validation.service";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -18,10 +21,12 @@ import {routes} from './app.router';
     HomeComponent
   ],
   imports: [
+    ReactiveFormsModule,
+    FormsModule,
     BrowserModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [LoginService,ValidationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

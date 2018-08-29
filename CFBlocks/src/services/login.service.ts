@@ -9,8 +9,8 @@ import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class LoginService {
-  private _user: User;
-  get user(): User {
+  private _user: User = new User();
+  getUser(): User {
     return this._user;
   }
   
@@ -18,18 +18,28 @@ export class LoginService {
     this._user = value;
   }
   
-  private _userSession: UserSession;
-  get userSession(): UserSession {
+  private _userSession: UserSession = new UserSession();
+  getUserSession(): UserSession {
     return this._userSession;
   }
   
   private setUserSession(value: UserSession) {
     this._userSession = value;
+    if (value)
+      this.setUser(value.user);
   }
   
-  isLogedIn(): boolean {
-    return (this._userSession !== null || this._userSession !== undefined);
+  constructor() {
+    const cachedSession: UserSession = JSON.parse(localStorage.getItem('CFBlocks'));
+    if (cachedSession && cachedSession.user.username && cachedSession.lastLogin &&
+      moment(cachedSession.lastLogin).isSameOrAfter(moment().subtract(1, 'days'))) {
+      this.setUserSession(cachedSession);
+    }
   }
+  
+  // isLogedIn(): boolean {
+  //   return this._userSession ? true : false;
+  // }
   login(username: string, password: string): Observable<UserSession> {
     return new Observable(subscriber => {
       const cachedSession: UserSession = JSON.parse(localStorage.getItem('CFBlocks'));
@@ -43,25 +53,31 @@ export class LoginService {
       
       // TODO auth user and cache
       
-      let testUser = new UserSession();
-      testUser.user = new User();
-      testUser.user.email = 'swysoc1@students.towson.edu';
-      testUser.user.firstName = 'Sean';
-      testUser.user.lastName = 'Wysocki';
-      testUser.user.username = 'swysoc1@students.towson.edu';
-      testUser.created = moment().toDate();
-      testUser.lastLogin = moment().toDate();
+      let userSession = new UserSession();
+      userSession.user = new User();
+      userSession.user.email = 'swysoc1@students.towson.edu';
+      userSession.user.firstName = 'Sean';
+      userSession.user.lastName = 'Wysocki';
+      userSession.user.username = 'swysoc1@students.towson.edu';
+      userSession.created = moment().toDate();
+      userSession.lastLogin = moment().toDate();
       
-      localStorage.setItem('CFBlocks', JSON.stringify(testUser));
-      this._user = testUser.user;
+      localStorage.setItem('CFBlocks', JSON.stringify(userSession));
+      this.setUserSession(userSession);
       
-      subscriber.next(testUser);
+      subscriber.next(userSession);
       subscriber.complete();
     });
   }
-  logout() {
-    localStorage.removeItem('CFBlocks');
-    this._user = null;
-    this._userSession = null;
+  logout(): Observable<UserSession> {
+    return new Observable(subscriber => {
+      console.log('loggingOut');
+      localStorage.removeItem('CFBlocks');
+      this.setUserSession(null);
+      subscriber.next(this.getUserSession());
+      subscriber.complete();
+      
+      // TODO error on logging out
+    });
   }
 }
