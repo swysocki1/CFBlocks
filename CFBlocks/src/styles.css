@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+.lizard {
+  color: #248f24;
+  text-shadow: 1px 1px 1px #000;
+}
+.lizard-fill {
+  fill: #248f24;
+}
+
+/* font awesome overrides */
+i.fa.active {
+  color: #0072c6;
+}
