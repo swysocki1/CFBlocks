@@ -53,14 +53,9 @@ export class LoginService {
       
       // TODO auth user and cache
       
-      let userSession = new UserSession();
-      userSession.user = new User();
-      userSession.user.email = 'swysoc1@students.towson.edu';
-      userSession.user.firstName = 'Sean';
-      userSession.user.lastName = 'Wysocki';
-      userSession.user.username = 'swysoc1@students.towson.edu';
-      userSession.created = moment().toDate();
-      userSession.lastLogin = moment().toDate();
+      const userSession = new UserSession();
+      userSession.setTestUser(); // Setting test user // Needs to be deleted
+      
       
       localStorage.setItem('CFBlocks', JSON.stringify(userSession));
       this.setUserSession(userSession);
@@ -78,6 +73,40 @@ export class LoginService {
       subscriber.complete();
       
       // TODO error on logging out
+    });
+  }
+  hasAdmin() {
+    if(this._userSession && this._userSession.user && this._userSession.user.roles) {
+      const userRoles = this._userSession.user.roles;
+      return userRoles.some(role => role.type === 'ADMIN');
+    } else {
+      return false;
+    }
+  }
+  isAdmin(): boolean {
+    if(this.hasAdmin()) {
+      if (this._userSession && this._userSession.user && this._userSession.user.roles) {
+        const userRoles = this._userSession.user.roles;
+        return userRoles.some(role => role.type === 'ADMIN' && role.active);
+      } else {
+        return false;
+      }
+    }
+  }
+  toggleAdmin(): Observable<UserSession> {
+    return new Observable(subscriber =>  {
+      try {
+        if (this.isAdmin()) {
+          this._userSession.user.roles.find(role => role.type === 'ADMIN' && role.active).active = false;
+        } else if (this.hasAdmin()) {
+          this._userSession.user.roles.find(role => role.type === 'ADMIN' && !role.active).active = true;
+        }
+        this.setUserSession(this._userSession);
+        subscriber.next(this._userSession);
+      } catch(error) {
+        subscriber.error(error);
+      }
+      subscriber.complete()
     });
   }
 }

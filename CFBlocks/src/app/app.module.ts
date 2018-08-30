@@ -11,6 +11,7 @@ import {routes} from './app.router';
 import {LoginService} from "../services/login.service";
 import {ValidationService} from "../services/validation.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NavbarSearchService} from "./navbar/navbar-search.service";
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     BrowserModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [LoginService,ValidationService],
+  providers: [LoginService,ValidationService,NavbarSearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
