@@ -1,5 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+/* Main CSS */
+.main {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
 
+/* Color Helper */
 .lizard {
   color: #248f24;
   text-shadow: 1px 1px 1px #000;
@@ -11,4 +17,20 @@
 /* font awesome overrides */
 i.fa.active {
   color: #0072c6;
+}
+
+/* Helper CSS */
+.align-middle {
+  position: absolute;
+  top: 50%;
+}
+.align-middle-left {
+  position: absolute;
+  top: 50%;
+  left:0;
+}
+.align-middle-right {
+  position: absolute;
+  top: 50%;
+  right:0;
 }
