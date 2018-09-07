@@ -39,9 +39,9 @@ export class CalendarService {
     const calendarDay = this.createDay(date);
     return calendarDay;
   }
-  private createDay(date: Date): CalendarDay {
+  private createDay(date: Date, isThisMonth?: boolean): CalendarDay {
     if (date) {
-      return new CalendarDay(date);
+      return new CalendarDay(date, isThisMonth);
     } else {
       return null;
     }
@@ -53,7 +53,8 @@ export class CalendarService {
     const startOfWeek: Date = moment(start).startOf('week').toDate();
     const endOfWeek: Date = moment(start).endOf('week').toDate();
     for (let day = startOfWeek; moment(day).isSameOrBefore(moment(endOfWeek)); day = moment(day).add(1, 'days').toDate()) {
-      const newDay = this.createDay(day);
+      const isThisMonth = !(moment(day).isBefore(moment(firstOfMonth)) || (moment(day).isAfter(moment(lastOfMonth))));
+      const newDay = this.createDay(day, isThisMonth);
       // if (moment(day).isBefore(moment(firstOfMonth)) || (moment(day).isAfter(moment(lastOfMonth)))) { // Uncomment to hide not this month
       //   week.days.push(null);
       // } else {

@@ -18,7 +18,8 @@ export class CalendarDay {
   dayOfMonth: number;
   month: string;
   date: Date;
-  constructor(date?: Date) {
+  isThisMonth: boolean;
+  constructor(date?: Date, isThisMonth?: boolean) {
     if (date) {
       const day = moment(date);
       this.dayOfWeek = daysOfWeek[day.weekday()];
@@ -26,6 +27,7 @@ export class CalendarDay {
       this.month = monthsOfYear[day.month()];
       this.date = day.toDate();
       this.id = '???'; // TODO ID ????
+      this.isThisMonth = !!isThisMonth;
     }
   }
 }
