@@ -7,6 +7,8 @@ import {CalendarDay} from '../calendar.model';
   styles: [`
     .day {
       opacity: .25;
+      height: 0;
+      padding-bottom: 100%;
     }
     .day.valid-month {
       opacity: 1;
