@@ -1,0 +1,20 @@
+<div class="col-md-12">
+  <div class="row block-calculator">
+    <div class="col-md-1 offset-2">
+      <button type="button" class="btn btn-primary pull-right align-middle-right" (click)="backCard()" [disabled]="disableBackBtn()">Back</button>
+    </div>
+    <div class="col-md-6">
+      <div class="card" style="height: 100%;">
+        <div [ngSwitch]="blockCalculatorPage" *ngIf="blockCalculatorPage <= blockCalculatorCards.length">
+          <span *ngFor="let card of blockCalculatorCards;let i = index">
+            <block-calculator-card *ngSwitchCase="i+1" [imgSrc]="card.imgSrc" [imgAlt]="card.imgAlt" [title]="card.title" [paragraph]="card.paragraph" [input]="card.input" [select]="card.select" (result)="updateResult(i+1,$event)"></block-calculator-card>
+            </span>
+        </div>
+        <block-calculator-results *ngIf="blockCalculatorPage > blockCalculatorCards.length" [results]="blockCalculatorAnswers"></block-calculator-results>
+      </div>
+    </div>
+    <div class="col-md-1">
+      <button type="button" class="btn btn-primary pull-left align-middle-left" (click)="nextCard()" [disabled]="disableNextBtn()">Next</button>
+    </div>
+  </div>
+</div>
