@@ -16,6 +16,7 @@ import {AdminComponent} from "./containers/admin/admin.component";
 import {MealCalendarComponent} from "./containers/meal-calendar/meal-calendar.component";
 import {NotificationService} from "../services/notification.service";
 import {BlockCalculatorModule} from "./containers/block-calculator/block-calculator.module";
+import {CalendarModule} from "./component/calendar/calendar.module";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {BlockCalculatorModule} from "./containers/block-calculator/block-calcula
     FormsModule,
     BrowserModule,
     RouterModule.forRoot(routes),
-    BlockCalculatorModule
+    BlockCalculatorModule,
+    CalendarModule
   ],
   providers: [LoginService,ValidationService,NavbarSearchService,NotificationService],
   bootstrap: [AppComponent]
