@@ -18,7 +18,7 @@
     <tbody>
     <tr *ngFor="let week of month.weeks;">
       <td *ngFor="let day of week.days">
-        <calendar-day [day]="day"></calendar-day>
+        <calendar-day [day]="day" [meals]="getMeal(day)"></calendar-day>
       </td>
     </tr>
     </tbody>

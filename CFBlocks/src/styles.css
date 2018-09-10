@@ -14,6 +14,49 @@
   fill: #248f24;
 }
 
+.azure {
+  color: #3cc;
+  text-shadow: 1px 1px 1px #000;
+}
+.azure-fill {
+  fill: #3cc;
+}
+.blush {
+  color: #ff5050;
+  text-shadow: 1px 1px 1px #000;
+}
+.blush-fill {
+  fill: #ff5050;
+}
+.lavender {
+  color: #c9f;
+  text-shadow: 1px 1px 1px #000;
+}
+.lavender-fill {
+  fill: #c9f;
+}
+.mint {
+  color: #0fc;
+  text-shadow: 1px 1px 1px #000;
+}
+.mint-fill {
+  fill: #0fc;
+}
+.seafoam {
+  color: #099;
+  text-shadow: 1px 1px 1px #000;
+}
+.seafoam-fill {
+  fill: #099;
+}
+.tiger {
+  color: #fc6;
+  text-shadow: 1px 1px 1px #000;
+}
+.tiger-fill {
+  fill: #fc6;
+  background: #fc6;
+}
 /* font awesome overrides */
 i.fa.active {
   color: #0072c6;
@@ -33,4 +76,7 @@ i.fa.active {
   position: absolute;
   top: 50%;
   right:0;
+}
+.pointer:hover {
+  cursor: pointer;
 }

@@ -3,32 +3,33 @@
  */
 
 import {Injectable} from '@angular/core';
-import {User, UserSession} from "../models/user.model";
+import {User, UserSession} from '../models/user.model';
 import * as moment from 'moment';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class LoginService {
   private _user: User = new User();
+  private _userSession: UserSession = new UserSession();
   getUser(): User {
     return this._user;
   }
-  
+
   private setUser(value: User) {
     this._user = value;
   }
-  
-  private _userSession: UserSession = new UserSession();
+
   getUserSession(): UserSession {
     return this._userSession;
   }
-  
+
   private setUserSession(value: UserSession) {
     this._userSession = value;
-    if (value)
+    if (value) {
       this.setUser(value.user);
+    }
   }
-  
+
   constructor() {
     const cachedSession: UserSession = JSON.parse(localStorage.getItem('CFBlocks'));
     if (cachedSession && cachedSession.user.username && cachedSession.lastLogin &&
@@ -36,7 +37,7 @@ export class LoginService {
       this.setUserSession(cachedSession);
     }
   }
-  
+
   // isLogedIn(): boolean {
   //   return this._userSession ? true : false;
   // }
@@ -50,16 +51,16 @@ export class LoginService {
       } else if (cachedSession) {
         localStorage.removeItem('CFBlocks');
       }
-      
+
       // TODO auth user and cache
-      
+
       const userSession = new UserSession();
       userSession.setTestUser(); // Setting test user // Needs to be deleted
-      
-      
+
+
       localStorage.setItem('CFBlocks', JSON.stringify(userSession));
       this.setUserSession(userSession);
-      
+
       subscriber.next(userSession);
       subscriber.complete();
     });
@@ -71,12 +72,12 @@ export class LoginService {
       this.setUserSession(null);
       subscriber.next(this.getUserSession());
       subscriber.complete();
-      
+
       // TODO error on logging out
     });
   }
   hasAdmin() {
-    if(this._userSession && this._userSession.user && this._userSession.user.roles) {
+    if (this._userSession && this._userSession.user && this._userSession.user.roles) {
       const userRoles = this._userSession.user.roles;
       return userRoles.some(role => role.type === 'ADMIN');
     } else {
@@ -84,7 +85,7 @@ export class LoginService {
     }
   }
   isAdmin(): boolean {
-    if(this.hasAdmin()) {
+    if (this.hasAdmin()) {
       if (this._userSession && this._userSession.user && this._userSession.user.roles) {
         const userRoles = this._userSession.user.roles;
         return userRoles.some(role => role.type === 'ADMIN' && role.active);
