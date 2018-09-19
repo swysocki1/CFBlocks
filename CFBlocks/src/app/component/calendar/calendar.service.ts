@@ -86,4 +86,17 @@ export class CalendarService {
   //   }
   //   return calendarYear;
   // }
+  dateInCalendarMonth(month: CalendarMonth, selectedDate: Date) {
+    month.weeks.forEach(week => {
+      week.days.forEach(day => {
+        if (this.isSameDay(day.date, selectedDate)) {
+          return true;
+        }
+      });
+    });
+    return false;
+  }
+  isSameDay(date1: Date, date2: Date) {
+    return moment(date1).startOf('day').isSame(moment(date2).startOf('day'))
+  }
 }

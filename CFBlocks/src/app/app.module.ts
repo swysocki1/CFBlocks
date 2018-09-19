@@ -19,6 +19,7 @@ import {BlockCalculatorModule} from './containers/block-calculator/block-calcula
 import {CalendarModule} from './component/calendar/calendar.module';
 import {MealService} from '../services/meal.service';
 import {HelperService} from '../services/helper.service';
+import {FirebaseModule} from './firebase/firebase.module';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {HelperService} from '../services/helper.service';
     FormsModule,
     BrowserModule,
     RouterModule.forRoot(routes),
+    FirebaseModule,
     BlockCalculatorModule,
     CalendarModule
   ],

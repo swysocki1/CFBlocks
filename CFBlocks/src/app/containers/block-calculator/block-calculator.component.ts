@@ -149,7 +149,6 @@ export class BlockCalculatorComponent implements OnInit {
   
   updateResult(tab:number, value:any) {
     const card = this.blockCalculatorCards.find(c => c.order === tab);
-    console.log(card);
     if(card) {
       if(card.title === 'Body Mass Index') {
         this.blockCalculatorAnswers.percentBodyFat = value;

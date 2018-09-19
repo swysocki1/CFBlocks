@@ -15,12 +15,16 @@ import {MealService} from '../../../../services/meal.service';
     .day.valid-month {
       opacity: 1;
     }
+    .day.is-selected .dayNumber{
+      background-color: red;
+    }
     .breakfast, .lunch, .dinner, .snack { }
   `]
 })
 export class DayComponent {
   @Input() day: CalendarDay;
   @Input() meals: [Meal];
+  @Input() isSelected: boolean;
 
   constructor(private mealService: MealService) { }
 

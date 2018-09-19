@@ -13,7 +13,7 @@ export class CalendarComponent {
   daysOfWeek: [string] = [] as [string];
   monthsOfYear: [string] = [] as [string];
   month: CalendarMonth = new CalendarMonth();
-  selectedDate = moment().toDate();
+  selectedDate = moment(new Date()).startOf('day').toDate();
   mealCalendar: [MealCalendar];
   constructor(private cs: CalendarService, private mealService: MealService) {
     this.daysOfWeek = this.cs.getDaysOfWeek();
@@ -21,22 +21,42 @@ export class CalendarComponent {
     this.month = this.cs.getMonth(moment(this.selectedDate).year(), moment(this.selectedDate).month());
     this.getMealCalendar();
   }
+  goToMonth(dateOfMonth: Date) {
+    const year = moment(dateOfMonth).year();
+    const month = moment(dateOfMonth).month();
+    this.month = this.cs.getMonth(year, month);
+    console.log(`date: ${this.selectedDate}`);
+  }
   goBackMonth() {
     this.selectedDate = moment(this.selectedDate).subtract(1, 'months').toDate();
-    const year = moment(this.selectedDate).year();
-    const month = moment(this.selectedDate).month();
-    this.month = this.cs.getMonth(year, month);
+    this.goToMonth(this.selectedDate);
   }
   goNextMonth() {
     this.selectedDate = moment(this.selectedDate).add(1, 'months').toDate();
-    const year = moment(this.selectedDate).year();
-    const month = moment(this.selectedDate).month();
-    this.month = this.cs.getMonth(year, month);
+    this.goToMonth(this.selectedDate);
+  }
+  toggleToday(): void {
+    this.selectDate(moment().toDate());
+  }
+  selectDate(date: Date) {
+    if (!this.selectedDate || !this.isSameDay(date, this.selectedDate)) {
+      this.selectedDate = date;
+      if (!this.cs.dateInCalendarMonth(this.month, this.selectedDate)) {
+        this.goToMonth(this.selectedDate);
+      }
+    } else {
+      console.log(`${date} === ${this.selectedDate} ${this.isSameDay(date, this.selectedDate)}`);
+      this.selectedDate = null;
+    }
+  }
+  isSameDay(date1: Date, date2: Date) {
+    return this.cs.isSameDay(date1, date2);
+  }
+  todayIsSelected() {
+    return this.isSameDay(this.selectedDate, new Date());
   }
   getMeal(day: CalendarDay): [Meal] {
     if (day) {
-      console.log(day);
-      console.log(this.mealCalendar);
       const mealCalendar = this.mealCalendar.find(meal => moment(meal.date).isSame(moment(day.date)));
       if (mealCalendar) {
         return mealCalendar.meals;
