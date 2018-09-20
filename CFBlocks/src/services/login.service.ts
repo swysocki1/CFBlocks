@@ -5,12 +5,15 @@
 import {Injectable} from '@angular/core';
 import {User, UserSession} from '../models/user.model';
 import * as moment from 'moment';
-import {Observable} from 'rxjs/Observable';
+import {FirebaseService} from './firebase.service';
+import {Subscription} from 'rxjs/internal/Subscription';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 export class LoginService {
   private _user: User = new User();
   private _userSession: UserSession = new UserSession();
+  private loginSubscription: Subscription;
   getUser(): User {
     return this._user;
   }
@@ -30,7 +33,7 @@ export class LoginService {
     }
   }
 
-  constructor() {
+  constructor(private firebaseService: FirebaseService) {
     const cachedSession: UserSession = JSON.parse(localStorage.getItem('CFBlocks'));
     if (cachedSession && cachedSession.user.username && cachedSession.lastLogin &&
       moment(cachedSession.lastLogin).isSameOrAfter(moment().subtract(1, 'days'))) {
@@ -42,6 +45,7 @@ export class LoginService {
   //   return this._userSession ? true : false;
   // }
   login(username: string, password: string): Observable<UserSession> {
+    this.closeActiveLoginSubscription();
     return new Observable(subscriber => {
       const cachedSession: UserSession = JSON.parse(localStorage.getItem('CFBlocks'));
       if (cachedSession && cachedSession.user.username === username && cachedSession.lastLogin &&
@@ -52,17 +56,25 @@ export class LoginService {
         localStorage.removeItem('CFBlocks');
       }
 
-      // TODO auth user and cache
+      //
 
-      const userSession = new UserSession();
-      userSession.setTestUser(); // Setting test user // Needs to be deleted
+      this.firebaseService.signInWithEmailAndPassword(username, password).catch((error) => {
+        subscriber.error(error);
+        subscriber.complete();
+      }).then(() => {
+        const userSession = new UserSession();
+        // userSession.setTestUser(); // Setting test user // Needs to be deleted
+        this.firebaseService.getUserAccount(username).subscribe(user => {
 
+          userSession.user = user;
 
-      localStorage.setItem('CFBlocks', JSON.stringify(userSession));
-      this.setUserSession(userSession);
+          localStorage.setItem('CFBlocks', JSON.stringify(userSession));
+          this.setUserSession(userSession);
 
-      subscriber.next(userSession);
-      subscriber.complete();
+          subscriber.next(userSession);
+          subscriber.complete();
+        });
+      });
     });
   }
   logout(): Observable<UserSession> {
@@ -104,10 +116,36 @@ export class LoginService {
         }
         this.setUserSession(this._userSession);
         subscriber.next(this._userSession);
-      } catch(error) {
+      } catch (error) {
         subscriber.error(error);
       }
-      subscriber.complete()
+      subscriber.complete();
     });
+  }
+  createAccount(username: string, password: string) {
+    return new Observable(subscriber => {
+      this.firebaseService.createUserWithEmailAndPassword(username, password).then(() => {
+        const user = new User();
+        user.email = username;
+        user.username = username;
+        this.firebaseService.createNewUserAccount(user).then(() => {
+          this.closeActiveLoginSubscription();
+          this.loginSubscription = this.login(username, password).subscribe(userSession => {
+            subscriber.next(userSession);
+          });
+        }).catch((error) => {
+          subscriber.next(error);
+          subscriber.complete();
+        });
+      }).catch((error) => {
+        subscriber.next(error);
+        subscriber.complete();
+      });
+    });
+  }
+  private closeActiveLoginSubscription() {
+    if (this.loginSubscription) {
+      this.loginSubscription.unsubscribe();
+    }
   }
 }

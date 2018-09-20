@@ -20,6 +20,8 @@ import {CalendarModule} from './component/calendar/calendar.module';
 import {MealService} from '../services/meal.service';
 import {HelperService} from '../services/helper.service';
 import {FirebaseModule} from './firebase/firebase.module';
+import {SignupModule} from './containers/signup/signup.module';
+import {FirebaseService} from '../services/firebase.service';
 
 
 @NgModule({
@@ -38,14 +40,16 @@ import {FirebaseModule} from './firebase/firebase.module';
     RouterModule.forRoot(routes),
     FirebaseModule,
     BlockCalculatorModule,
-    CalendarModule
+    CalendarModule,
+    SignupModule
   ],
   providers: [LoginService,
     ValidationService,
     NavbarSearchService,
     NotificationService,
     MealService,
-    HelperService
+    HelperService,
+    FirebaseService
   ],
   bootstrap: [AppComponent]
 })

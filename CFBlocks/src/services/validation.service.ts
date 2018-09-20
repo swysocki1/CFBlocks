@@ -10,7 +10,9 @@ export class ValidationService {
       return false;
     }
   }
-  
+  usernameExists(username): boolean {
+    return false;
+  }
   passwordStrength(password: any): string {
     /**
      *

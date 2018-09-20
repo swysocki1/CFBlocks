@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Food, Meal, MealCalendar} from '../models/meal.module';
 import {LoginService} from './login.service';
-import {Observable} from 'rxjs/Observable';
 import {HelperService} from './helper.service';
 import * as moment from 'moment';
+import {Observable} from 'rxjs/internal/Observable';
 
 @Injectable()
 export class MealService {

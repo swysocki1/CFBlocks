@@ -50,10 +50,11 @@
                 <input id="passwordInput" formControlName="password" placeholder="Password" class="form-control form-control-sm" type="text" required="">
               </div>
               <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <button type="submit" class="btn btn-primary btn-sm btn-block">Login</button>
               </div>
-              <div class="form-group text-center">
-                <small><a href="#" data-toggle="modal" data-target="#modalPassword">Forgot password?</a></small>
+              <div class="form-group" style="min-width: 275px;">
+                <button type="button" class="btn btn-link pull-left btn-sm" data-toggle="modal" data-target="#modalPassword">Forgot password?</button>
+                <button type="button" class="btn btn-link pull-right btn-sm" data-toggle="modal" data-target="#signup-modal">Create Account</button>
               </div>
             </form>
           </li>
@@ -75,3 +76,4 @@
     </ul>
   </div>
 </nav>
+<signup-modal (updateUserSession)="updateUserSession($event)"></signup-modal>
