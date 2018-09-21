@@ -66,7 +66,7 @@ export class LoginService {
         // userSession.setTestUser(); // Setting test user // Needs to be deleted
         this.firebaseService.getUserAccount(username).subscribe(user => {
 
-          userSession.user = user;
+          userSession.user = user as User;
 
           localStorage.setItem('CFBlocks', JSON.stringify(userSession));
           this.setUserSession(userSession);
@@ -89,8 +89,8 @@ export class LoginService {
     });
   }
   hasAdmin() {
-    if (this._userSession && this._userSession.user && this._userSession.user.roles) {
-      const userRoles = this._userSession.user.roles;
+    if (this._userSession && this._userSession.roles) {
+      const userRoles = this._userSession.roles;
       return userRoles.some(role => role.type === 'ADMIN');
     } else {
       return false;
@@ -98,8 +98,8 @@ export class LoginService {
   }
   isAdmin(): boolean {
     if (this.hasAdmin()) {
-      if (this._userSession && this._userSession.user && this._userSession.user.roles) {
-        const userRoles = this._userSession.user.roles;
+      if (this._userSession && this._userSession.roles) {
+        const userRoles = this._userSession.roles;
         return userRoles.some(role => role.type === 'ADMIN' && role.active);
       } else {
         return false;
@@ -110,9 +110,9 @@ export class LoginService {
     return new Observable(subscriber =>  {
       try {
         if (this.isAdmin()) {
-          this._userSession.user.roles.find(role => role.type === 'ADMIN' && role.active).active = false;
+          this._userSession.roles.find(role => role.type === 'ADMIN' && role.active).active = false;
         } else if (this.hasAdmin()) {
-          this._userSession.user.roles.find(role => role.type === 'ADMIN' && !role.active).active = true;
+          this._userSession.roles.find(role => role.type === 'ADMIN' && !role.active).active = true;
         }
         this.setUserSession(this._userSession);
         subscriber.next(this._userSession);

@@ -22,6 +22,8 @@ import {HelperService} from '../services/helper.service';
 import {FirebaseModule} from './firebase/firebase.module';
 import {SignupModule} from './containers/signup/signup.module';
 import {FirebaseService} from '../services/firebase.service';
+import {UtilService} from '../services/util.service';
+import {UserAccountModule} from './component/userAccount/userAccount.module';
 
 
 @NgModule({
@@ -41,7 +43,8 @@ import {FirebaseService} from '../services/firebase.service';
     FirebaseModule,
     BlockCalculatorModule,
     CalendarModule,
-    SignupModule
+    SignupModule,
+    UserAccountModule
   ],
   providers: [LoginService,
     ValidationService,
@@ -49,7 +52,8 @@ import {FirebaseService} from '../services/firebase.service';
     NotificationService,
     MealService,
     HelperService,
-    FirebaseService
+    FirebaseService,
+    UtilService
   ],
   bootstrap: [AppComponent]
 })

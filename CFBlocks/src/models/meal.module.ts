@@ -19,3 +19,9 @@ export class MealCalendar {
   date: Date;
   meals: [Meal];
 }
+export class BlockTemplate {
+  metric: string;
+  carbs: number;
+  fats: number;
+  protein: number;
+}
