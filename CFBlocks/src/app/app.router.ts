@@ -5,13 +5,15 @@ import {BlockCalculatorComponent} from './containers/block-calculator/block-calc
 import {AdminComponent} from './containers/admin/admin.component';
 import {SigninComponent} from './containers/signin/signin.component';
 import {UserAccountComponent} from './component/userAccount/userAccount.component';
+import {SignupComponent} from './containers/signup/signup.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'signin', component: SigninComponent },
-  { path: 'update-account', component: UserAccountComponent},
+  { path: 'signup', component: SignupComponent },
+  { path: 'updateAccount', component: UserAccountComponent},
   { path: 'block-calculator', component: BlockCalculatorComponent },
   { path: 'meal-calendar', component: MealCalendarComponent },
   { path: '**', redirectTo: '/home' }

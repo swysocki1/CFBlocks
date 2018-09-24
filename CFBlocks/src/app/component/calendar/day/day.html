@@ -1,7 +1,7 @@
 <div class="day" [ngClass]="{'valid-month': day?.isThisMonth, 'is-selected': isSelected}">
   <div class="row">
     <div class="col">
-      <h5 class="pull-left dayNumber">{{day?.dayOfMonth}}</h5>
+      <h5 class="pull-left dayNumber rounded-circle">{{day?.dayOfMonth}}</h5>
     </div>
   </div>
   <div class="col pointer meal" *ngFor="let meal of meals" (click)="showMeal(meal)"

@@ -19,34 +19,36 @@ export class SigninComponent {
     rememberMe: new FormControl() // TODO
   });
   onSubmit() {
-    // TODO
-    this.validateAndLogin(new LoginCombo(this.login.value.username, this.login.value.password)).subscribe(userSession => {
+    this.ls.login(this.login.value.username, this.login.value.password).subscribe(userSession => {
       this.loadUserSession(userSession);
     }, error => {
       this.loadLoginError(error);
     });
   }
-  validateAndLogin(loginCombo: LoginCombo): Observable<UserSession> {
-    return new Observable(subscriber => {
-      const clientValidation = loginCombo.validate();
-      if (clientValidation.valid) {
-        this.ls.login(loginCombo.username, loginCombo.password).subscribe(res => {
-          subscriber.next(res);
-          subscriber.complete();
-        }, error => {
-          subscriber.error(error);
-          subscriber.complete();
-        });
-      } else {
-        subscriber.error(clientValidation.message);
-        subscriber.complete();
-      }
-    });
-  }
+  // validateAndLogin(loginCombo: LoginCombo): Observable<UserSession> {
+  //   return new Observable(subscriber => {
+  //     // const clientValidation = loginCombo.validate(); // TODO Fix client login validation
+  //     // if (clientValidation.valid) {
+  //     console.log(loginCombo);
+  //     if (true) {
+  //       this.ls.login(loginCombo.username, loginCombo.password).subscribe(res => {
+  //         subscriber.next(res);
+  //         subscriber.complete();
+  //       }, error => {
+  //         subscriber.error(error);
+  //         subscriber.complete();
+  //       });
+  //     } else {
+  //       // subscriber.error(clientValidation.message);
+  //       subscriber.complete();
+  //     }
+  //   });
+  // }
   loadUserSession(userSession: UserSession) {
     this.router.navigate(['/home']);
   }
   loadLoginError(message: string) {
+    console.error(message);
     // TODO
   }
 }

@@ -25,7 +25,6 @@ export class CalendarComponent {
     const year = moment(dateOfMonth).year();
     const month = moment(dateOfMonth).month();
     this.month = this.cs.getMonth(year, month);
-    console.log(`date: ${this.selectedDate}`);
   }
   goBackMonth() {
     this.selectedDate = moment(this.selectedDate).subtract(1, 'months').toDate();

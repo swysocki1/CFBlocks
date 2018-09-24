@@ -17,6 +17,7 @@ import {MealService} from '../../../../services/meal.service';
     }
     .day.is-selected .dayNumber{
       background-color: red;
+      padding: 5px;
     }
     .breakfast, .lunch, .dinner, .snack { }
   `]

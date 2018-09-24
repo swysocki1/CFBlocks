@@ -18,7 +18,7 @@ export class UserAccountComponent {
   // @Output() userAccountUpdate: EventEmitter<User> = new EventEmitter<User>();
 
   constructor(private util: UtilService, private ls: LoginService) {
-    this.userAccount = this.ls.getUser();
+    this.userAccount = this.ls.getUser() as User;
     this.loadForm(this.userAccount);
   }
 
@@ -28,7 +28,7 @@ export class UserAccountComponent {
     lastName: new FormControl(),
     dob: new FormControl(),
     sex: new FormControl(),
-    bodyweight: new FormControl(),
+    bodyWeight: new FormControl(),
     bodyWeightMetric: new FormControl(),
     lbm: new FormControl(),
     lbmMetric: new FormControl(),
@@ -54,21 +54,30 @@ export class UserAccountComponent {
     this.loadForm(this.userAccount);
   }
   loadForm(user: User) {
-    this.accountInfo.value.email = user.email;
-    this.accountInfo.value.firstName = user.firstName;
-    this.accountInfo.value.lastName = user.lastName;
-    this.accountInfo.value.dob = user.dob;
-    this.accountInfo.value.sex = user.sex;
-    this.accountInfo.value.bodyWeight = user.body.bodyWeight.weight;
-    this.accountInfo.value.bodyWeightMetric = user.body.bodyWeight.metric;
-    this.accountInfo.value.lbm = user.body.lbm.weight;
-    this.accountInfo.value.lbmMetric = user.body.lbm.metric;
-    this.accountInfo.value.activityLevel = user.lifeStyle.activityLevel;
-    this.accountInfo.value.fitnessGoal = user.lifeStyle.fitnessGoal;
-    this.accountInfo.value.blockMetric = user.blockTemplate.metric;
-    this.accountInfo.value.carbs = user.blockTemplate.carbs;
-    this.accountInfo.value.fats = user.blockTemplate.fats;
-    this.accountInfo.value.protein = user.blockTemplate.protein;
+    user = {... user} as User;
+    if (user) {
+      this.accountInfo.value.email = user.email;
+      this.accountInfo.value.firstName = user.firstName;
+      this.accountInfo.value.lastName = user.lastName;
+      this.accountInfo.value.dob = user.dob;
+      this.accountInfo.value.sex = user.sex;
+      if (user.body && user.body.bodyWeight) {
+        this.accountInfo.value.bodyWeight = user.body.bodyWeight.weight;
+        this.accountInfo.value.bodyWeightMetric = user.body.bodyWeight.metric;
+        this.accountInfo.value.lbm = user.body.lbm.weight;
+        this.accountInfo.value.lbmMetric = user.body.lbm.metric;
+      }
+      if (user.lifeStyle) {
+        this.accountInfo.value.activityLevel = user.lifeStyle.activityLevel;
+        this.accountInfo.value.fitnessGoal = user.lifeStyle.fitnessGoal;
+      }
+      if (user.blockTemplate) {
+        this.accountInfo.value.blockMetric = user.blockTemplate.metric;
+        this.accountInfo.value.carbs = user.blockTemplate.carbs;
+        this.accountInfo.value.fats = user.blockTemplate.fats;
+        this.accountInfo.value.protein = user.blockTemplate.protein;
+      }
+    }
   }
   buildUserObj(accountInfo): User {
     const user = new User();

@@ -16,13 +16,15 @@
           <div class="row">
             <div class="form-group col">
               <label for="firstName" class="control-label">First Name</label>
-              <input type="text" id="firstName" formControlName="firstName" placeholder="First Name"
-                     [ngClass]="{'form-control': fieldSetActive('Athlete Name'), 'form-control-plaintext': !fieldSetActive('Athlete Name')}">
+              <input type="text" id="firstName" formControlName="firstName" [placeholder]="fieldSetActive('Athlete Name') ? 'First Name' : ' -- '"
+                     [ngClass]="{'form-control': fieldSetActive('Athlete Name'), 'form-control-plaintext': !fieldSetActive('Athlete Name')}"
+                     [readonly]="!fieldSetActive('Athlete Name')">
             </div>
             <div class="form-group col">
               <label for="lastName" class="control-label">Last Name</label>
-              <input type="text" id="lastName" formControlName="lastName" placeholder="Last Name"
-                     [ngClass]="{'form-control': fieldSetActive('Athlete Name'), 'form-control-plaintext': !fieldSetActive('Athlete Name')}">
+              <input type="text" id="lastName" formControlName="lastName" [placeholder]="fieldSetActive('Athlete Name') ? 'Last Name' : ' -- '"
+                     [ngClass]="{'form-control': fieldSetActive('Athlete Name'), 'form-control-plaintext': !fieldSetActive('Athlete Name')}"
+                     [readonly]="!fieldSetActive('Athlete Name')">
             </div>
           </div>
           <div class="row">

@@ -25,12 +25,15 @@ export class SignupComponent {
     this.errors = this.validate(this.account.value);
     if (Object.keys(this.errors).length === 0) {
       this.ls.createAccount(this.account.value.username, this.account.value.password).subscribe((userSession: UserSession) => {
-        console.log(userSession);
         $('#signup-modal').modal('hide');
         this.updateUserSession.emit(userSession);
         this.router.navigate(['/updateAccount']);
         // TODO go to New User Signup Flow
+      }, error => {
+        console.error(error);
       });
+    } else {
+      console.error(this.errors);
     }
   }
   validate(accountSignUp: AccountSignUp): any {

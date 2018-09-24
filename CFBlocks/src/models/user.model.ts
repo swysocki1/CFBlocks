@@ -119,7 +119,7 @@ export class LoginCombo {
   validate(): {valid: boolean, message?: string} { // TODO better login error messages
     let valid;
     let message;
-    if (this.vs.isEmail(this.username)) {
+    if (this.isEmail(this.username)) {
       const passwordStrength = this.vs.passwordStrength(this.password).toUpperCase();
       if (passwordStrength !== 'WEAK') {
         valid = true;
@@ -132,5 +132,13 @@ export class LoginCombo {
       message = `Invalid Email!` ;
     }
     return {valid: valid, message: message};
+  }
+  isEmail(email: any) {
+    if(email && typeof email === 'string') {
+      const re = /^[a-zA-Z0-9](\.?[a-zA-Z0-9_-]){0,}@[a-zA-Z0-9-]+\.([a-zA-Z]{1,6}\.)?[a-zA-Z]{2,6}$/;
+      return re.test(String(email).toLowerCase());
+    } else {
+      return false;
+    }
   }
 }

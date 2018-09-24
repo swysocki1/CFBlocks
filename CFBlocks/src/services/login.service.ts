@@ -2,7 +2,7 @@
  * Created by swysocki on 5/10/18.
  */
 
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {User, UserSession} from '../models/user.model';
 import * as moment from 'moment';
 import {FirebaseService} from './firebase.service';
@@ -14,12 +14,15 @@ export class LoginService {
   private _user: User = new User();
   private _userSession: UserSession = new UserSession();
   private loginSubscription: Subscription;
+  getUserUpdates: EventEmitter<User> = new EventEmitter<User>();
+  getUserSessionUpdates: EventEmitter<UserSession> = new EventEmitter<UserSession>();
   getUser(): User {
     return this._user;
   }
 
   private setUser(value: User) {
     this._user = value;
+    this.getUserUpdates.emit(this._user);
   }
 
   getUserSession(): UserSession {
@@ -28,6 +31,7 @@ export class LoginService {
 
   private setUserSession(value: UserSession) {
     this._userSession = value;
+    this.getUserSessionUpdates.emit(this._userSession);
     if (value) {
       this.setUser(value.user);
     }
@@ -38,6 +42,8 @@ export class LoginService {
     if (cachedSession && cachedSession.user.username && cachedSession.lastLogin &&
       moment(cachedSession.lastLogin).isSameOrAfter(moment().subtract(1, 'days'))) {
       this.setUserSession(cachedSession);
+    } else {
+      localStorage.removeItem('CFBlocks');
     }
   }
 
@@ -47,39 +53,42 @@ export class LoginService {
   login(username: string, password: string): Observable<UserSession> {
     this.closeActiveLoginSubscription();
     return new Observable(subscriber => {
-      const cachedSession: UserSession = JSON.parse(localStorage.getItem('CFBlocks'));
+      let cachedSession: UserSession = JSON.parse(localStorage.getItem('CFBlocks'));
       if (cachedSession && cachedSession.user.username === username && cachedSession.lastLogin &&
         moment(cachedSession.lastLogin).isSameOrAfter(moment().subtract(1, 'days'))) {
+        cachedSession.lastLogin = new Date();
+        localStorage.setItem('CFBlocks', JSON.stringify(cachedSession));
         subscriber.next(cachedSession);
         subscriber.complete();
       } else if (cachedSession) {
         localStorage.removeItem('CFBlocks');
+        cachedSession = null;
       }
+      if (!cachedSession) {
+        this.firebaseService.signInWithEmailAndPassword(username, password).then(() => {
+          const userSession = new UserSession();
+          userSession.created = new Date();
+          userSession.lastLogin = userSession.created;
+          userSession.authenticated = true;
+          // userSession.setTestUser(); // Setting test user // Needs to be deleted
+          this.firebaseService.getUserAccount(username).subscribe(user => {
 
-      //
+            userSession.user = user as User;
 
-      this.firebaseService.signInWithEmailAndPassword(username, password).catch((error) => {
-        subscriber.error(error);
-        subscriber.complete();
-      }).then(() => {
-        const userSession = new UserSession();
-        // userSession.setTestUser(); // Setting test user // Needs to be deleted
-        this.firebaseService.getUserAccount(username).subscribe(user => {
-
-          userSession.user = user as User;
-
-          localStorage.setItem('CFBlocks', JSON.stringify(userSession));
-          this.setUserSession(userSession);
-
-          subscriber.next(userSession);
+            localStorage.setItem('CFBlocks', JSON.stringify(userSession));
+            this.setUserSession(userSession);
+            subscriber.next(userSession);
+            subscriber.complete();
+          });
+        }).catch((error) => {
+          subscriber.error(error);
           subscriber.complete();
         });
-      });
+      }
     });
   }
   logout(): Observable<UserSession> {
     return new Observable(subscriber => {
-      console.log('loggingOut');
       localStorage.removeItem('CFBlocks');
       this.setUserSession(null);
       subscriber.next(this.getUserSession());

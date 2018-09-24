@@ -1,3 +1,15 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="offset-7 col user-session-container">
+      <a routerLink="/updateAccount" class="btn pull-left username" [title]="userSession" *ngIf="isLogedIn()">{{userSession.user.username}}</a>
+      <a href="#" class="btn pull-left settings" title="settings" *ngIf="isLogedIn()"><i class="fa fa-cog fa-fw fa-lg"></i></a>
+      <button type="button" (click)="logout()" class="btn btn-link pull-right" *ngIf="isLogedIn()" title="signin">(Logout)</button>
+
+      <a routerLink="/signin" class="btn pull-left" *ngIf="!isLogedIn()" title="signin">(Sign In)</a>
+      <a routerLink="/signup" class="btn pull-right" *ngIf="!isLogedIn()" title="Create New Account">(Create New Account)</a>
+    </div>
+  </div>
+</div>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a routerLink="/" class="navbar-brand" href="#">CF Blocks</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,46 +46,46 @@
       <input class="form-control mr-sm-2" type="search" formControlName="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
-    <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
-      <!--<li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="notifications"><i class="fa fa-bell fa-fw fa-lg" [ngClass]="{'active': notifications.length > 0}"></i></a></li>-->
-      <li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>
-      <li class="dropdown order-1" *ngIf="!(userSession?.user?.username)">
-        <button type="button" id="dropdown-login" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Login <span class="caret"></span></button>
-        <ul class="dropdown-menu dropdown-menu-right mt-2">
-          <li class="px-3 py-2">
-            <form class="form" role="form" [formGroup]="login" (ngSubmit)="onLogin()">
-              <div class="text-error" id="login-error" *ngIf="loginErrorMessage">{{loginErrorMessage}}</div>
-              <div class="form-group">
-                <input id="usernameInput" formControlName="username" placeholder="Email" class="form-control form-control-sm" type="text" required="">
-              </div>
-              <div class="form-group">
-                <input id="passwordInput" formControlName="password" placeholder="Password" class="form-control form-control-sm" type="text" required="">
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-sm btn-block">Login</button>
-              </div>
-              <div class="form-group" style="min-width: 275px;">
-                <button type="button" class="btn btn-link pull-left btn-sm" data-toggle="modal" data-target="#modalPassword">Forgot password?</button>
-                <button type="button" class="btn btn-link pull-right btn-sm" data-toggle="modal" data-target="#signup-modal">Create Account</button>
-              </div>
-            </form>
-          </li>
-        </ul>
-      </li>
-      <li class="dropdown order-1" *ngIf="userSession?.user?.username">
-        <button type="button" id="dropdown-user-session-nav" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">
-          <i class="fa fa-hand-lizard-o lizard fa-fw fa-md" *ngIf="isAdmin()" style="margin-right:5px;"></i>{{userSession?.user?.username}} <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right mt-2">
-          <li class="px-3 py-2 list-group-item-action">Preferences</li>
-          <li class="px-2"><hr style="margin-top:-1px;margin-bottom:-1px;"/></li>
-          <li class="px-3 py-2 list-group-item-action" (click)="toggleAdmin()" *ngIf="hasAdmin()">Toggle Admin</li>
-          <li class="px-3 py-2 list-group-item-action" routerLink="/admin" *ngIf="isAdmin()">System Settings</li>
-          <li class="px-2"><hr style="margin-top:-1px;margin-bottom:-1px;"/></li>
-          <li class="px-3 py-2 list-group-item-action" (click)="logout()">Logout</li>
-        </ul>
-      </li>
-    </ul>
+    <!--<ul class="nav navbar-nav flex-row justify-content-between ml-auto">-->
+      <!--&lt;!&ndash;<li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="notifications"><i class="fa fa-bell fa-fw fa-lg" [ngClass]="{'active': notifications.length > 0}"></i></a></li>&ndash;&gt;-->
+      <!--<li class="nav-item order-2 order-md-1"><a href="#" class="nav-link" title="settings"><i class="fa fa-cog fa-fw fa-lg"></i></a></li>-->
+      <!--<li class="dropdown order-1" *ngIf="!(userSession?.user?.username)">-->
+        <!--<button type="button" id="dropdown-login" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">Login <span class="caret"></span></button>-->
+        <!--<ul class="dropdown-menu dropdown-menu-right mt-2">-->
+          <!--<li class="px-3 py-2">-->
+            <!--<form class="form" role="form" [formGroup]="login" (ngSubmit)="onLogin()">-->
+              <!--<div class="text-error" id="login-error" *ngIf="loginErrorMessage">{{loginErrorMessage}}</div>-->
+              <!--<div class="form-group">-->
+                <!--<input id="usernameInput" formControlName="username" placeholder="Email" class="form-control form-control-sm" type="text" required="">-->
+              <!--</div>-->
+              <!--<div class="form-group">-->
+                <!--<input id="passwordInput" formControlName="password" placeholder="Password" class="form-control form-control-sm" type="text" required="">-->
+              <!--</div>-->
+              <!--<div class="form-group">-->
+                <!--<button type="submit" class="btn btn-primary btn-sm btn-block">Login</button>-->
+              <!--</div>-->
+              <!--<div class="form-group" style="min-width: 275px;">-->
+                <!--<button type="button" class="btn btn-link pull-left btn-sm" data-toggle="modal" data-target="#modalPassword">Forgot password?</button>-->
+                <!--<button type="button" class="btn btn-link pull-right btn-sm" data-toggle="modal" data-target="#signup-modal">Create Account</button>-->
+              <!--</div>-->
+            <!--</form>-->
+          <!--</li>-->
+        <!--</ul>-->
+      <!--</li>-->
+      <!--<li class="dropdown order-1" *ngIf="userSession?.user?.username">-->
+        <!--<button type="button" id="dropdown-user-session-nav" data-toggle="dropdown" class="btn btn-outline-secondary dropdown-toggle">-->
+          <!--<i class="fa fa-hand-lizard-o lizard fa-fw fa-md" *ngIf="isAdmin()" style="margin-right:5px;"></i>{{userSession?.user?.username}} <span class="caret"></span>-->
+        <!--</button>-->
+        <!--<ul class="dropdown-menu dropdown-menu-right mt-2">-->
+          <!--<li class="px-3 py-2 list-group-item-action">Preferences</li>-->
+          <!--<li class="px-2"><hr style="margin-top:-1px;margin-bottom:-1px;"/></li>-->
+          <!--<li class="px-3 py-2 list-group-item-action" (click)="toggleAdmin()" *ngIf="hasAdmin()">Toggle Admin</li>-->
+          <!--<li class="px-3 py-2 list-group-item-action" routerLink="/admin" *ngIf="isAdmin()">System Settings</li>-->
+          <!--<li class="px-2"><hr style="margin-top:-1px;margin-bottom:-1px;"/></li>-->
+          <!--<li class="px-3 py-2 list-group-item-action" (click)="logout()">Logout</li>-->
+        <!--</ul>-->
+      <!--</li>-->
+    <!--</ul>-->
   </div>
 </nav>
-<signup-modal (updateUserSession)="updateUserSession($event)"></signup-modal>
+<!--<signup-modal (updateUserSession)="updateUserSession($event)"></signup-modal>-->
