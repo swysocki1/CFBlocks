@@ -6,20 +6,27 @@ import {ValidationService} from '../../services/validation.service';
 import {NavbarSearchService} from './navbar-search.service';
 import {NotificationService} from '../../services/notification.service';
 import {Notification} from '../../models/notification.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'navbar',
   templateUrl: './navbar.html',
   styles: [`
-    #intro {
-      top: 0;
-      position: fixed;
-      background-color: #fff;
-      height: 40px;
-      width: 100%;
+    .external-link-container {
+      background-color: #666;
+      min-height: 40px;
+    }
+    .external-link-container a,
+    .external-link-container button.btn.btn-link {
+      color: #ccc;
+    }
+    .external-link-container a:hover,
+    .external-link-container button.btn.btn-link:hover {
+      color: #000;
     }
     .user-session-container {
       background-color: #ff5050;
+      min-height: 40px;
     }
     .user-session-container a,
     .user-session-container button.btn.btn-link {
@@ -44,7 +51,7 @@ export class NavbarComponent implements OnInit {
     search: new FormControl()
   });
   constructor(private loginService: LoginService, private valid: ValidationService, private searchService: NavbarSearchService,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService, private router: Router) { }
 
   ngOnInit() {
     this.loginService.getUserSession();
@@ -57,7 +64,6 @@ export class NavbarComponent implements OnInit {
     });
   }
   private updateUserSession(userSession: UserSession) {
-    console.log(userSession);
     this.userSession = userSession;
     this.userSessionChange.emit(this.userSession);
   }
@@ -117,5 +123,8 @@ export class NavbarComponent implements OnInit {
   }
   isAdmin(): boolean {
     return this.loginService.isAdmin();
+  }
+  atLoginPage() {
+    return this.router.url === '/signin' || this.router.url === '/signup';
   }
 }

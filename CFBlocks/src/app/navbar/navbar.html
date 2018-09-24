@@ -1,16 +1,18 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="offset-7 col user-session-container">
-      <a routerLink="/updateAccount" class="btn pull-left username" [title]="userSession" *ngIf="isLogedIn()">{{userSession.user.username}}</a>
-      <a href="#" class="btn pull-left settings" title="settings" *ngIf="isLogedIn()"><i class="fa fa-cog fa-fw fa-lg"></i></a>
-      <button type="button" (click)="logout()" class="btn btn-link pull-right" *ngIf="isLogedIn()" title="signin">(Logout)</button>
+    <div class="col-7 external-link-container">
+      <a href="#" class="btn pull-right settings" title="settings" *ngIf="isLogedIn() && !atLoginPage()"><i class="fa fa-cog fa-fw fa-lg"></i></a>
+    </div>
+    <div class="col-5 user-session-container">
+      <a routerLink="/updateAccount" class="btn pull-left username" [title]="userSession" *ngIf="isLogedIn() && !atLoginPage()">{{userSession.user.username}}</a>
+      <button type="button" (click)="logout()" class="btn btn-link pull-right" *ngIf="isLogedIn() && !atLoginPage()" title="signin">(Logout)</button>
 
-      <a routerLink="/signin" class="btn pull-left" *ngIf="!isLogedIn()" title="signin">(Sign In)</a>
-      <a routerLink="/signup" class="btn pull-right" *ngIf="!isLogedIn()" title="Create New Account">(Create New Account)</a>
+      <a routerLink="/signin" class="btn pull-left" *ngIf="!isLogedIn() && !atLoginPage()" title="signin">(Sign In)</a>
+      <a routerLink="/signup" class="btn pull-right" *ngIf="!isLogedIn() && !atLoginPage()" title="Create New Account">(Create New Account)</a>
     </div>
   </div>
 </div>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a routerLink="/" class="navbar-brand" href="#">CF Blocks</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>

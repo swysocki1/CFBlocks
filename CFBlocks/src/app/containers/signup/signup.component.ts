@@ -7,26 +7,27 @@ import {Router} from '@angular/router';
 declare var $: any;
 
 @Component({
-  selector: 'signup-modal',
+  selector: 'signup',
   templateUrl: './signup.html'
 })
 export class SignupComponent {
   constructor(private ls: LoginService, private vs: ValidationService, private router: Router) {}
   account: FormGroup = new FormGroup({
+    firstName: new FormControl(),
+    lastName: new FormControl(),
+    dob: new FormControl(),
     username: new FormControl(),
     password: new FormControl(),
     password2: new FormControl()
   });
   errors = {};
   passwordHidden = true;
-  @Output() updateUserSession = new EventEmitter<UserSession>();
   onSubmit() {
     // TODO
     this.errors = this.validate(this.account.value);
     if (Object.keys(this.errors).length === 0) {
-      this.ls.createAccount(this.account.value.username, this.account.value.password).subscribe((userSession: UserSession) => {
-        $('#signup-modal').modal('hide');
-        this.updateUserSession.emit(userSession);
+      this.ls.createAccount(this.account.value.username, this.account.value.password, this.account.value.firstName,
+        this.account.value.lastName, this.account.value.dob).subscribe((userSession: UserSession) => {
         this.router.navigate(['/updateAccount']);
         // TODO go to New User Signup Flow
       }, error => {

@@ -46,10 +46,6 @@ export class LoginService {
       localStorage.removeItem('CFBlocks');
     }
   }
-
-  // isLogedIn(): boolean {
-  //   return this._userSession ? true : false;
-  // }
   login(username: string, password: string): Observable<UserSession> {
     this.closeActiveLoginSubscription();
     return new Observable(subscriber => {
@@ -131,12 +127,15 @@ export class LoginService {
       subscriber.complete();
     });
   }
-  createAccount(username: string, password: string) {
+  createAccount(username: string, password: string, firstName: string, lastName, dob: Date) {
     return new Observable(subscriber => {
       this.firebaseService.createUserWithEmailAndPassword(username, password).then(() => {
         const user = new User();
         user.email = username;
         user.username = username;
+        user.dob = dob;
+        user.firstName = firstName;
+        user.lastName = lastName;
         this.firebaseService.createNewUserAccount(user).then(() => {
           this.closeActiveLoginSubscription();
           this.loginSubscription = this.login(username, password).subscribe(userSession => {

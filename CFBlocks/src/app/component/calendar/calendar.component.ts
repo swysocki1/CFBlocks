@@ -44,7 +44,6 @@ export class CalendarComponent {
         this.goToMonth(this.selectedDate);
       }
     } else {
-      console.log(`${date} === ${this.selectedDate} ${this.isSameDay(date, this.selectedDate)}`);
       this.selectedDate = null;
     }
   }
