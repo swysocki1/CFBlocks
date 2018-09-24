@@ -24,6 +24,7 @@ import {SignupModule} from './containers/signup/signup.module';
 import {FirebaseService} from '../services/firebase.service';
 import {UtilService} from '../services/util.service';
 import {UserAccountModule} from './component/userAccount/userAccount.module';
+import {SigninModule} from './containers/signin/signin.module';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import {UserAccountModule} from './component/userAccount/userAccount.module';
     FirebaseModule,
     BlockCalculatorModule,
     CalendarModule,
+    SigninModule,
     SignupModule,
     UserAccountModule
   ],

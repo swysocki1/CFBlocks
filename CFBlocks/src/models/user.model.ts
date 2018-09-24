@@ -13,7 +13,7 @@ export class User {
   lifeStyle: UserLifeStyle = new UserLifeStyle();
   blockTemplate: BlockTemplate = new BlockTemplate();
   merge(newUser: User): void {
-    this.email = this.isBlank(newUser.email) ? this.isBlank(newUser.email) : this.email;
+    // this.email = this.isBlank(newUser.email) ? this.isBlank(newUser.email) : this.email;
     this.firstName = this.isBlank(newUser.firstName) ? this.isBlank(newUser.firstName) : this.firstName;
     this.lastName = this.isBlank(newUser.lastName) ? this.isBlank(newUser.lastName) : this.lastName;
     this.dob = newUser.dob ? newUser.dob : this.dob; // TODO Date fix

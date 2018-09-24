@@ -143,6 +143,9 @@ export class LoginService {
       });
     });
   }
+  updateUser(user: User) {
+    return this.firebaseService.updateUserAccount(user);
+  }
   private closeActiveLoginSubscription() {
     if (this.loginSubscription) {
       this.loginSubscription.unsubscribe();
