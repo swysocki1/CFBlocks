@@ -12,39 +12,40 @@ export class User {
   body: UserBody = new UserBody();
   lifeStyle: UserLifeStyle = new UserLifeStyle();
   blockTemplate: BlockTemplate = new BlockTemplate();
-  merge(newUser: User): void {
-    // this.email = this.isBlank(newUser.email) ? this.isBlank(newUser.email) : this.email;
-    this.firstName = this.isBlank(newUser.firstName) ? this.isBlank(newUser.firstName) : this.firstName;
-    this.lastName = this.isBlank(newUser.lastName) ? this.isBlank(newUser.lastName) : this.lastName;
-    this.dob = newUser.dob ? newUser.dob : this.dob; // TODO Date fix
-    this.sex = this.isBlank(newUser.sex) ? this.isBlank(newUser.sex) : this.sex;
-    if (!this.body) { this.body = new UserBody(); }
-    if (!this.body.bodyWeight) { this.body.bodyWeight = new BodyWeight(); }
-    if (!this.body.lbm) { this.body.lbm = new BodyWeight(); }
-    this.body.bodyWeight.weight = newUser.body.bodyWeight.weight ?
-      newUser.body.bodyWeight.weight : this.body.bodyWeight.weight;
-    this.body.bodyWeight.metric = this.isBlank(newUser.body.bodyWeight.metric) ?
-      this.isBlank(newUser.body.bodyWeight.metric) : this.body.bodyWeight.metric;
-    this.body.lbm.weight = newUser.body.lbm.weight ? newUser.body.lbm.weight : this.body.lbm.weight;
-    this.body.lbm.metric = this.isBlank(newUser.body.lbm.metric) ? this.isBlank(newUser.body.lbm.metric) : this.body.lbm.metric;
-    if (!this.lifeStyle) { this.lifeStyle = new UserLifeStyle(); }
-    this.lifeStyle.activityLevel = this.isBlank(newUser.lifeStyle.activityLevel) ?
-      this.isBlank(newUser.lifeStyle.activityLevel) : this.lifeStyle.activityLevel;
-    this.lifeStyle.fitnessGoal = this.isBlank(newUser.lifeStyle.fitnessGoal) ?
-      this.isBlank(newUser.lifeStyle.fitnessGoal) : this.lifeStyle.fitnessGoal;
-    if (!this.blockTemplate) { this.blockTemplate = new BlockTemplate(); }
-    this.blockTemplate.metric = this.isBlank(newUser.blockTemplate.metric) ?
-      this.isBlank(newUser.blockTemplate.metric) : this.blockTemplate.metric;
-    this.blockTemplate.carbs = newUser.blockTemplate.carbs ? newUser.blockTemplate.carbs : this.blockTemplate.carbs;
-    this.blockTemplate.fats = newUser.blockTemplate.fats ? newUser.blockTemplate.fats : this.blockTemplate.fats;
-    this.blockTemplate.protein = newUser.blockTemplate.protein ? newUser.blockTemplate.protein : this.blockTemplate.protein;
+}
+export function mergeUser(oldUser: User, newUser: User): User {
+  // oldUser.email = isBlank(newUser.email) ? isBlank(newUser.email) : oldUser.email;
+  oldUser.firstName = isBlank(newUser.firstName) ? isBlank(newUser.firstName) : oldUser.firstName;
+  oldUser.lastName = isBlank(newUser.lastName) ? isBlank(newUser.lastName) : oldUser.lastName;
+  oldUser.dob = newUser.dob ? newUser.dob : oldUser.dob; // TODO Date fix
+  oldUser.sex = isBlank(newUser.sex) ? isBlank(newUser.sex) : oldUser.sex;
+  if (!oldUser.body) { oldUser.body = new UserBody(); }
+  if (!oldUser.body.bodyWeight) { oldUser.body.bodyWeight = new BodyWeight(); }
+  if (!oldUser.body.lbm) { oldUser.body.lbm = new BodyWeight(); }
+  oldUser.body.bodyWeight.weight = newUser.body.bodyWeight.weight ?
+    newUser.body.bodyWeight.weight : oldUser.body.bodyWeight.weight;
+  oldUser.body.bodyWeight.metric = isBlank(newUser.body.bodyWeight.metric) ?
+    isBlank(newUser.body.bodyWeight.metric) : oldUser.body.bodyWeight.metric;
+  oldUser.body.lbm.weight = newUser.body.lbm.weight ? newUser.body.lbm.weight : oldUser.body.lbm.weight;
+  oldUser.body.lbm.metric = isBlank(newUser.body.lbm.metric) ? isBlank(newUser.body.lbm.metric) : oldUser.body.lbm.metric;
+  if (!oldUser.lifeStyle) { oldUser.lifeStyle = new UserLifeStyle(); }
+  oldUser.lifeStyle.activityLevel = isBlank(newUser.lifeStyle.activityLevel) ?
+    isBlank(newUser.lifeStyle.activityLevel) : oldUser.lifeStyle.activityLevel;
+  oldUser.lifeStyle.fitnessGoal = isBlank(newUser.lifeStyle.fitnessGoal) ?
+    isBlank(newUser.lifeStyle.fitnessGoal) : oldUser.lifeStyle.fitnessGoal;
+  if (!oldUser.blockTemplate) { oldUser.blockTemplate = new BlockTemplate(); }
+  oldUser.blockTemplate.metric = isBlank(newUser.blockTemplate.metric) ?
+    isBlank(newUser.blockTemplate.metric) : oldUser.blockTemplate.metric;
+  oldUser.blockTemplate.carbs = newUser.blockTemplate.carbs ? newUser.blockTemplate.carbs : oldUser.blockTemplate.carbs;
+  oldUser.blockTemplate.fats = newUser.blockTemplate.fats ? newUser.blockTemplate.fats : oldUser.blockTemplate.fats;
+  oldUser.blockTemplate.protein = newUser.blockTemplate.protein ? newUser.blockTemplate.protein : oldUser.blockTemplate.protein;
+  return oldUser;
+}
+export function isBlank(value: string): string {
+  if (value && value.trim()) {
+    return value.trim();
   }
-  private isBlank(value: string): string {
-    if (value && value.trim()) {
-      return value.trim();
-    }
-    return '';
-  }
+  return '';
 }
 export class UserBody {
   bodyWeight: BodyWeight = new BodyWeight();

@@ -1,8 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 /* Main CSS */
+body, html {
+  height: 100%;
+}
 .main {
   padding-top: 50px;
   padding-bottom: 50px;
+  background-image: url('./assets/imgs/crossfit_health.png');
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 /* Color Helper */

@@ -1,0 +1,8 @@
+.card {background: rgba(0, 0, 0, 0.0)}
+.card .card-header {
+  background: #fff;
+}
+.card .card-body {
+  background: #fff;
+  opacity: .95;
+}

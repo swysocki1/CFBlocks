@@ -1,0 +1,51 @@
+<form class="form" role="form" [formGroup]="generalInfo" (ngSubmit)="onSubmit()">
+  <div class="card">
+    <div class="card-header">
+      <h1>{{fieldSetName}}</h1>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="form-group col">
+          <label for="firstName" class="control-label">First Name</label>
+          <input type="text" id="firstName" formControlName="firstName" [placeholder]="updateActive ? 'First Name' : ' None Provided '"
+                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive}"
+                 [readonly]="!updateActive" required>
+        </div>
+        <div class="form-group col">
+          <label for="lastName" class="control-label">Last Name</label>
+          <input type="text" id="lastName" formControlName="lastName" [placeholder]="updateActive ? 'Last Name' : ' None Provided '"
+                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive}"
+                 [readonly]="!updateActive" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col">
+          <label for="email" class="control-label">Email</label>
+          <input type="text" id="email" readonly formControlName="email" [placeholder]="updateActive ? 'Email' : ' None Provided '"
+                 class="form-control-plaintext" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col">
+          <label for="dob" class="control-label">Date of Birth</label>
+          <input type="Date" id="dob" formControlName="dob" [placeholder]="updateActive ? 'Date of Birth' : ' None Provided '"
+                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive}"
+                 [readonly]="!updateActive" required>
+        </div>
+        <div class="form-group col">
+          <label for="sex" class="control-label">Sex</label>
+          <input type="text" id="sex" formControlName="sex" [placeholder]="updateActive ? 'Sex' : ' None Provided '"
+                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive}"
+                 [readonly]="!updateActive" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center">
+          <button type="button" class="btn btn-default" *ngIf="updateActive" (click)="reset()">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" *ngIf="updateActive">Submit</button>
+          <button type="button" class="btn btn-primary" *ngIf="!updateActive" (click)="toggleUpdate()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

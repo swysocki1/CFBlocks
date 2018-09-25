@@ -10,16 +10,12 @@ import {LoginService} from '../../../services/login.service';
 })
 export class UserAccountComponent {
   userAccount: User;
-  displayTimeout = 5000;
-  displaySuccess = false;
-  displayError = false;
-  displayErrorMessage = '';
   fieldSet;
   // @Output() userAccountUpdate: EventEmitter<User> = new EventEmitter<User>();
 
   constructor(private util: UtilService, private ls: LoginService) {
     this.userAccount = this.ls.getUser() as User;
-    this.loadForm(this.userAccount);
+    // this.loadForm(this.userAccount);
   }
 
   accountInfo: FormGroup = new FormGroup({
@@ -40,66 +36,69 @@ export class UserAccountComponent {
     protein: new FormControl(),
   });
 
-  onSubmit() {
-    this.resetDisplayMessages();
-    this.userAccount.merge(this.buildUserObj(this.accountInfo.value));
-    this.ls.updateUser(this.userAccount).then(() => {
-      this.displayUpdateSuccess();
-    }).catch(error => {
-      this.displayErrorUpdate(error);
-    });
-  }
+  // onSubmit() {
+  //   this.resetDisplayMessages();
+  //   this.userAccount.merge(this.buildUserObj(this.accountInfo.value));
+  //   this.ls.updateUser(this.userAccount).then(() => {
+  //     this.displayUpdateSuccess();
+  //   }).catch(error => {
+  //     this.displayErrorUpdate(error);
+  //   });
+  // }
   reset() {
     this.fieldSet = null;
-    this.loadForm(this.userAccount);
+    // this.loadForm(this.userAccount);
   }
-  loadForm(user: User) {
-    user = {... user} as User;
-    if (user) {
-      this.accountInfo.value.email = user.email;
-      this.accountInfo.value.firstName = user.firstName;
-      this.accountInfo.value.lastName = user.lastName;
-      this.accountInfo.value.dob = user.dob;
-      this.accountInfo.value.sex = user.sex;
-      if (user.body && user.body.bodyWeight) {
-        this.accountInfo.value.bodyWeight = user.body.bodyWeight.weight;
-        this.accountInfo.value.bodyWeightMetric = user.body.bodyWeight.metric;
-        this.accountInfo.value.lbm = user.body.lbm.weight;
-        this.accountInfo.value.lbmMetric = user.body.lbm.metric;
-      }
-      if (user.lifeStyle) {
-        this.accountInfo.value.activityLevel = user.lifeStyle.activityLevel;
-        this.accountInfo.value.fitnessGoal = user.lifeStyle.fitnessGoal;
-      }
-      if (user.blockTemplate) {
-        this.accountInfo.value.blockMetric = user.blockTemplate.metric;
-        this.accountInfo.value.carbs = user.blockTemplate.carbs;
-        this.accountInfo.value.fats = user.blockTemplate.fats;
-        this.accountInfo.value.protein = user.blockTemplate.protein;
-      }
-    }
+  // loadForm(user: User) {
+  //   user = {... user} as User;
+  //   if (user) {
+  //     this.accountInfo.value.email = user.email;
+  //     this.accountInfo.value.firstName = user.firstName;
+  //     this.accountInfo.value.lastName = user.lastName;
+  //     this.accountInfo.value.dob = user.dob;
+  //     this.accountInfo.value.sex = user.sex;
+  //     if (user.body && user.body.bodyWeight) {
+  //       this.accountInfo.value.bodyWeight = user.body.bodyWeight.weight;
+  //       this.accountInfo.value.bodyWeightMetric = user.body.bodyWeight.metric;
+  //       this.accountInfo.value.lbm = user.body.lbm.weight;
+  //       this.accountInfo.value.lbmMetric = user.body.lbm.metric;
+  //     }
+  //     if (user.lifeStyle) {
+  //       this.accountInfo.value.activityLevel = user.lifeStyle.activityLevel;
+  //       this.accountInfo.value.fitnessGoal = user.lifeStyle.fitnessGoal;
+  //     }
+  //     if (user.blockTemplate) {
+  //       this.accountInfo.value.blockMetric = user.blockTemplate.metric;
+  //       this.accountInfo.value.carbs = user.blockTemplate.carbs;
+  //       this.accountInfo.value.fats = user.blockTemplate.fats;
+  //       this.accountInfo.value.protein = user.blockTemplate.protein;
+  //     }
+  //   }
+  // }
+  updateUser(user: User) {
+    this.userAccount = user;
+    this.fieldSet = null;
   }
-  buildUserObj(accountInfo): User {
-    const user = new User();
-    user.email = this.util.isBlank(accountInfo.email);
-    user.firstName = this.util.isBlank(accountInfo.firstName);
-    user.lastName = this.util.isBlank(accountInfo.lastName);
-    user.dob = this.util.isBlank(accountInfo.dob);
-    user.sex = this.util.isBlank(accountInfo.sex);
-    user.body.bodyWeight.weight = this.util.isBlank(accountInfo.bodyWeight);
-    user.body.bodyWeight.metric = this.util.isBlank(accountInfo.bodyWeightMetric);
-    user.body.lbm.weight = this.util.isBlank(accountInfo.lbm);
-    user.body.lbm.metric = this.util.isBlank(accountInfo.lbmMetric);
-    user.lifeStyle.activityLevel = this.util.isBlank(accountInfo.activityLevel);
-    user.lifeStyle.fitnessGoal = this.util.isBlank(accountInfo.fitnessGoal);
-    user.blockTemplate.metric = this.util.isBlank(accountInfo.blockMetric);
-    user.blockTemplate.carbs = this.util.isBlank(accountInfo.carbs);
-    user.blockTemplate.fats = this.util.isBlank(accountInfo.fats);
-    user.blockTemplate.protein = this.util.isBlank(accountInfo.protein);
-    return user;
-  }
+  // buildUserObj(accountInfo): User {
+  //   const user = new User();
+  //   user.email = this.util.isBlank(accountInfo.email);
+  //   user.firstName = this.util.isBlank(accountInfo.firstName);
+  //   user.lastName = this.util.isBlank(accountInfo.lastName);
+  //   user.dob = this.util.isBlank(accountInfo.dob);
+  //   user.sex = this.util.isBlank(accountInfo.sex);
+  //   user.body.bodyWeight.weight = this.util.isBlank(accountInfo.bodyWeight);
+  //   user.body.bodyWeight.metric = this.util.isBlank(accountInfo.bodyWeightMetric);
+  //   user.body.lbm.weight = this.util.isBlank(accountInfo.lbm);
+  //   user.body.lbm.metric = this.util.isBlank(accountInfo.lbmMetric);
+  //   user.lifeStyle.activityLevel = this.util.isBlank(accountInfo.activityLevel);
+  //   user.lifeStyle.fitnessGoal = this.util.isBlank(accountInfo.fitnessGoal);
+  //   user.blockTemplate.metric = this.util.isBlank(accountInfo.blockMetric);
+  //   user.blockTemplate.carbs = this.util.isBlank(accountInfo.carbs);
+  //   user.blockTemplate.fats = this.util.isBlank(accountInfo.fats);
+  //   user.blockTemplate.protein = this.util.isBlank(accountInfo.protein);
+  //   return user;
+  // }
   toggleFieldSet(fieldSet: string) {
-    this.reset();
     if (this.fieldSet && this.fieldSet === fieldSet) {
       this.fieldSet = null;
     } else {
@@ -112,20 +111,5 @@ export class UserAccountComponent {
     } else {
       return false;
     }
-  }
-  resetDisplayMessages() {
-    this.displaySuccess = false;
-    this.displayError = false;
-    this.displayErrorMessage = '';
-  }
-  displayUpdateSuccess() {
-    this.displaySuccess = true;
-    setTimeout(() => {
-      this.displaySuccess = false;
-    }, this.displayTimeout);
-  }
-  displayErrorUpdate(message: string) {
-    this.displayError = true;
-    this.displayErrorMessage = message;
   }
 }

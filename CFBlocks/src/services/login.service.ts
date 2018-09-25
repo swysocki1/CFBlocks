@@ -20,9 +20,13 @@ export class LoginService {
     return this._user;
   }
 
-  private setUser(value: User) {
+  private setUser(value: User, updateUserSession?: boolean) {
     this._user = value;
     this.getUserUpdates.emit(this._user);
+    if (updateUserSession) {
+      this._userSession.user = this._user;
+      this.getUserSessionUpdates.emit(this._userSession);
+    }
   }
 
   getUserSession(): UserSession {
@@ -152,7 +156,42 @@ export class LoginService {
     });
   }
   updateUser(user: User) {
-    return this.firebaseService.updateUserAccount(user);
+    return new Observable(subscriber => {
+      this.firebaseService.updateUserAccount(user).then(() => {
+        this.cacheUserSession().subscribe((userSession: UserSession) => {
+          subscriber.next(userSession);
+          this.setUserSession(userSession);
+          subscriber.complete();
+        }, error => {
+          subscriber.error(error);
+          subscriber.complete();
+        });
+      }).catch(error => {
+        subscriber.error(error);
+        subscriber.complete();
+      });
+    });
+  }
+  cacheUserSession() {
+    return new Observable(subscriber => {
+      this.firebaseService.getUserAccount(this._user.username).subscribe(user => {
+
+        localStorage.removeItem('CFBlocks');
+        const userSession = new UserSession();
+        userSession.created = new Date();
+        userSession.lastLogin = userSession.created;
+        userSession.authenticated = true;
+        userSession.user = user as User;
+        localStorage.setItem('CFBlocks', JSON.stringify(userSession));
+
+        this.setUserSession(userSession);
+        subscriber.next(userSession);
+        subscriber.complete();
+      }, error => {
+        subscriber.error(error);
+        subscriber.complete();
+      });
+    });
   }
   private closeActiveLoginSubscription() {
     if (this.loginSubscription) {

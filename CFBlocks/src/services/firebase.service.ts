@@ -45,10 +45,10 @@ export class FirebaseService {
     );
   }
   createNewUserAccount(user: User) {
-    return this.getUserAccountQuery(user.username).set(Object.assign({}, user));
+    return this.getUserAccountQuery(user.username).set(this.formatObj(user));
   }
   updateUserAccount(user: User) {
-    return this.getUserAccountQuery(user.username).update(user);
+    return this.getUserAccountQuery(user.username).update(this.formatObj(user));
   }
 
   // Food Creation
@@ -80,5 +80,8 @@ export class FirebaseService {
   decodeEmail(email: string): string {
     email = email.replace(',', '.');
     return email;
+  }
+  formatObj(obj: any) {
+    return JSON.parse( JSON.stringify(obj));
   }
 }
