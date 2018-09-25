@@ -6,3 +6,15 @@
   background: #fff;
   opacity: .95;
 }
+
+/* Forms */
+.form-group label.control-label {
+  font-weight: bold;
+}
+.form-group .control-label.required:after {
+  color: #d00;
+  content: "*";
+  position: absolute;
+  margin-left: 5px;
+  top:-2px;
+}

@@ -1,48 +1,53 @@
-<form class="form" role="form" [formGroup]="generalInfo" (ngSubmit)="onSubmit()">
+<form class="form-horizontal needs-validation" role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="card">
     <div class="card-header">
       <h1>{{fieldSetName}}</h1>
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="form-group col">
-          <label for="firstName" class="control-label">First Name</label>
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldValid('firstName'), 'has-feedback': this.isFieldValid('firstName')}">
+          <label for="firstName" class="control-label required">First Name</label>
           <input type="text" id="firstName" formControlName="firstName" [placeholder]="updateActive ? 'First Name' : ' None Provided '"
-                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive}"
+                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldValid('firstName'), 'is-valid': !this.isFieldValid('firstName')}"
                  [readonly]="!updateActive" required>
+          <div class="invalid-feedback">First Name is required!</div>
         </div>
-        <div class="form-group col">
-          <label for="lastName" class="control-label">Last Name</label>
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldValid('lastName'), 'has-feedback': this.isFieldValid('lastName')}">
+          <label for="lastName" class="control-label required">Last Name</label>
           <input type="text" id="lastName" formControlName="lastName" [placeholder]="updateActive ? 'Last Name' : ' None Provided '"
-                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive}"
+                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldValid('lastName'), 'is-valid': !this.isFieldValid('lastName')}"
                  [readonly]="!updateActive" required>
+          <div class="invalid-feedback">Last Name is required!</div>
         </div>
       </div>
       <div class="row">
-        <div class="form-group col">
-          <label for="email" class="control-label">Email</label>
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldValid('email'), 'has-feedback': this.isFieldValid('email')}">
+          <label for="email" class="control-label required">Email</label>
           <input type="text" id="email" readonly formControlName="email" [placeholder]="updateActive ? 'Email' : ' None Provided '"
-                 class="form-control-plaintext" required>
+                 class="form-control-plaintext" required [ngClass]="{'is-invalid': this.isFieldValid('firstName'), 'is-valid': !this.isFieldValid('firstName')}">
+          <div class="invalid-feedback">Email is required!</div>
         </div>
       </div>
       <div class="row">
-        <div class="form-group col">
-          <label for="dob" class="control-label">Date of Birth</label>
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldValid('dob'), 'has-feedback': this.isFieldValid('dob')}">
+          <label for="dob" class="control-label required">Date of Birth</label>
           <input type="Date" id="dob" formControlName="dob" [placeholder]="updateActive ? 'Date of Birth' : ' None Provided '"
-                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive}"
+                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldValid('dob'), 'is-valid': !this.isFieldValid('dob')}"
                  [readonly]="!updateActive" required>
+          <div class="invalid-feedback">Date of Birth is required!</div>
         </div>
-        <div class="form-group col">
-          <label for="sex" class="control-label">Sex</label>
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldValid('sex'), 'has-feedback': this.isFieldValid('sex')}">
+          <label for="sex" class="control-label required">Gender</label>
           <input type="text" id="sex" formControlName="sex" [placeholder]="updateActive ? 'Sex' : ' None Provided '"
-                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive}"
+                 [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldValid('sex'), 'is-valid': !this.isFieldValid('sex')}"
                  [readonly]="!updateActive" required>
+          <div class="invalid-feedback">Gender is required!</div>
         </div>
       </div>
       <div class="row">
         <div class="col text-center">
           <button type="button" class="btn btn-default" *ngIf="updateActive" (click)="reset()">Cancel</button>
-          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" *ngIf="updateActive">Submit</button>
+          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" *ngIf="updateActive" [disabled]="!form.valid">Submit</button>
           <button type="button" class="btn btn-primary" *ngIf="!updateActive" (click)="toggleUpdate()">Update</button>
         </div>
       </div>

@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {mergeUser, User, UserSession} from '../../../../models/user.model';
 import {LoginService} from '../../../../services/login.service';
 
@@ -7,7 +7,7 @@ import {LoginService} from '../../../../services/login.service';
   selector: 'user-general-info',
   templateUrl: 'generalInfo.html'
 })
-export class UserGeneralInfoComponent implements OnChanges {
+export class UserGeneralInfoComponent implements OnInit, OnChanges {
   @Input() user: User;
   @Input() updateActive: boolean;
   @Input() fieldSetName: string;
@@ -18,52 +18,47 @@ export class UserGeneralInfoComponent implements OnChanges {
   displaySuccess = false;
   displayError = false;
   displayErrorMessage = '';
-
-  constructor(private ls: LoginService) {}
-  generalInfo: FormGroup = new FormGroup({
-    email: new FormControl('', Validators.required),
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    dob: new FormControl(new Date(), Validators.required),
-    sex: new FormControl('', Validators.required)
-  });
+// https://loiane.com/2017/08/angular-reactive-forms-trigger-validation-on-submit/
+  constructor(private ls: LoginService, private fb: FormBuilder) {}
+  form: FormGroup;
+  ngOnInit() {
+    this.loadUserToForm();
+  }
   loadUserToForm() {
     this.resetDisplayMessages();
+    let user  = new User();
     if (this.user) {
-      const user = {... this.user} as User;
-      this.generalInfo.patchValue({
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        dob: user.dob,
-        sex: user.sex
-      });
-      console.log(user);
-      console.log(this.generalInfo);
-      // this.generalInfo.value.email.setValue(user.email);
-      // this.generalInfo.value.firstName = user.firstName;
-      // this.generalInfo.value.lastName = user.lastName;
-      // this.generalInfo.value.dob = user.dob;
-      // this.generalInfo.value.sex = user.sex;
+      user = {... this.user} as User;
     }
+    this.form = this.fb.group({
+      email: [user.email, Validators.required],
+      firstName: [user.firstName, Validators.required],
+      lastName: [user.lastName, Validators.required],
+      dob: [user.dob, Validators.required],
+      sex: [user.sex, Validators.required]
+    });
   }
   onSubmit() {
-    const user: User = new User();
-    // user.email = this.generalInfo.value.email; // TODO lets not update email YET
-    user.firstName = this.generalInfo.value.firstName;
-    user.lastName = this.generalInfo.value.lastName;
-    user.dob = this.generalInfo.value.dob;
-    user.sex = this.generalInfo.value.sex;
-    console.log(this.user);
-    console.log(user);
-    this.user = mergeUser(this.user, user);
-    console.log(this.user);
-    this.ls.updateUser(this.user).subscribe((userSession: UserSession) => {
-      this.displayUpdateSuccess();
-      this.updateUser.emit(userSession.user);
-    }, error => {
-      this.displayErrorUpdate(error);
-    });
+    if (this.form.valid) {
+      const user: User = new User();
+      // user.email = this.form.value.email; // TODO lets not update email YET
+      user.firstName = this.form.value.firstName;
+      user.lastName = this.form.value.lastName;
+      user.dob = this.form.value.dob;
+      user.sex = this.form.value.sex;
+      console.log(this.user);
+      console.log(user);
+      this.user = mergeUser(this.user, user);
+      console.log(this.user);
+      this.ls.updateUser(this.user).subscribe((userSession: UserSession) => {
+        this.displayUpdateSuccess();
+        this.updateUser.emit(userSession.user);
+      }, error => {
+        this.displayErrorUpdate(error);
+      });
+    } else {
+      this.validateAllFormFields(this.form);
+    }
   }
   toggleUpdate() {
     this.toggleUpdateActive.emit(this.fieldSetName);
@@ -87,10 +82,22 @@ export class UserGeneralInfoComponent implements OnChanges {
     this.displayError = true;
     this.displayErrorMessage = message;
   }
+  isFieldValid(field: string) {
+    return !this.form.get(field).valid && this.form.get(field).touched;
+  }
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.user && changes.user.currentValue !== changes.user.previousValue) {
       this.loadUserToForm();
-      this.user = changes.user.currentValue as User;
     }
     if (changes.updateActive && changes.updateActive.currentValue !== changes.updateActive.previousValue) {
       this.loadUserToForm();
