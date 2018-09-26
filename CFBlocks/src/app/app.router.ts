@@ -13,7 +13,7 @@ export const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'updateAccount', component: UserAccountComponent},
+  { path: 'account', component: UserAccountComponent},
   { path: 'block-calculator', component: BlockCalculatorComponent },
   { path: 'meal-calendar', component: MealCalendarComponent },
   { path: '**', redirectTo: '/home' }

@@ -8,5 +8,9 @@ export const environment = {
     projectId: 'cfblocks-b3c6f',
     storageBucket: 'cfblocks-b3c6f.appspot.com',
     messagingSenderId: '898967420145'
-  }
+  },
+  facebook: '',
+  twitter: '',
+  youtube: '',
+  instagram: ''
 };

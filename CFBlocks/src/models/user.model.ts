@@ -12,6 +12,7 @@ export class User {
   body: UserBody = new UserBody();
   lifeStyle: UserLifeStyle = new UserLifeStyle();
   blockTemplate: BlockTemplate = new BlockTemplate();
+  photoURL: string;
 }
 export function mergeUser(oldUser: User, newUser: User): User {
   // oldUser.email = isBlank(newUser.email) ? isBlank(newUser.email) : oldUser.email;

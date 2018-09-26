@@ -7,38 +7,23 @@ import {NavbarSearchService} from './navbar-search.service';
 import {NotificationService} from '../../services/notification.service';
 import {Notification} from '../../models/notification.model';
 import {Router} from '@angular/router';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'navbar',
   templateUrl: './navbar.html',
   styles: [`
-    .external-link-container {
-      background-color: #666;
-      min-height: 40px;
-    }
-    .external-link-container a,
-    .external-link-container button.btn.btn-link {
-      color: #ccc;
-    }
-    .external-link-container a:hover,
-    .external-link-container button.btn.btn-link:hover {
-      color: #000;
-    }
-    .user-session-container {
-      background-color: #ff5050;
-      min-height: 40px;
-    }
-    .user-session-container a,
-    .user-session-container button.btn.btn-link {
-      color: #fff;
-    }
-    .user-session-container a:hover,
-    .user-session-container button.btn.btn-link:hover {
-      color: #000;
+
+    .navbar-expand-md .navbar-nav .dropdown-menu {
+      position: absolute !important;
     }
   `]
 })
 export class NavbarComponent implements OnInit {
+  facebook: string = environment.facebook;
+  twitter: string = environment.twitter;
+  youtube: string = environment.youtube;
+  instagram: string = environment.instagram;
   notifications = [] as [Notification];
   userSession: UserSession;
   userSessionChange: EventEmitter<UserSession> = new EventEmitter<UserSession>();
@@ -72,7 +57,7 @@ export class NavbarComponent implements OnInit {
     this.login = new FormGroup({
       username: new FormControl(),
       password: new FormControl()
-    })
+    });
   }
 
   onSearch() {
@@ -86,7 +71,7 @@ export class NavbarComponent implements OnInit {
     this.loginErrorMessage = null;
     const loginCombo = new LoginCombo(this.valid, this.login.value['username'], this.login.value['password']);
     const validateLogin = loginCombo.validate();
-    if (validateLogin){
+    if (validateLogin) {
       if (validateLogin.valid) {
         this.loginService.login(loginCombo.username, loginCombo.password).subscribe(userSession => {
           this.updateUserSession(userSession);
@@ -105,7 +90,7 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.loginService.logout().subscribe(userSession => {
       this.userSession = userSession;
-      // TODO navigate to logout page
+      this.router.navigate(['/home']);
     }, error => {
       console.error(error);
     });
@@ -125,6 +110,15 @@ export class NavbarComponent implements OnInit {
     return this.loginService.isAdmin();
   }
   atLoginPage() {
-    return this.router.url === '/signin' || this.router.url === '/signup';
+    return this.router.url === '/signup';
+  }
+  atSigninPage() {
+    return this.router.url === '/signin';
+  }
+  loadNotification(notification: Notification) {
+    // TODO Load Notification????
+  }
+  hasNewNotifications() {
+    return this.notifications.some(notification => !notification.viewed);
   }
 }
