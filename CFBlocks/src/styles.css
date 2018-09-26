@@ -16,7 +16,14 @@ body, html {
   background-repeat: no-repeat;
   background-size: cover;
 }
+div.page-header {
+  border-radius: 5px;
+  padding: 15px 25px;
+  background: #fff;
+  border: 3px solid #ddd;
+  margin-bottom: 15px;
 
+}
 /* Color Helper */
 .lizard {
   color: #248f24;

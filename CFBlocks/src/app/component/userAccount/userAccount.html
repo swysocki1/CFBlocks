@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col">
+  <div class="col-10 offset-1 page-header">
     <h1>Update Account</h1>
   </div>
 </div>
@@ -8,6 +8,7 @@
     <!--TODO Look at Crossfit.com account page and Nav Bar-->
     <!--<form class="form" role="form" [formGroup]="accountInfo" (ngSubmit)="onSubmit()">-->
       <user-general-info [user]="userAccount" [updateActive]="fieldSetActive('General Info')" [fieldSetName]="'General Info'" (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);"></user-general-info>
+    <user-general-info [user]="userAccount" [updateActive]="fieldSetActive('Athlete Info')" [fieldSetName]="'Athlete Info'" (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);"></user-general-info>
     <!--</form>-->
   </div>
 </div>
