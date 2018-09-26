@@ -25,7 +25,6 @@ import {FirebaseService} from '../services/firebase.service';
 import {UtilService} from '../services/util.service';
 import {UserAccountModule} from './component/userAccount/userAccount.module';
 import {SigninModule} from './containers/signin/signin.module';
-import {FieldErrorDisplayModule} from './component/fieldDisplayError/fieldErrorDisplay.module';
 
 
 @NgModule({
@@ -47,8 +46,7 @@ import {FieldErrorDisplayModule} from './component/fieldDisplayError/fieldErrorD
     CalendarModule,
     SigninModule,
     SignupModule,
-    UserAccountModule,
-    FieldErrorDisplayModule
+    UserAccountModule
   ],
   providers: [LoginService,
     ValidationService,

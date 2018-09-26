@@ -37,6 +37,9 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
       dob: [user.dob, Validators.required],
       sex: [user.sex, Validators.required]
     });
+    if (this.user) {
+      this.validateAllFormFields(this.form);
+    }
   }
   onSubmit() {
     if (this.form.valid) {
@@ -82,8 +85,11 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
     this.displayError = true;
     this.displayErrorMessage = message;
   }
-  isFieldValid(field: string) {
+  isFieldInvalid(field: string) {
     return !this.form.get(field).valid && this.form.get(field).touched;
+  }
+  isFieldValid(field: string) {
+    return this.form.get(field).valid;
   }
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {

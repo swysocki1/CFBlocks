@@ -4,7 +4,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UserAccountComponent} from './userAccount.component';
 import {UtilService} from '../../../services/util.service';
 import {UserGeneralInfoComponent} from './generalInfo/generalInfo.component';
-import {FieldErrorDisplayModule} from '../fieldDisplayError/fieldErrorDisplay.module';
 
 @NgModule({
   declarations: [
@@ -14,8 +13,7 @@ import {FieldErrorDisplayModule} from '../fieldDisplayError/fieldErrorDisplay.mo
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    FormsModule,
-    FieldErrorDisplayModule
+    FormsModule
   ],
   exports: [
     UserAccountComponent,
