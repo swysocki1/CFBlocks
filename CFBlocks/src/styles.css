@@ -7,7 +7,7 @@ html, body {
   outline: 0 none;
   padding: 0;
   overflow-x: hidden;
-  background-image: url('./assets/imgs/crossfit_health.png');
+  background-image: url('./assets/imgs/colorful-background.jpg');
 
   /* Center and scale the image nicely */
   background-position: center;
@@ -29,12 +29,84 @@ div.page-header {
 
 }
 /* Color Helper */
+.snow {
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+}
+.snow-fill {
+  fill: #fff;
+  background-color: #fff;
+}
+.snow-1 {
+  color: rgba(255, 255, 255,.95);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0,.95);
+}
+.snow-1-fill {
+  fill: rgba(255, 255, 255,.95);
+  background-color: rgba(255, 255, 255,.95);
+}
+
+.snow-2 {
+  color: rgba(255, 255, 255,.90);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0,.90);
+}
+.snow-2-fill {
+  fill: rgba(255, 255, 255,.90);
+  background-color: rgba(255, 255, 255,.90);
+}
+
+.snow-3 {
+  color: rgba(255, 255, 255,.85);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0,.85);
+}
+.snow-3-fill {
+  fill: rgba(255, 255, 255,.85);
+  background-color: rgba(255, 255, 255,.85);
+}
+
+.snow-4 {
+  color: rgba(255, 255, 255,.80);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0,.80);
+}
+.snow-4-fill {
+  fill: rgba(255, 255, 255,.80);
+  background-color: rgba(255, 255, 255,.80);
+}
+.snow-5 {
+  color: rgba(255, 255, 255,.75);
+  text-shadow: 1px 1px 1px rgba(0, 0, 0,.75);
+}
+.snow-5-fill {
+  fill: rgba(255, 255, 255,.75);
+  background-color: rgba(255, 255, 255,.75);
+}
+
+.coal {
+  color: #000;
+  text-shadow: 1px 1px 1px #fff;
+}
+.coal-fill {
+  fill: #000;
+  background-color: #000;
+}
+.coal-1 {
+  color: rgba(0, 0, 0,.95);
+  text-shadow: 1px 1px 1px rgba(255, 255, 255,.95);
+}
+.coal-1-fill {
+  fill: rgba(0, 0, 0,.95);
+  background-color: rgba(0, 0, 0,.95);
+}
+
+
+
 .lizard {
   color: #248f24;
   text-shadow: 1px 1px 1px #000;
 }
 .lizard-fill {
   fill: #248f24;
+  background-color: #248f24;
 }
 
 .azure {

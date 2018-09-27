@@ -11,12 +11,12 @@
 <div class="table-responsive">
   <table class="table table-bordered">
     <thead>
-    <tr>
+    <tr class="snow-fill">
       <th scope="col" *ngFor="let day of daysOfWeek">{{day}}</th>
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let week of month.weeks;">
+    <tr *ngFor="let week of month.weeks;" class="snow-4-fill">
       <td *ngFor="let day of week.days">
         <calendar-day [day]="day" [meals]="getMeal(day)" [isSelected]="isSameDay(selectedDate, day.date)"></calendar-day>
       </td>
