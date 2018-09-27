@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {Meal} from '../models/meal.module';
 
 @Injectable()
 export class ValidationService {
@@ -29,6 +30,22 @@ export class ValidationService {
       }
     }
     return 'WEAK';
+  }
+  compareMeals(a: Meal, b: Meal): number {
+    return this.mealTypeToValue(a.type) > this.mealTypeToValue(b.type) ? 1 : -1;
+  }
+  private mealTypeToValue(mealType: string) {
+    if (mealType.toUpperCase() === 'BREAKFAST') {
+      return 1;
+    } else if (mealType.toUpperCase() === 'LUNCH') {
+      return 2;
+    } else if (mealType.toUpperCase() === 'DINNER') {
+      return 3;
+    } else if (mealType.toUpperCase() === 'SNACK') {
+      return 4;
+    } else {
+      return 5;
+    }
   }
   passwordQualifications = '--- List of requirements for password should be here ---';
 }

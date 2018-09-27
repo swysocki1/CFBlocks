@@ -1,8 +1,12 @@
 <div class="row">
-  <div class="col"><h1>{{month.name}} {{month.year}}</h1></div>
-  <div class="col">
-    <button type="button" class="btn btn-primary pull-right" [ngClass]="{'btn-primary': todayIsSelected(), 'btn-default': !todayIsSelected()}" (click)="toggleToday()">Today</button>
-    <div class="btn-group pull-right">
+  <div class="col-8">
+    <h1>
+      <b>{{name}}'s Plan : {{month.name}} {{month.year}}</b>
+    </h1>
+  </div>
+  <div class="col-4">
+    <button type="button" class="btn btn-primary pull-right mr-1" [ngClass]="{'btn-primary': todayIsSelected(), 'btn-default': !todayIsSelected()}" (click)="toggleToday()">Today</button>
+    <div class="btn-group pull-right mr-1">
       <button type="button" class="btn btn-primary" (click)="goBackMonth()"><</button>
       <button type="button" class="btn btn-primary" (click)="goNextMonth()">></button>
     </div>
@@ -16,8 +20,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let week of month.weeks;" class="snow-4-fill">
-      <td *ngFor="let day of week.days">
+    <tr *ngFor="let week of month.weeks;">
+      <td *ngFor="let day of week.days" [ngClass]="{'snow-4-fill': !day.isThisMonth, 'snow-2-fill': day.isThisMonth}" style="overflow: hidden;">
         <calendar-day [day]="day" [meals]="getMeal(day)" [isSelected]="isSameDay(selectedDate, day.date)"></calendar-day>
       </td>
     </tr>

@@ -10,6 +10,7 @@ import {MealService} from '../../../services/meal.service';
   templateUrl: './calendar.html'
 })
 export class CalendarComponent {
+  @Input() name: string;
   daysOfWeek: [string] = [] as [string];
   monthsOfYear: [string] = [] as [string];
   month: CalendarMonth = new CalendarMonth();

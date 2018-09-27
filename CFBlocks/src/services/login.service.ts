@@ -198,4 +198,19 @@ export class LoginService {
       this.loginSubscription.unsubscribe();
     }
   }
+  getFormatedName() {
+    if (this._user) {
+      if (this._user.firstName && this._user.lastName) {
+        return `${this._user.firstName} ${this._user.lastName}`;
+      } else if (this._user.firstName) {
+        return this._user.firstName;
+      } else if (this._user.username) {
+        return this._user.username;
+      } else {
+        return 'Guest';
+      }
+    } else {
+      return 'Guest';
+    }
+  }
 }
