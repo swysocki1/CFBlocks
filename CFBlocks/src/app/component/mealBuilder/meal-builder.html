@@ -16,8 +16,12 @@
             <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-left create-food pointer" title="Create New Food" (click)="loadFoodModal()"><i class="fa fa-lg fa-fw fa-plus"></i></span>
           </div>
         </div>
-        <!--<food-item *ngFor="let food of foods | foodFilter : {search: search, alreadyUsed: meal.foods}" [food]="food"  (updateFood)="loadFoodModal(food)"></food-item>-->
-        <food-item *ngFor="let food of foods" [food]="food"  (updateFood)="loadFoodModal(food)"></food-item>
+        <div class="row">
+          <div class="col-6" *ngFor="let food of foods">
+            <!--<food-item *ngFor="let food of foods | foodFilter : {search: search, alreadyUsed: meal.foods}" [food]="food"  (updateFood)="loadFoodModal(food)"></food-item>-->
+            <food-item [food]="food" (updateFood)="loadFoodModal(food)"></food-item>
+          </div>
+        </div>
       </div>
     </div>
   </div>
