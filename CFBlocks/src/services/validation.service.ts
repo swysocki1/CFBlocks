@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Meal} from '../models/meal.module';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Injectable()
 export class ValidationService {
@@ -30,6 +31,22 @@ export class ValidationService {
       }
     }
     return 'WEAK';
+  }
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
+  isFieldInvalid(form: FormGroup, field: string) {
+    return !form.get(field).valid && form.get(field).touched;
+  }
+  isFieldValid(form: FormGroup, field: string) {
+    return form.get(field).valid;
   }
   compareMeals(a: Meal, b: Meal): number {
     return this.mealTypeToValue(a.type) > this.mealTypeToValue(b.type) ? 1 : -1;

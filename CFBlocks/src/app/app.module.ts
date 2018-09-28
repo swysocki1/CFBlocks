@@ -25,6 +25,7 @@ import {FirebaseService} from '../services/firebase.service';
 import {UtilService} from '../services/util.service';
 import {UserAccountModule} from './component/userAccount/userAccount.module';
 import {SigninModule} from './containers/signin/signin.module';
+import {MealBuilderModule} from './component/mealBuilder/mealBuilder.module';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import {SigninModule} from './containers/signin/signin.module';
     CalendarModule,
     SigninModule,
     SignupModule,
-    UserAccountModule
+    UserAccountModule,
+    MealBuilderModule
   ],
   providers: [LoginService,
     ValidationService,

@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {mergeUser, User, UserSession} from '../../../../models/user.model';
 import {LoginService} from '../../../../services/login.service';
+import {ValidationService} from '../../../../services/validation.service';
 
 @Component({
   selector: 'user-general-info',
@@ -19,13 +20,12 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
   displayError = false;
   displayErrorMessage = '';
 // https://loiane.com/2017/08/angular-reactive-forms-trigger-validation-on-submit/
-  constructor(private ls: LoginService, private fb: FormBuilder) {}
+  constructor(private ls: LoginService, private fb: FormBuilder, private vs: ValidationService) {}
   form: FormGroup;
   ngOnInit() {
     this.loadUserToForm();
   }
   loadUserToForm() {
-    this.resetDisplayMessages();
     let user  = new User();
     if (this.user) {
       user = {... this.user} as User;
@@ -38,7 +38,7 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
       sex: [user.sex, Validators.required]
     });
     if (this.user) {
-      this.validateAllFormFields(this.form);
+      this.vs.validateAllFormFields(this.form);
     }
   }
   onSubmit() {
@@ -54,13 +54,12 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
       this.user = mergeUser(this.user, user);
       console.log(this.user);
       this.ls.updateUser(this.user).subscribe((userSession: UserSession) => {
-        this.displayUpdateSuccess();
         this.updateUser.emit(userSession.user);
       }, error => {
-        this.displayErrorUpdate(error);
+        console.error(error);
       });
     } else {
-      this.validateAllFormFields(this.form);
+      this.vs.validateAllFormFields(this.form);
     }
   }
   toggleUpdate() {
@@ -70,36 +69,11 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
     this.loadUserToForm();
     this.toggleUpdateActive.emit(null);
   }
-  resetDisplayMessages() {
-    this.displaySuccess = false;
-    this.displayError = false;
-    this.displayErrorMessage = '';
-  }
-  displayUpdateSuccess() {
-    this.displaySuccess = true;
-    setTimeout(() => {
-      this.displaySuccess = false;
-    }, this.displayTimeout);
-  }
-  displayErrorUpdate(message: string) {
-    this.displayError = true;
-    this.displayErrorMessage = message;
-  }
   isFieldInvalid(field: string) {
-    return !this.form.get(field).valid && this.form.get(field).touched;
+    return this.vs.isFieldInvalid(this.form, field);
   }
   isFieldValid(field: string) {
-    return this.form.get(field).valid;
-  }
-  validateAllFormFields(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(field => {
-      const control = formGroup.get(field);
-      if (control instanceof FormControl) {
-        control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {
-        this.validateAllFormFields(control);
-      }
-    });
+    return this.vs.isFieldValid(this.form, field);
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.user && changes.user.currentValue !== changes.user.previousValue) {

@@ -28,7 +28,7 @@ export class BlockCalculatorService {
     result += this.getCarbs(food.carb);
     result += this.getFats(food.fat);
     result += this.getProtein(food.protein);
-    result = result * food.servings;
+    result = result * food.serving.amount;
     return result;
   }
   getCarbs(blocks: number) {

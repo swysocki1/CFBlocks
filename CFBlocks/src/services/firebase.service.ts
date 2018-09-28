@@ -23,6 +23,14 @@ export class FirebaseService {
       }
     });
   }
+  private mapSnapShotChanges(query: any) {
+    return query.snapshotChanges().pipe(map(action => {
+        const data = action['payload'].data();
+        const id = action['payload'].id;
+        return { id, ...data };
+      })
+    );
+  }
   // User Accounts
   createUserWithEmailAndPassword(email, password) {
     return this.firebaseAuth.auth.createUserWithEmailAndPassword(email, password);
@@ -37,12 +45,14 @@ export class FirebaseService {
     return this.getUserAccountCollection().doc(this.encodeEmail(username));
   }
   getUserAccount(username) {
-    return this.getUserAccountQuery(username).snapshotChanges().pipe(map(action => {
-        const data = action.payload.data() as User;
-        const id = action.payload.id;
-        return { id, ...data };
-      })
-    );
+    return this.mapSnapShotChanges(this.getUserAccountQuery(username));
+
+    // return this.getUserAccountQuery(username).snapshotChanges().pipe(map(action => {
+    //     const data = action.payload.data() as User;
+    //     const id = action.payload.id;
+    //     return { id, ...data };
+    //   })
+    // );
   }
   createNewUserAccount(user: User) {
     return this.getUserAccountQuery(user.username).set(this.formatObj(user));
@@ -52,21 +62,25 @@ export class FirebaseService {
   }
 
   // Food Creation
-  /*getAllFoods() {
-    return this.firebaseDb.list(`food`);
+  private queryAllFoods() {
+    return this.firebaseDb.collection('food');
+  }
+  getAllFoods() {
+    return this.mapSnapShotChanges(this.queryAllFoods());
+  }
+  queryFood(food: Food) {
+    return this.firebaseDb.collection('food').doc(food.name);
   }
   getFood(food: Food) {
-    return this.firebaseDb.object(`food/${food['$key']}`);
+    return this.mapSnapShotChanges(this.queryFood(food));
   }
-  addFood(food: Food) {
+  /*addFood(food: Food) {
     return this.firebaseDb.list(`food/`).push(food);
-  }
+  }*/
   updateFood(food: Food) {
-    return this.getFood(food).update(food).catch(error => {
-      console.error(error);
-    });
+    return this.queryFood(food).update(food);
   }
-  removeFood(food: Food) {
+  /*removeFood(food: Food) {
     return this.getFood(food).remove().catch(error => {
       console.error(error);
     });

@@ -54,7 +54,7 @@ export class DayComponent {
 
   showMeal() { }
   getMealDisplay(meal: Meal) {
-    return this.mealService.getMealDisplay(meal);
+    return this.formatName(this.mealService.getMealDisplay(meal));
   }
   isBreakFast(meal: Meal): boolean {
     return this.mealService.isBreakFast(meal);

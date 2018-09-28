@@ -1,0 +1,70 @@
+<form class="form-horizontal needs-validation" role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('name'), 'has-feedback': this.isFieldInvalid('name')}">
+          <label for="food-name" class="control-label required">Name of Food</label>
+          <input type="text" id="food-name" formControlName="name" placeholder="Name of Food" class="form-control"
+                 [ngClass]="{'is-invalid': this.isFieldInvalid('name'), 'is-valid': this.isFieldValid('name')}" required>
+          <div class="invalid-feedback">Food's Name is required!</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('servings'), 'has-feedback': this.isFieldInvalid('servings')}">
+          <label for="food-serving-amount" class="control-label required">Serving Amount</label>
+          <input type="number" id="food-serving-amount" formControlName="servings" placeholder="Amount of Serving Size" class="form-control"
+                 [ngClass]="{'is-invalid': this.isFieldInvalid('servings'), 'is-valid': this.isFieldValid('servings')}" required>
+          <div class="invalid-feedback">Amount of Serving Size is required!</div>
+        </div>
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('serving'), 'has-feedback': this.isFieldInvalid('serving')}">
+          <label for="food-serving-amount" class="control-label required">Serving Metric</label>
+          <input type="text" id="food-serving-metric" formControlName="serving" placeholder="Metric of Serving Size" class="form-control"
+                 [ngClass]="{'is-invalid': this.isFieldInvalid('serving'), 'is-valid': this.isFieldValid('serving')}" required>
+          <div class="invalid-feedback">Metric of Serving Size is required!</div>
+        </div>
+      </div>
+      <h2>Amount Per Serving</h2>
+      <div class="row">
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('carb'), 'has-feedback': this.isFieldInvalid('carb')}">
+          <label for="food-carb" class="control-label required">Amount of Carbs</label>
+          <div class="input-group mb-3">
+            <input type="number" id="food-carb" formControlName="carb" placeholder="Carbs" class="form-control"
+                   [ngClass]="{'is-invalid': this.isFieldInvalid('carb'), 'is-valid': this.isFieldValid('carb')}" required>
+              <div class="input-group-append">
+                <span class="input-group-text">g</span>
+              </div>
+          </div>
+          <div class="invalid-feedback">Must be Greater than 0g</div>
+        </div>
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('fat'), 'has-feedback': this.isFieldInvalid('fat')}">
+          <label for="food-fat" class="control-label required">Amount of Fats</label>
+          <div class="input-group mb-3">
+            <input type="number" id="food-fat" formControlName="fat" placeholder="Fats" class="form-control"
+                 [ngClass]="{'is-invalid': this.isFieldInvalid('fat'), 'is-valid': this.isFieldValid('fat')}" required>
+            <div class="input-group-append">
+              <span class="input-group-text">g</span>
+            </div>
+          </div>
+          <div class="invalid-feedback">Must be Greater than 0g</div>
+        </div>
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('protein'), 'has-feedback': this.isFieldInvalid('protein')}">
+          <label for="food-protein" class="control-label required">Amount of Protein</label>
+          <div class="input-group mb-3">
+            <input type="number" id="food-protein" formControlName="protein" placeholder="Protein" class="form-control"
+                   [ngClass]="{'is-invalid': this.isFieldInvalid('protein'), 'is-valid': this.isFieldValid('protein')}" required>
+            <div class="input-group-append">
+              <span class="input-group-text">g</span>
+            </div>
+          </div>
+          <div class="invalid-feedback">Must be Greater than 0g</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center">
+          <button type="button" class="btn btn-default" (click)="reset()">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" [disabled]="!form.valid">{{this.food ? 'Update' : 'Create'}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

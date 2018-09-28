@@ -6,6 +6,7 @@ import {AdminComponent} from './containers/admin/admin.component';
 import {SigninComponent} from './containers/signin/signin.component';
 import {UserAccountComponent} from './component/userAccount/userAccount.component';
 import {SignupComponent} from './containers/signup/signup.component';
+import {MealBuilderComponent} from './component/mealBuilder/mealBuilder.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,5 +17,6 @@ export const routes: Routes = [
   { path: 'account', component: UserAccountComponent},
   { path: 'block-calculator', component: BlockCalculatorComponent },
   { path: 'meal-calendar', component: MealCalendarComponent },
+  { path: 'meal-builder', component: MealBuilderComponent },
   { path: '**', redirectTo: '/home' }
 ];
