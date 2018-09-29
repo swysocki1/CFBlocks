@@ -12,14 +12,14 @@ import {BlockCalculatorService} from '../../../../services/block-calculator.serv
             <img [src]="food.image" class="img-fluid" style="width: 2em;height:auto;" *ngIf="food.image"/>
             <i class="fa fa-fw fa-2x fa-leaf" *ngIf="!food.image"></i>
             <span>{{food.name}}</span>
-            <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-left update-food pointer" title="Update Food"
-                  (click)="loadFoodModal()"><i class="fa fa-lg fa-fw fa-plus"></i></span>
+            <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food pointer" title="Update Food"
+                  (click)="loadFoodModal()"><i class="fa fa-lg fa-fw fa-pencil"></i></span>
           </div>
         </div>
         <div class="row">
           <div class="col">
             <div class="row">
-              <div class="col-3">Serving: {{food.serving}}</div>
+              <div class="col-3">Serving: {{food.serving.amount}} {{food.serving.metric}}</div>
               <div class="col-2">Carbs: {{food.carb}}g</div>
               <div class="col-2">Fats: {{food.fat}}g</div>
               <div class="col-2">Protein: {{food.protein}}g</div>

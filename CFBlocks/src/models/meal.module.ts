@@ -20,17 +20,22 @@ export class Serving {
 }
 export function mergeFood(oldFood: Food, newFood: Food): Food {
   oldFood.name = isBlank(newFood.name) ? isBlank(newFood.name) : oldFood.name;
-  oldFood.carb = newFood.carb && newFood.carb >= 0 ? newFood.carb : oldFood.carb;
-  oldFood.fat = newFood.fat && newFood.fat >= 0 ? newFood.fat : oldFood.fat;
-  oldFood.protein = newFood.protein && newFood.protein >= 0 ? newFood.protein : oldFood.protein;
+  oldFood.carb = newFood.carb >= 0 ? newFood.carb : oldFood.carb;
+  oldFood.fat = newFood.fat >= 0 ? newFood.fat : oldFood.fat;
+  oldFood.protein = newFood.protein >= 0 ? newFood.protein : oldFood.protein;
   oldFood.serving = mergeServing(oldFood.serving, newFood.serving);
   return oldFood;
 }
 export function mergeServing(o: Serving, n: Serving): Serving {
-  if (!(isBlank(n.metric) || n.amount <= 0)) {
+  console.log(o);
+  console.log(n);
+  console.log(!isBlank(n.metric));
+  console.log(n.amount >= 0);
+  if (n.metric && n.metric.trim() && n.amount >= 0) {
     o.amount = n.amount;
     o.metric = n.metric;
   }
+  console.log(o);
   return o;
 }
 export function isBlank(value: string): string {

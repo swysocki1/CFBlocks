@@ -26,10 +26,22 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
       food.protein = this.form.value.protein;
       food.serving.amount = this.form.value.servings;
       food.serving.metric = this.form.value.serving;
+      let newUpdate = false;
+      if (this.food) {
+        newUpdate = true;
+      }
+      console.log(food);
+      console.log(this.food);
       this.food = mergeFood(this.food, food);
-      this.firebase.updateFood(this.food).then(() => {
-        this.cancelEvent.emit(true);
-      });
+      if (newUpdate) {
+        this.firebase.createFood(this.food).then(() => {
+          this.cancelEvent.emit(true);
+        });
+      } else {
+        this.firebase.updateFood(this.food).then(() => {
+          this.cancelEvent.emit(true);
+        });
+      }
     } else {
       this.vs.validateAllFormFields(this.form);
     }
@@ -63,6 +75,7 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.food && changes.food.currentValue !== changes.food.previousValue) {
+      this.food = changes.food.currentValue;
       this.loadForm();
     }
   }

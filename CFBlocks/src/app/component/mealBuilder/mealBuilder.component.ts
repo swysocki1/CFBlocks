@@ -48,9 +48,9 @@ export class MealBuilderComponent implements OnInit {
   updateFood: Food;
   constructor(private fs: FirebaseService) { }
   ngOnInit() {
-    // this.fs.getAllFoods().subscribe(foods => {
-    //   this.foods = foods as [Food];
-    // });
+    this.fs.getAllFoods().subscribe(foods => {
+      this.foods = foods as [Food];
+    });
   }
   loadFoodModal(food?: Food) {
     if (food) {

@@ -23,12 +23,14 @@ export class BlockCalculatorService {
     }
     return blocks;
   }
-  calcFoodCalories(food: Food): number {
+  calcFoodCalories(food: Food, numberOfServings?: number): number {
     let result = 0;
     result += this.getCarbs(food.carb);
     result += this.getFats(food.fat);
     result += this.getProtein(food.protein);
-    result = result * food.serving.amount;
+    if (numberOfServings) {
+      result = result * food.serving.amount;
+    }
     return result;
   }
   getCarbs(blocks: number) {

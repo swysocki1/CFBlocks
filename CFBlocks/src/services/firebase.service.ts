@@ -45,14 +45,14 @@ export class FirebaseService {
     return this.getUserAccountCollection().doc(this.encodeEmail(username));
   }
   getUserAccount(username) {
-    return this.mapSnapShotChanges(this.getUserAccountQuery(username));
+    // return this.mapSnapShotChanges(this.getUserAccountQuery(username));
 
-    // return this.getUserAccountQuery(username).snapshotChanges().pipe(map(action => {
-    //     const data = action.payload.data() as User;
-    //     const id = action.payload.id;
-    //     return { id, ...data };
-    //   })
-    // );
+    return this.getUserAccountQuery(username).snapshotChanges().pipe(map(action => {
+        const data = action.payload.data() as User;
+        const id = action.payload.id;
+        return { id, ...data };
+      })
+    );
   }
   createNewUserAccount(user: User) {
     return this.getUserAccountQuery(user.username).set(this.formatObj(user));
@@ -66,19 +66,26 @@ export class FirebaseService {
     return this.firebaseDb.collection('food');
   }
   getAllFoods() {
-    return this.mapSnapShotChanges(this.queryAllFoods());
+    // return this.mapSnapShotChanges(this.queryAllFoods());
+    return this.queryAllFoods().snapshotChanges().pipe(map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as Food;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      });
+    }));
   }
   queryFood(food: Food) {
     return this.firebaseDb.collection('food').doc(food.name);
   }
-  getFood(food: Food) {
-    return this.mapSnapShotChanges(this.queryFood(food));
+  // getFood(food: Food) {
+  //   return this.mapSnapShotChanges(this.queryFood(food));
+  // }
+  createFood(food: Food) {
+    return this.queryFood(food).set(this.formatObj(food));
   }
-  /*addFood(food: Food) {
-    return this.firebaseDb.list(`food/`).push(food);
-  }*/
   updateFood(food: Food) {
-    return this.queryFood(food).update(food);
+    return this.queryFood(food).update(this.formatObj(food));
   }
   /*removeFood(food: Food) {
     return this.getFood(food).remove().catch(error => {
