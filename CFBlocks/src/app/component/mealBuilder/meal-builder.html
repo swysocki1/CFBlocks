@@ -17,7 +17,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-6" *ngFor="let food of foods">
+          <div class="col-4" *ngFor="let food of foods">
             <!--<food-item *ngFor="let food of foods | foodFilter : {search: search, alreadyUsed: meal.foods}" [food]="food"  (updateFood)="loadFoodModal(food)"></food-item>-->
             <food-item [food]="food" (updateFood)="loadFoodModal(food)"></food-item>
           </div>
