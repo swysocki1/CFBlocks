@@ -2,8 +2,12 @@ export class Meal {
   id: string;
   name: string;
   type: string;
-  contents: [Food];
+  foods: [MealFood] = [] as [MealFood];
   description: string;
+}
+export class MealFood {
+  food: Food = new Food();
+  servingAmount: number;
 }
 export class Food {
   id: string;
@@ -27,10 +31,6 @@ export function mergeFood(oldFood: Food, newFood: Food): Food {
   return oldFood;
 }
 export function mergeServing(o: Serving, n: Serving): Serving {
-  console.log(o);
-  console.log(n);
-  console.log(!isBlank(n.metric));
-  console.log(n.amount >= 0);
   if (n.metric && n.metric.trim() && n.amount >= 0) {
     o.amount = n.amount;
     o.metric = n.metric;

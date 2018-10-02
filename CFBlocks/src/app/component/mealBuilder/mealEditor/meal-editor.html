@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col"></div>
+    </div>
+    <div class="row">
+      <div class="col" *ngIf="meal?.foods">
+        <div class="card mb-1" *ngFor="let food of meal.foods">
+          <div class="card-body">
+            <div class="row">
+              <div class="col">
+                <img [src]="food.image" class="img-fluid" style="width: 2em;height:auto;" *ngIf="food.image"/>
+                <i class="fa fa-fw fa-5x fa-leaf leaf-green" *ngIf="!food.image"></i>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <label class="control-label required">Serving: </label>
+                  <div class="input-group">
+                    <input type="number" placeholder="Customized Serving Amount" class="form-control" [(ngModel)]="food.servingAmount"
+                           [ngClass]="{'is-invalid': this.isFieldInvalid(food.food.name), 'is-valid': this.isFieldValid(food.food.name)}" required>
+                    <div class="input-group-append">
+                      <span class="input-group-text">g</span>
+                    </div>
+                  </div>
+                  <div class="invalid-feedback">Must Be Greator Than Zero!</div>
+                </div>
+              </div>
+              <div class="col food-statistics">
+                <div class="row">
+                  <label class="control-label">Carbs: </label>{{getCarbs(food)}}
+                </div>
+                <div class="row">
+                  <label class="control-label">Fats: </label> {{getFats(food)}}
+                </div>
+                <div class="row">
+                  <label class="control-label">Protein: </label> {{getProtein(food)}}
+                </div>
+                <div class="row">
+                  <label class="control-label">Calories: </label> {{getCalories(food)}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <button type="button" class="btn btn-default" (click)="reset()">Reset</button>
+        <button type="button" class="btn btn-primary" style="margin-left: 15px;">{{meal ? 'Update' : 'Create'}}</button>
+      </div>
+    </div>
+  </div>
+</div>

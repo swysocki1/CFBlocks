@@ -1,5 +1,5 @@
-import {Component, Input, OnInit, Pipe, PipeTransform} from '@angular/core';
-import {Food, Meal} from '../../../models/meal.module';
+import {Component, Input, OnInit, Output, Pipe, PipeTransform} from '@angular/core';
+import {Food, Meal, MealFood} from '../../../models/meal.module';
 import {ValidationService} from '../../../services/validation.service';
 import {FirebaseService} from '../../../services/firebase.service';
 declare var $: any;
@@ -42,7 +42,8 @@ export class FoodFilterPipe implements PipeTransform {
   `]
 })
 export class MealBuilderComponent implements OnInit {
-  @Input() meal: Meal;
+  @Input() meal: Meal = new Meal();
+  @Output() mealUpdated: Meal;
   foods: [Food] = [] as [Food];
   search: string;
   updateFood: Food;
@@ -63,5 +64,15 @@ export class MealBuilderComponent implements OnInit {
   resetFoodCreator() {
     $('#modify-food-modal').modal('hide');
     this.updateFood = new Food();
+  }
+  addFoodToMeal(food: Food) {
+    const mealFood = new MealFood();
+    mealFood.food = {... food};
+    mealFood.servingAmount = food.serving.amount;
+    this.meal.foods.push(mealFood);
+    this.updateMeal();
+  }
+  updateMeal() {
+    // TODO update FireStore
   }
 }

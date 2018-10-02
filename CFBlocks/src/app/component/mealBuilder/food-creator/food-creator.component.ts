@@ -30,8 +30,6 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
       if (this.food) {
         newUpdate = true;
       }
-      console.log(food);
-      console.log(this.food);
       this.food = mergeFood(this.food, food);
       if (newUpdate) {
         this.firebase.createFood(this.food).then(() => {

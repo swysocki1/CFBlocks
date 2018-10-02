@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Food} from '../models/meal.module';
+import {Food, MealFood} from '../models/meal.module';
 
 @Injectable()
 export class BlockCalculatorService {
@@ -22,6 +22,18 @@ export class BlockCalculatorService {
       blocks = blocks + 1;
     }
     return blocks;
+  }
+  calcCarbs(food: MealFood): number {
+    return food.servingAmount / food.food.serving.amount * food.food.carb;
+  }
+  calcFats(food: MealFood): number {
+    return food.servingAmount / food.food.serving.amount * food.food.fat;
+  }
+  calcProtein(food: MealFood): number {
+    return food.servingAmount / food.food.serving.amount * food.food.protein;
+  }
+  calcCalories(food: MealFood): number {
+    return this.calcCarbs(food) + this.calcFats(food) + this.calcProtein(food);
   }
   calcFoodCalories(food: Food, numberOfServings?: number): number {
     let result = 0;

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Food, Meal, MealCalendar} from '../models/meal.module';
+import {Food, Meal, MealCalendar, MealFood} from '../models/meal.module';
 import {LoginService} from './login.service';
 import {HelperService} from './helper.service';
 import * as moment from 'moment';
@@ -22,17 +22,17 @@ export class MealService {
   }
 
   getMealDisplay(meal: Meal): string {
-    const foodContents = this.getFoodContentsDisplay(meal.contents);
+    const foodContents = this.getFoodContentsDisplay(meal.foods);
     if (foodContents) {
-      return `${meal.name} - ${this.getFoodContentsDisplay(meal.contents)}`;
+      return `${meal.name} - ${this.getFoodContentsDisplay(meal.foods)}`;
     } else {
       return meal.name;
     }
   }
-  getFoodContentsDisplay(foods: [Food]): string {
+  getFoodContentsDisplay(foods: [MealFood]): string {
     const displayItems = [];
     foods.forEach(food => {
-      displayItems.push(`${food.serving.amount} ${food.serving.metric} ${food.name}`);
+      displayItems.push(`${food.food.serving.amount} ${food.food.serving.metric} ${food.food.name}`);
     });
     if (displayItems.length > 0) {
       return displayItems.join(', ');
@@ -68,6 +68,9 @@ export class MealService {
       cheese.carb = 3;
       cheese.fat = 8;
       cheese.name = 'Mozzarella';
+      const cheeseMeal = new MealFood();
+      cheeseMeal.food = cheese;
+      cheeseMeal.servingAmount = 1;
 
       const dough = new Food();
       dough.serving.amount = 3;
@@ -76,6 +79,9 @@ export class MealService {
       dough.carb = 22;
       dough.fat = 6;
       dough.name = 'Pizza Dough';
+      const doughMeal = new MealFood();
+      doughMeal.food = cheese;
+      doughMeal.servingAmount = 2;
 
       const sauce = new Food();
       sauce.serving.amount = 1;
@@ -84,8 +90,12 @@ export class MealService {
       sauce.carb = 8;
       sauce.fat = 2;
       sauce.name = 'Marinara Sauce';
-      meal1.contents = [] as [Food];
-      meal1.contents.push(cheese, sauce, dough);
+      const sauceMeal = new MealFood();
+      sauceMeal.food = cheese;
+      sauceMeal.servingAmount = 1;
+
+      meal1.foods = [] as [MealFood];
+      meal1.foods.push(cheeseMeal, sauceMeal, doughMeal);
       mc.meals = [] as [Meal];
       mc.meals.push(meal1);
       cal.push(mc);

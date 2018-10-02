@@ -49,10 +49,7 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
       user.lastName = this.form.value.lastName;
       user.dob = this.form.value.dob;
       user.sex = this.form.value.sex;
-      console.log(this.user);
-      console.log(user);
       this.user = mergeUser(this.user, user);
-      console.log(this.user);
       this.ls.updateUser(this.user).subscribe((userSession: UserSession) => {
         this.updateUser.emit(userSession.user);
       }, error => {
