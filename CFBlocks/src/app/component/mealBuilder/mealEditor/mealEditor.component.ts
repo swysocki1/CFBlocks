@@ -8,8 +8,15 @@ import {ValidationService} from '../../../../services/validation.service';
   selector: 'meal-editor',
   templateUrl: 'meal-editor.html',
   styles: [`
-    .food-statistics label {
-      margin-bottom: 0;
+    .meal-editor {
+      height: 80vh;
+      overflow-y: scroll;
+    }
+    .meal-food-item-header {
+      position: sticky;
+      position: -webkit-sticky;
+      top: 0;
+      z-index: 1;
     }
   `]
 })
@@ -21,8 +28,9 @@ export class MealEditorComponent implements OnInit, OnChanges {
     this.loadForm();
   }
   loadForm(meal?: Meal) {
-    if (!meal)
-      meal  = new Meal();
+    if (!meal) {
+      meal = new Meal();
+    }
     if (this.meal) {
       meal = {... this.meal} as Meal;
     }
@@ -50,18 +58,6 @@ export class MealEditorComponent implements OnInit, OnChanges {
   }
   removeFood(food: Food) {
     // TODO something???
-  }
-  getCarbs(food: MealFood): number {
-    return this.bc.calcCarbs(food);
-  }
-  getFats(food: MealFood): number {
-    return this.bc.calcFats(food);
-  }
-  getProtein(food: MealFood): number {
-    return this.bc.calcProtein(food);
-  }
-  getCalories(food: MealFood): number {
-    return this.bc.calcCalories(food);
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.meal.currentValue) {

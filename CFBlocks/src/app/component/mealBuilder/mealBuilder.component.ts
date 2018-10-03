@@ -2,6 +2,7 @@ import {Component, Input, OnInit, Output, Pipe, PipeTransform} from '@angular/co
 import {Food, Meal, MealFood} from '../../../models/meal.module';
 import {ValidationService} from '../../../services/validation.service';
 import {FirebaseService} from '../../../services/firebase.service';
+import {BlockCalculatorService} from '../../../services/block-calculator.service';
 declare var $: any;
 
 @Pipe({
@@ -30,6 +31,9 @@ export class FoodFilterPipe implements PipeTransform {
   selector: 'meal-builder',
   templateUrl: './meal-builder.html',
   styles: [`
+    .meal-builder {
+      height: 100%;
+    }
     .create-food{
       display:inline-block;
       padding:6px;
@@ -47,7 +51,7 @@ export class MealBuilderComponent implements OnInit {
   foods: [Food] = [] as [Food];
   search: string;
   updateFood: Food;
-  constructor(private fs: FirebaseService) { }
+  constructor(private fs: FirebaseService, private bc: BlockCalculatorService) { }
   ngOnInit() {
     this.fs.getAllFoods().subscribe(foods => {
       this.foods = foods as [Food];
@@ -75,4 +79,33 @@ export class MealBuilderComponent implements OnInit {
   updateMeal() {
     // TODO update FireStore
   }
+  getMealCarbTotal() {
+    let total = 0;
+    this.meal.foods.forEach(food => {
+      total += this.bc.calcCarbs(food);
+    });
+    return total;
+  }
+  getMealFatTotal() {
+    let total = 0;
+    this.meal.foods.forEach(food => {
+      total += this.bc.calcFats(food);
+    });
+    return total;
+  }
+  getMealProteinTotal() {
+    let total = 0;
+    this.meal.foods.forEach(food => {
+      total += this.bc.calcProtein(food);
+    });
+    return total;
+  }
+  getMealCalorieTotal() {
+    let total = 0;
+    this.meal.foods.forEach(food => {
+      total += this.bc.calcCalories(food);
+    });
+    return total;
+  }
 }
+

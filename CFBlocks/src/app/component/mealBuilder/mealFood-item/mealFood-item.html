@@ -1,0 +1,50 @@
+<form class="form-horizontal needs-validation" role="form" [formGroup]="form">
+  <div class="card mb-1">
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <h3>{{food.food.name}}</h3>
+        </div>
+        <div class="col-1">
+          <button type="button" class="btn btn-close pull-right">
+            <i class="fa fa-fw fa-lg fa-times red" *ngIf="!food.image"></i>
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <!--<div class="col">-->
+          <!--<img [src]="food.food.image" class="img-fluid" style="width: 2em;height:auto;" *ngIf="food.food.image"/>-->
+          <!--<i class="fa fa-fw fa-5x fa-leaf leaf-green" *ngIf="!food.image"></i>-->
+        <!--</div>-->
+        <div class="col-3">
+          <div class="form-group">
+            <div class="input-group input-group-sm">
+              <input type="number" placeholder="Customized Serving Amount" class="form-control form-control-sm" formControlName="food"
+                     [ngClass]="{'is-invalid': this.isFieldInvalid(), 'is-valid': this.isFieldValid()}" required (change)="updateMealFood()">
+              <div class="input-group-append">
+                <span class="input-group-text">{{food.food.serving.metric}}</span>
+              </div>
+            </div>
+            <div class="invalid-feedback">Must Be Greator Than Zero!</div>
+          </div>
+        </div>
+        <div class="col food-statistics">
+          <div class="row">
+            <div class="col">
+              {{getCarbs(food) + 'g'}}
+            </div>
+            <div class="col">
+              {{getFats(food) + 'g'}}
+            </div>
+            <div class="col">
+              {{getProtein(food) + 'g'}}
+            </div>
+            <div class="col">
+              {{getCalories(food) + 'g'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

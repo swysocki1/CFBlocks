@@ -5,6 +5,7 @@ import {FoodFilterPipe, MealBuilderComponent} from './mealBuilder.component';
 import {FoodItemComponent} from './food-item/food-item.component';
 import {FoodCreatorComponent} from './food-creator/food-creator.component';
 import {MealEditorComponent} from './mealEditor/mealEditor.component';
+import {MealFoodItemComponent} from './mealFood-item/mealFood-item.component';
 
 @NgModule({
   declarations: [
@@ -12,7 +13,8 @@ import {MealEditorComponent} from './mealEditor/mealEditor.component';
     FoodFilterPipe,
     FoodItemComponent,
     FoodCreatorComponent,
-    MealEditorComponent
+    MealEditorComponent,
+    MealFoodItemComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +25,8 @@ import {MealEditorComponent} from './mealEditor/mealEditor.component';
     MealBuilderComponent,
     FoodItemComponent,
     FoodCreatorComponent,
-    MealEditorComponent
+    MealEditorComponent,
+    MealFoodItemComponent
   ],
   providers: []
 })

@@ -23,27 +23,32 @@ export class BlockCalculatorService {
     }
     return blocks;
   }
+  getFoodMealCarbs(food: MealFood) {
+    return (food.servingAmount / food.food.serving.amount) * food.food.carb;
+  }
+  getFoodMealFats(food: MealFood) {
+    return (food.servingAmount / food.food.serving.amount) * food.food.fat;
+  }
+  getFoodMealProtein(food: MealFood) {
+    return (food.servingAmount / food.food.serving.amount) * food.food.protein;
+  }
   calcCarbs(food: MealFood): number {
-    return food.servingAmount / food.food.serving.amount * food.food.carb;
+    return this.carbsToCals(this.getFoodMealCarbs(food));
   }
   calcFats(food: MealFood): number {
-    return food.servingAmount / food.food.serving.amount * food.food.fat;
+    return this.fatsToCals(this.getFoodMealFats(food));
   }
   calcProtein(food: MealFood): number {
-    return food.servingAmount / food.food.serving.amount * food.food.protein;
+    return this.proteinToCals(this.getFoodMealProtein(food));
   }
   calcCalories(food: MealFood): number {
     return this.calcCarbs(food) + this.calcFats(food) + this.calcProtein(food);
   }
-  calcFoodCalories(food: Food, numberOfServings?: number): number {
-    let result = 0;
-    result += this.getCarbs(food.carb);
-    result += this.getFats(food.fat);
-    result += this.getProtein(food.protein);
-    if (numberOfServings) {
-      result = result * food.serving.amount;
-    }
-    return result;
+  calcFoodCalories(food: Food): number {
+    const mealFood = new MealFood();
+    mealFood.food = food;
+    mealFood.servingAmount = food.serving.amount;
+    return this.calcCalories(mealFood);
   }
   getCarbs(blocks: number) {
     return blocks * 9;
@@ -53,5 +58,14 @@ export class BlockCalculatorService {
   }
   getProtein(blocks: number) {
     return blocks * 7;
+  }
+  carbsToCals(carbs: number) {
+    return carbs * 4;
+  }
+  fatsToCals(fats: number) {
+    return fats * 9;
+  }
+  proteinToCals(protein: number) {
+    return protein * 4;
   }
 }

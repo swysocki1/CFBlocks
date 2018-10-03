@@ -1,8 +1,29 @@
-<div class="card">
+<div class="card meal-builder">
   <div class="card-body">
     <div class="row">
       <div class="col-6 meal-container">
-        <meal-editor [meal]="meal"></meal-editor>
+        <div class="row meal-totals">
+          <div class="col">
+            <h2>Meal Totals</h2>
+          </div>
+          <div class="col">
+            <label class="control-label">Carbs: </label>&nbsp;{{getMealCarbTotal()}}g
+          </div>
+          <div class="col">
+            <label class="control-label">Fats: </label>&nbsp;{{getMealFatTotal()}}g
+          </div>
+          <div class="col">
+            <label class="control-label">Protein: </label>&nbsp;{{getMealProteinTotal()}}g
+          </div>
+          <div class="col">
+            <label class="control-label">Calories: </label>&nbsp;{{getMealCalorieTotal()}}
+          </div>
+        </div>
+        <div class="row meals">
+          <div class="col">
+            <meal-editor [meal]="meal"></meal-editor>
+          </div>
+        </div>
       </div>
       <div class="col-6 food-container">
         <div class="row">

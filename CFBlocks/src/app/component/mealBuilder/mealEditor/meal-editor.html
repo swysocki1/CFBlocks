@@ -1,47 +1,33 @@
-<div class="card">
+<div class="card meal-editor">
   <div class="card-body">
-    <div class="row">
-      <div class="col"></div>
-    </div>
-    <div class="row">
-      <div class="col" *ngIf="meal?.foods">
-        <div class="card mb-1" *ngFor="let food of meal.foods">
-          <div class="card-body">
+    <div class="card mb-1 meal-food-item-header">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-3">
+            <label class="control-label required">Serving: </label>
+          </div>
+          <div class="col">
             <div class="row">
               <div class="col">
-                <img [src]="food.image" class="img-fluid" style="width: 2em;height:auto;" *ngIf="food.image"/>
-                <i class="fa fa-fw fa-5x fa-leaf leaf-green" *ngIf="!food.image"></i>
+                <label class="control-label">Carbs: </label>
               </div>
               <div class="col">
-                <div class="form-group">
-                  <label class="control-label required">Serving: </label>
-                  <div class="input-group">
-                    <input type="number" placeholder="Customized Serving Amount" class="form-control" [(ngModel)]="food.servingAmount"
-                           [ngClass]="{'is-invalid': this.isFieldInvalid(food.food.name), 'is-valid': this.isFieldValid(food.food.name)}" required>
-                    <div class="input-group-append">
-                      <span class="input-group-text">g</span>
-                    </div>
-                  </div>
-                  <div class="invalid-feedback">Must Be Greator Than Zero!</div>
-                </div>
+                <label class="control-label">Fats: </label>
               </div>
-              <div class="col food-statistics">
-                <div class="row">
-                  <label class="control-label">Carbs: </label>{{getCarbs(food)}}
-                </div>
-                <div class="row">
-                  <label class="control-label">Fats: </label> {{getFats(food)}}
-                </div>
-                <div class="row">
-                  <label class="control-label">Protein: </label> {{getProtein(food)}}
-                </div>
-                <div class="row">
-                  <label class="control-label">Calories: </label> {{getCalories(food)}}
-                </div>
+              <div class="col">
+                <label class="control-label">Protein: </label>
+              </div>
+              <div class="col">
+                <label class="control-label">Calories: </label>
               </div>
             </div>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col" *ngIf="meal?.foods">
+        <meal-food-item *ngFor="let mealFood of meal.foods" [food]="mealFood"></meal-food-item>
       </div>
     </div>
     <div class="row">
