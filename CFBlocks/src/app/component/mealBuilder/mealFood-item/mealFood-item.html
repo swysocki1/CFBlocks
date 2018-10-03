@@ -1,12 +1,12 @@
 <form class="form-horizontal needs-validation" role="form" [formGroup]="form">
   <div class="card mb-1">
-    <div class="card-body">
+    <div class="card-body pt-0 pb-0">
       <div class="row">
         <div class="col">
           <h3>{{food.food.name}}</h3>
         </div>
         <div class="col-1">
-          <button type="button" class="btn btn-close pull-right">
+          <button type="button" class="btn btn-sm btn-close pull-right">
             <i class="fa fa-fw fa-lg fa-times red" *ngIf="!food.image"></i>
           </button>
         </div>

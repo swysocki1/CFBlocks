@@ -9,13 +9,19 @@ import {ValidationService} from '../../../../services/validation.service';
   templateUrl: 'meal-editor.html',
   styles: [`
     .meal-editor {
-      height: 80vh;
+      height: 70vh;
       overflow-y: scroll;
     }
     .meal-food-item-header {
       position: sticky;
       position: -webkit-sticky;
       top: 0;
+      z-index: 1;
+    }
+    .meal-editor-submit-container {
+      position: sticky;
+      position: -webkit-sticky;
+      bottom: 0;
       z-index: 1;
     }
   `]
@@ -58,6 +64,9 @@ export class MealEditorComponent implements OnInit, OnChanges {
   }
   removeFood(food: Food) {
     // TODO something???
+  }
+  hasFoods() {
+    return this.meal && this.meal.foods && this.meal.foods.length && this.meal.foods.length > 0;
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.meal.currentValue) {

@@ -17,9 +17,8 @@ import {ValidationService} from '../../../../services/validation.service';
       width: auto;
     }
     button.btn-close {
-      margin-right: -20px;
-      margin-top: -20px;
       opacity: .85;
+      margin-right: -20px;
     }
     button.btn-close:hover {
       opacity: 1;

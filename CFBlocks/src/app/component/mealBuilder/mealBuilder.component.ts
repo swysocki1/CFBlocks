@@ -31,9 +31,6 @@ export class FoodFilterPipe implements PipeTransform {
   selector: 'meal-builder',
   templateUrl: './meal-builder.html',
   styles: [`
-    .meal-builder {
-      height: 100%;
-    }
     .create-food{
       display:inline-block;
       padding:6px;

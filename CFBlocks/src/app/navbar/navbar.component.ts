@@ -11,13 +11,7 @@ import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'navbar',
-  templateUrl: './navbar.html',
-  styles: [`
-
-    .navbar-expand-md .navbar-nav .dropdown-menu {
-      position: absolute !important;
-    }
-  `]
+  templateUrl: './navbar.html'
 })
 export class NavbarComponent implements OnInit {
   facebook: string = environment.facebook;
