@@ -33,7 +33,7 @@
     <div class="row meal-editor-submit-container mt-1" *ngIf="hasFoods()">
       <div class="col text-center">
         <button type="button" class="btn btn-default" (click)="reset()">Reset</button>
-        <button type="button" class="btn btn-primary" style="margin-left: 15px;">{{meal ? 'Update' : 'Create'}}</button>
+        <button type="button" class="btn btn-primary" style="margin-left: 15px;">{{meal ? 'Save' : 'Create'}}</button>
       </div>
     </div>
     <div class="row empty-meal-display-text" *ngIf="!hasFoods()">

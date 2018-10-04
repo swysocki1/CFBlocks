@@ -1,0 +1,76 @@
+<form class="form-horizontal needs-validation" role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="card mb-2">
+    <div class="card-header">
+      <h1>{{fieldSetName}}</h1>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="form-group col-6">
+          <label for="bodyWeight" class="control-label mr-2" [ngClass]="{'required': updateActive}">Body Weight</label>
+          <div class="input-group" *ngIf="updateActive" [ngClass]="{'is-invalid': (this.isFieldInvalid('bodyWeight') || this.isFieldInvalid('bodyWeightMetric')),
+           'is-valid': (this.isFieldValid('bodyWeight') || this.isFieldValid('bodyWeightMetric'))}">
+            <input type="text" id="bodyWeight" formControlName="bodyWeight" placeholder="Body Weight" class="form-control"
+                   [ngClass]="{'is-invalid': this.isFieldInvalid('bodyWeight'), 'is-valid': this.isFieldValid('bodyWeight')}" required>
+            <div class="input-group-append">
+              <select type="text" id="bodyWeightMetric" formControlName="bodyWeightMetric" class="form-control"
+                     [ngClass]="{'is-invalid': this.isFieldInvalid('bodyWeightMetric'), 'is-valid': this.isFieldValid('bodyWeightMetric')}" required>
+                <option value="pounds">{{displayMetric('pounds')}}</option>
+                <option value="kilograms">{{displayMetric('kilograms')}}</option>
+              </select>
+            </div>
+          </div>
+          <div *ngIf="updateActive && (this.isFieldInvalid('bodyWeight') || this.isFieldInvalid('bodyWeightMetric'))" class="text-danger">Body Weight and/or Metric is Invalid!</div>
+          <span *ngIf="!updateActive">{{displayWeight(user?.body?.bodyWeight) || ' None Provided '}}</span>
+        </div>
+        <div class="form-group col-6">
+          <label for="leanBodyWeight" class="control-label mr-2" [ngClass]="{'required': updateActive}">Lean Body Weight</label>
+          <div class="input-group" *ngIf="updateActive" [ngClass]="{'is-invalid': (this.isFieldInvalid('leanBodyWeight') || this.isFieldInvalid('leanBodyWeightMetric')),
+           'is-valid': (this.isFieldValid('leanBodyWeight') || this.isFieldValid('leanBodyWeightMetric'))}">
+            <input type="text" id="leanBodyWeight" formControlName="leanBodyWeight" placeholder="Body Weight" class="form-control"
+                   [ngClass]="{'is-invalid': this.isFieldInvalid('leanBodyWeight'), 'is-valid': this.isFieldValid('leanBodyWeight')}" required>
+            <div class="input-group-append">
+              <select type="text" id="leanBodyWeightMetric" formControlName="leanBodyWeightMetric" class="form-control"
+                      [ngClass]="{'is-invalid': this.isFieldInvalid('leanBodyWeightMetric'), 'is-valid': this.isFieldValid('leanBodyWeightMetric')}" required>
+                <option value="pounds">lbs</option>
+                <option value="kilograms">kg</option>
+              </select>
+            </div>
+          </div>
+          <div *ngIf="updateActive && (this.isFieldInvalid('leanBodyWeight') || this.isFieldInvalid('leanBodyWeightMetric'))" class="text-danger">Lean Body Weight and/or Metric is Invalid!</div>
+          <span *ngIf="!updateActive">{{displayWeight(user?.body?.lbm) || ' None Provided '}}</span>
+        </div>
+      </div>
+      <!--<div class="row">-->
+        <!--<div class="form-group col">-->
+          <!--<label for="email" class="control-label required">Lean Body Mass</label>-->
+          <!--<input type="text" id="email" readonly formControlName="email" [placeholder]="updateActive ? 'Lean Body Mass' : ' None Provided '"-->
+                 <!--class="form-control-plaintext" required [ngClass]="{'is-invalid': this.isFieldInvalid('firstName'), 'is-valid': this.isFieldValid('firstName')}">-->
+          <!--<div class="invalid-feedback">Email is required!</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row">-->
+        <!--<div class="form-group col">-->
+          <!--<label for="dob" class="control-label required">Date of Birth</label>-->
+          <!--<input type="Date" id="dob" formControlName="dob" [placeholder]="updateActive ? 'Date of Birth' : ' None Provided '"-->
+                 <!--[ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldInvalid('dob'), 'is-valid': this.isFieldValid('dob')}"-->
+                 <!--[readonly]="!updateActive" required>-->
+          <!--<div class="invalid-feedback">Date of Birth is required!</div>-->
+        <!--</div>-->
+        <!--<div class="form-group col">-->
+          <!--<label for="sex" class="control-label required">Gender</label>-->
+          <!--<input type="text" id="sex" formControlName="sex" [placeholder]="updateActive ? 'Sex' : ' None Provided '"-->
+                 <!--[ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldInvalid('sex'), 'is-valid': this.isFieldValid('sex')}"-->
+                 <!--[readonly]="!updateActive" required>-->
+          <!--<div class="invalid-feedback">Gender is required!</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <div class="row">
+        <div class="col text-center">
+          <button type="button" class="btn btn-default" *ngIf="updateActive" (click)="reset()">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" *ngIf="updateActive" [disabled]="!form.valid">Save</button>
+          <button type="button" class="btn btn-primary" *ngIf="!updateActive" (click)="toggleUpdate()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -4,11 +4,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {UserAccountComponent} from './userAccount.component';
 import {UtilService} from '../../../services/util.service';
 import {UserGeneralInfoComponent} from './generalInfo/generalInfo.component';
+import {UserBodyInfoComponent} from './userBody/userBodyInfo.component';
 
 @NgModule({
   declarations: [
     UserAccountComponent,
-    UserGeneralInfoComponent
+    UserGeneralInfoComponent,
+    UserBodyInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -17,7 +19,8 @@ import {UserGeneralInfoComponent} from './generalInfo/generalInfo.component';
   ],
   exports: [
     UserAccountComponent,
-    UserGeneralInfoComponent
+    UserGeneralInfoComponent,
+    UserBodyInfoComponent
   ],
   providers: [UtilService]
 })

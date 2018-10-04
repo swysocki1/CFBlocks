@@ -54,7 +54,7 @@ export class UserBody {
 }
 export class BodyWeight {
   weight: number;
-  metric: string;
+  metric = 'pounds';
 }
 export class UserLifeStyle {
   activityLevel: string;

@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../../../services/login.service';
 import {ValidationService} from '../../../services/validation.service';
 import {LoginCombo, UserSession} from '../../../models/user.model';
@@ -11,14 +11,22 @@ declare var $: any;
   selector: 'signin',
   templateUrl: './signin.html'
 })
-export class SigninComponent {
-  constructor(private ls: LoginService, private vs: ValidationService, private router: Router) {}
-  login: FormGroup = new FormGroup({
-    username: new FormControl(),
-    password: new FormControl(),
-    rememberMe: new FormControl() // TODO
-  });
+export class SigninComponent implements OnInit {
+  constructor(private ls: LoginService, private vs: ValidationService, private router: Router, private fb: FormBuilder) {}
+  login: FormGroup;
+  loginError = '';
+  ngOnInit() {
+    this.loadLoginForm();
+  }
+  loadLoginForm() {
+    this.login = this.fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      rememberMe: ['', Validators.required]
+    })
+  }
   onSubmit() {
+    this.loginError = '';
     this.ls.login(this.login.value.username, this.login.value.password).subscribe(userSession => {
       this.loadUserSession(userSession);
     }, error => {
@@ -44,11 +52,15 @@ export class SigninComponent {
   //     }
   //   });
   // }
+  goToCreateNewAccount() {
+    this.router.navigate(['/signup']);
+  }
   loadUserSession(userSession: UserSession) {
     this.router.navigate(['/home']);
   }
-  loadLoginError(message: string) {
+  loadLoginError(message: any) {
     console.error(message);
+    this.loginError = message.message;
     // TODO
   }
 }

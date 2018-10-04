@@ -146,11 +146,11 @@ export class LoginService {
             subscriber.next(userSession);
           });
         }).catch((error) => {
-          subscriber.next(error);
+          subscriber.error(error);
           subscriber.complete();
         });
       }).catch((error) => {
-        subscriber.next(error);
+        subscriber.error(error);
         subscriber.complete();
       });
     });

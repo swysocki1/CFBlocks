@@ -1,18 +1,18 @@
 <form class="form-horizontal needs-validation" role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="card">
+  <div class="card mb-2">
     <div class="card-header">
       <h1>{{fieldSetName}}</h1>
     </div>
     <div class="card-body">
       <div class="row">
-        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('firstName'), 'has-feedback': this.isFieldInvalid('firstName')}">
+        <div class="form-group col">
           <label for="firstName" class="control-label required">First Name</label>
           <input type="text" id="firstName" formControlName="firstName" [placeholder]="updateActive ? 'First Name' : ' None Provided '"
                  [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldInvalid('firstName'), 'is-valid': this.isFieldValid('firstName')}"
                  [readonly]="!updateActive" required>
           <div class="invalid-feedback">First Name is required!</div>
         </div>
-        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('lastName'), 'has-feedback': this.isFieldInvalid('lastName')}">
+        <div class="form-group col">
           <label for="lastName" class="control-label required">Last Name</label>
           <input type="text" id="lastName" formControlName="lastName" [placeholder]="updateActive ? 'Last Name' : ' None Provided '"
                  [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldInvalid('lastName'), 'is-valid': this.isFieldValid('lastName')}"
@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('email'), 'has-feedback': this.isFieldInvalid('email')}">
+        <div class="form-group col">
           <label for="email" class="control-label required">Email</label>
           <input type="text" id="email" readonly formControlName="email" [placeholder]="updateActive ? 'Email' : ' None Provided '"
                  class="form-control-plaintext" required [ngClass]="{'is-invalid': this.isFieldInvalid('firstName'), 'is-valid': this.isFieldValid('firstName')}">
@@ -29,14 +29,14 @@
         </div>
       </div>
       <div class="row">
-        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('dob'), 'has-feedback': this.isFieldInvalid('dob')}">
+        <div class="form-group col">
           <label for="dob" class="control-label required">Date of Birth</label>
           <input type="Date" id="dob" formControlName="dob" [placeholder]="updateActive ? 'Date of Birth' : ' None Provided '"
                  [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldInvalid('dob'), 'is-valid': this.isFieldValid('dob')}"
                  [readonly]="!updateActive" required>
           <div class="invalid-feedback">Date of Birth is required!</div>
         </div>
-        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('sex'), 'has-feedback': this.isFieldInvalid('sex')}">
+        <div class="form-group col">
           <label for="sex" class="control-label required">Gender</label>
           <input type="text" id="sex" formControlName="sex" [placeholder]="updateActive ? 'Sex' : ' None Provided '"
                  [ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldInvalid('sex'), 'is-valid': this.isFieldValid('sex')}"
@@ -47,7 +47,7 @@
       <div class="row">
         <div class="col text-center">
           <button type="button" class="btn btn-default" *ngIf="updateActive" (click)="reset()">Cancel</button>
-          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" *ngIf="updateActive" [disabled]="!form.valid">Submit</button>
+          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" *ngIf="updateActive" [disabled]="!form.valid">Save</button>
           <button type="button" class="btn btn-primary" *ngIf="!updateActive" (click)="toggleUpdate()">Update</button>
         </div>
       </div>

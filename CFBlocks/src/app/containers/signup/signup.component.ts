@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../../../services/login.service';
 import {ValidationService} from '../../../services/validation.service';
 import {UserSession} from '../../../models/user.model';
@@ -10,8 +10,8 @@ declare var $: any;
   selector: 'signup',
   templateUrl: './signup.html'
 })
-export class SignupComponent {
-  constructor(private ls: LoginService, private vs: ValidationService, private router: Router) {}
+export class SignupComponent implements OnInit {
+  constructor(private ls: LoginService, private vs: ValidationService, private router: Router, private fb: FormBuilder) {}
   account: FormGroup = new FormGroup({
     firstName: new FormControl(),
     lastName: new FormControl(),
@@ -20,21 +20,38 @@ export class SignupComponent {
     password: new FormControl(),
     password2: new FormControl()
   });
-  errors = {};
+  errorMessage = '';
   passwordHidden = true;
+  ngOnInit() {
+    this.loadForm();
+  }
+  loadForm() {
+    this.account = this.fb.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      dob: ['', Validators.required],
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      password2: ['', Validators.required]
+    });
+  }
   onSubmit() {
     // TODO
-    this.errors = this.validate(this.account.value);
-    if (Object.keys(this.errors).length === 0) {
+    // this.errors = this.validate(this.account.value);
+    // if (Object.keys(this.errors).length === 0) {
+    this.errorMessage = '';
+    if (this.account.value.password === this.account.value.password2) {
       this.ls.createAccount(this.account.value.username, this.account.value.password, this.account.value.firstName,
         this.account.value.lastName, this.account.value.dob).subscribe((userSession: UserSession) => {
-        this.router.navigate(['/updateAccount']);
+        console.log(userSession);
+        this.router.navigate(['/account']);
         // TODO go to New User Signup Flow
       }, error => {
         console.error(error);
+        this.errorMessage = error.message;
       });
     } else {
-      console.error(this.errors);
+      this.errorMessage = 'Both Password Fields MUST Match!';
     }
   }
   validate(accountSignUp: AccountSignUp): any {
