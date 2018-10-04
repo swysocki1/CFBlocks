@@ -1,0 +1,54 @@
+<form class="form-horizontal needs-validation" role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="card mb-2">
+    <div class="card-header">
+      <h1>{{fieldSetName}}</h1>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="form-group col-6 offset-3">
+          <label for="blockMetric" class="control-label mr-2" [ngClass]="{'required': updateActive}">Metric Type</label>
+          <select type="text" id="blockMetric" formControlName="metric" class="form-control" *ngIf="updateActive"
+                  [ngClass]="{'is-invalid': this.isFieldInvalid('metric'), 'is-valid': this.isFieldValid('metric')}" required>
+            <option value="Zone Block">Zone Block</option>
+            <option value="Percentage">Percentage</option>
+          </select>
+          <span *ngIf="!updateActive">{{user?.blockTemplate?.metric || ' None Provided '}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="form-group col-4">
+          <label for="blockTemplate-carbs" class="control-label mr-2" [ngClass]="{'required': updateActive}">Carbs</label>
+          <input type="number" id="blockTemplate-carbs" formControlName="carbs" [placeholder]="updateActive ? 'Carbs' : ' None Provided '" *ngIf="updateActive"
+                 class="form-control" [ngClass]="{'is-invalid': this.isFieldInvalid('carbs'), 'is-valid': this.isFieldValid('carbs')}"
+                 [readonly]="!updateActive" required>
+          <span *ngIf="!updateActive">{{user?.blockTemplate?.carbs || ' None Provided '}}</span>
+          <div class="invalid-feedback">Amount of Carbs is required!</div>
+        </div>
+        <div class="form-group col-4">
+          <label for="blockTemplate-fats" class="control-label mr-2" [ngClass]="{'required': updateActive}">Fats</label>
+          <input type="number" id="blockTemplate-fats" formControlName="fats" [placeholder]="updateActive ? 'Fats' : ' None Provided '" *ngIf="updateActive"
+                 class="form-control" [ngClass]="{'is-invalid': this.isFieldInvalid('fats'), 'is-valid': this.isFieldValid('fats')}"
+                 [readonly]="!updateActive" required>
+          <span *ngIf="!updateActive">{{user?.blockTemplate?.fats || ' None Provided '}}</span>
+          <div class="invalid-feedback">Amount of Fats is required!</div>
+        </div>
+        <div class="form-group col-4">
+          <label for="blockTemplate-protein" class="control-label mr-2" [ngClass]="{'required': updateActive}">Protein</label>
+          <input type="number" id="blockTemplate-protein" formControlName="protein" [placeholder]="updateActive ? 'Protein' : ' None Provided '" *ngIf="updateActive"
+                 class="form-control" [ngClass]="{'is-invalid': this.isFieldInvalid('protein'), 'is-valid': this.isFieldValid('protein')}"
+                 [readonly]="!updateActive" required>
+          <span *ngIf="!updateActive">{{user?.blockTemplate?.protein || ' None Provided '}}</span>
+          <div class="invalid-feedback">Amount of Protein is required!</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center">
+          <button type="button" class="btn btn-default" *ngIf="updateActive" (click)="reset()">Cancel</button>
+          <button type="button" class="btn btn-default" *ngIf="updateActive && defaultIsNotSet()" (click)="setDefaults()">Set Default</button>
+          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" *ngIf="updateActive" [disabled]="!form.valid">Save</button>
+          <button type="button" class="btn btn-primary" *ngIf="!updateActive" (click)="toggleUpdate()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

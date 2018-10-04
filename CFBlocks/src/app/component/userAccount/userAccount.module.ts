@@ -6,13 +6,15 @@ import {UtilService} from '../../../services/util.service';
 import {UserGeneralInfoComponent} from './generalInfo/generalInfo.component';
 import {UserBodyInfoComponent} from './userBody/userBodyInfo.component';
 import {UserLifeStyleComponent} from './lifestyle/lifestyle.component';
+import {UserBlockTemplateComponent} from './blockTemplate.component.ts/blockTemplate.component';
 
 @NgModule({
   declarations: [
     UserAccountComponent,
     UserGeneralInfoComponent,
     UserBodyInfoComponent,
-    UserLifeStyleComponent
+    UserLifeStyleComponent,
+    UserBlockTemplateComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +25,8 @@ import {UserLifeStyleComponent} from './lifestyle/lifestyle.component';
     UserAccountComponent,
     UserGeneralInfoComponent,
     UserBodyInfoComponent,
-    UserLifeStyleComponent
+    UserLifeStyleComponent,
+    UserBlockTemplateComponent
   ],
   providers: [UtilService]
 })

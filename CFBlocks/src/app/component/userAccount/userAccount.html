@@ -13,6 +13,8 @@
                     (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);"></user-body-info>
     <user-lifestyle [user]="userAccount" [updateActive]="fieldSetActive('Life Style')" [fieldSetName]="'Life Style'"
                     (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);"></user-lifestyle>
+    <user-block-template [user]="userAccount" [updateActive]="fieldSetActive('Meal Template')" [fieldSetName]="'Meal Template'"
+                    (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);"></user-block-template>
     <!--</form>-->
   </div>
 </div>
