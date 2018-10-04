@@ -1,0 +1,40 @@
+<form class="form-horizontal needs-validation" role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="card mb-2">
+    <div class="card-header">
+      <h1>{{fieldSetName}}</h1>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="form-group col-6">
+          <label for="fitnessGoal" class="control-label mr-2">Fitness Goal</label>
+          <select type="text" id="fitnessGoal" formControlName="fitnessGoal" class="form-control" *ngIf="updateActive"
+                  [ngClass]="{'is-invalid': this.isFieldInvalid('fitnessGoal'), 'is-valid': this.isFieldValid('fitnessGoal')}">
+            <option value="Loose Weight">Loose Weight</option>
+            <option value="Maintain / Eat Healthier">Maintain / Eat Healthier</option>
+            <option value="Gain Mass">Gail Mass</option>
+            <option value="Athletic Performance">Athletic Performance</option>
+          </select>
+          <span *ngIf="!updateActive">{{user?.lifeStyle?.fitnessGoal || ' None Provided '}}</span>
+        </div>
+        <div class="form-group col-6">
+          <label for="activityLevel" class="control-label mr-2">Activity Level</label>
+          <select type="text" id="activityLevel" formControlName="activityLevel" class="form-control" *ngIf="updateActive"
+                  [ngClass]="{'is-invalid': this.isFieldInvalid('activityLevel'), 'is-valid': this.isFieldValid('activityLevel')}">
+            <option value="Seated Most of the Day">Seated Most of the Day</option>
+            <option value="Regularly On/Off Feet Throughout the Day">Regularly On/Off Feet Throughout the Day</option>
+            <option value="On Feet and Moving Consistently Moving All Day">On Feet and Moving Consistently Moving All Day</option>
+            <option value="Professional Athlete">Professional Athlete</option>
+          </select>
+          <span *ngIf="!updateActive">{{user?.lifeStyle?.activityLevel || ' None Provided '}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center">
+          <button type="button" class="btn btn-default" *ngIf="updateActive" (click)="reset()">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" *ngIf="updateActive" [disabled]="!form.valid">Save</button>
+          <button type="button" class="btn btn-primary" *ngIf="!updateActive" (click)="toggleUpdate()">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

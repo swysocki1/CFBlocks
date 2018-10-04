@@ -11,6 +11,8 @@
                        (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);"></user-general-info>
     <user-body-info [user]="userAccount" [updateActive]="fieldSetActive('Body Measurments')" [fieldSetName]="'Body Measurments'"
                     (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);"></user-body-info>
+    <user-lifestyle [user]="userAccount" [updateActive]="fieldSetActive('Life Style')" [fieldSetName]="'Life Style'"
+                    (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);"></user-lifestyle>
     <!--</form>-->
   </div>
 </div>

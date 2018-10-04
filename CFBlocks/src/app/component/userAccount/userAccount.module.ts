@@ -5,12 +5,14 @@ import {UserAccountComponent} from './userAccount.component';
 import {UtilService} from '../../../services/util.service';
 import {UserGeneralInfoComponent} from './generalInfo/generalInfo.component';
 import {UserBodyInfoComponent} from './userBody/userBodyInfo.component';
+import {UserLifeStyleComponent} from './lifestyle/lifestyle.component';
 
 @NgModule({
   declarations: [
     UserAccountComponent,
     UserGeneralInfoComponent,
-    UserBodyInfoComponent
+    UserBodyInfoComponent,
+    UserLifeStyleComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +22,8 @@ import {UserBodyInfoComponent} from './userBody/userBodyInfo.component';
   exports: [
     UserAccountComponent,
     UserGeneralInfoComponent,
-    UserBodyInfoComponent
+    UserBodyInfoComponent,
+    UserLifeStyleComponent
   ],
   providers: [UtilService]
 })

@@ -14,11 +14,6 @@ export class UserBodyInfoComponent implements OnInit, OnChanges {
   @Input() fieldSetName: string;
   @Output() toggleUpdateActive = new EventEmitter<string>();
   @Output() updateUser = new EventEmitter<User>();
-
-  displayTimeout = 5000;
-  displaySuccess = false;
-  displayError = false;
-  displayErrorMessage = '';
 // https://loiane.com/2017/08/angular-reactive-forms-trigger-validation-on-submit/
   constructor(private ls: LoginService, private fb: FormBuilder, private vs: ValidationService) {}
   form: FormGroup;

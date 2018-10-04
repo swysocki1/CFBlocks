@@ -40,30 +40,6 @@
           <span *ngIf="!updateActive">{{displayWeight(user?.body?.lbm) || ' None Provided '}}</span>
         </div>
       </div>
-      <!--<div class="row">-->
-        <!--<div class="form-group col">-->
-          <!--<label for="email" class="control-label required">Lean Body Mass</label>-->
-          <!--<input type="text" id="email" readonly formControlName="email" [placeholder]="updateActive ? 'Lean Body Mass' : ' None Provided '"-->
-                 <!--class="form-control-plaintext" required [ngClass]="{'is-invalid': this.isFieldInvalid('firstName'), 'is-valid': this.isFieldValid('firstName')}">-->
-          <!--<div class="invalid-feedback">Email is required!</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="row">-->
-        <!--<div class="form-group col">-->
-          <!--<label for="dob" class="control-label required">Date of Birth</label>-->
-          <!--<input type="Date" id="dob" formControlName="dob" [placeholder]="updateActive ? 'Date of Birth' : ' None Provided '"-->
-                 <!--[ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldInvalid('dob'), 'is-valid': this.isFieldValid('dob')}"-->
-                 <!--[readonly]="!updateActive" required>-->
-          <!--<div class="invalid-feedback">Date of Birth is required!</div>-->
-        <!--</div>-->
-        <!--<div class="form-group col">-->
-          <!--<label for="sex" class="control-label required">Gender</label>-->
-          <!--<input type="text" id="sex" formControlName="sex" [placeholder]="updateActive ? 'Sex' : ' None Provided '"-->
-                 <!--[ngClass]="{'form-control': updateActive, 'form-control-plaintext': !updateActive, 'is-invalid': this.isFieldInvalid('sex'), 'is-valid': this.isFieldValid('sex')}"-->
-                 <!--[readonly]="!updateActive" required>-->
-          <!--<div class="invalid-feedback">Gender is required!</div>-->
-        <!--</div>-->
-      <!--</div>-->
       <div class="row">
         <div class="col text-center">
           <button type="button" class="btn btn-default" *ngIf="updateActive" (click)="reset()">Cancel</button>

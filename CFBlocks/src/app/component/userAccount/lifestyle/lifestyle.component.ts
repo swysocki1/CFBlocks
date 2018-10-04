@@ -1,15 +1,14 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {mergeUser, User, UserSession} from '../../../../models/user.model';
+import {BodyWeight, mergeUser, User, UserSession} from '../../../../models/user.model';
 import {LoginService} from '../../../../services/login.service';
 import {ValidationService} from '../../../../services/validation.service';
-import * as moment from 'moment';
 
 @Component({
-  selector: 'user-general-info',
-  templateUrl: 'generalInfo.html'
+  selector: 'user-lifestyle',
+  templateUrl: 'lifestyle.html'
 })
-export class UserGeneralInfoComponent implements OnInit, OnChanges {
+export class UserLifeStyleComponent implements OnInit, OnChanges {
   @Input() user: User;
   @Input() updateActive: boolean;
   @Input() fieldSetName: string;
@@ -27,11 +26,8 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
       user = {... this.user} as User;
     }
     this.form = this.fb.group({
-      email: [user.email, Validators.required],
-      firstName: [user.firstName, Validators.required],
-      lastName: [user.lastName, Validators.required],
-      dob: [user.dob, Validators.required],
-      sex: [user.sex, Validators.required]
+      fitnessGoal: [user.lifeStyle.fitnessGoal],
+      activityLevel: [user.lifeStyle.activityLevel]
     });
     if (this.user) {
       this.vs.validateAllFormFields(this.form);
@@ -41,10 +37,8 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
     if (this.form.valid) {
       const user: User = new User();
       // user.email = this.form.value.email; // TODO lets not update email YET
-      user.firstName = this.form.value.firstName;
-      user.lastName = this.form.value.lastName;
-      user.dob = this.form.value.dob;
-      user.sex = this.form.value.sex;
+      user.lifeStyle.fitnessGoal= this.form.value.fitnessGoal;
+      user.lifeStyle.activityLevel = this.form.value.activityLevel;
       this.user = mergeUser(this.user, user);
       this.ls.updateUser(this.user).subscribe((userSession: UserSession) => {
         this.updateUser.emit(userSession.user);
@@ -67,13 +61,6 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
   }
   isFieldValid(field: string) {
     return this.vs.isFieldValid(this.form, field);
-  }
-  formatDate(date: Date) {
-    if (date) {
-      return moment(date).format('MMMM DD YYYY');
-    } else {
-      return null;
-    }
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.user && changes.user.currentValue !== changes.user.previousValue) {
