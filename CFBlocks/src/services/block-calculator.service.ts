@@ -1,24 +1,30 @@
 import {Injectable} from "@angular/core";
 import {Food, MealFood} from '../models/meal.module';
+import {User} from '../models/user.model';
 
 @Injectable()
 export class BlockCalculatorService {
-  getBlocks(bmi: number, bodyWeight: number, activityLevel: string, goals: string): number {
-    const lbm = (1 - (bmi / 100)) * bodyWeight;
+  getBlocks(user: User): number {
+    let lbm = user.body.lbm.weight;
+    if (user.body.lbm.metric.toLowerCase() === 'kilograms') {
+      lbm = 2.2 * lbm;
+    }
+    const activityLevel = user.lifeStyle.activityLevel;
+    const goals = user.lifeStyle.fitnessGoal;
     let protein = 0;
-    if(activityLevel === 'Sitting Most of the Day') {
+    if (activityLevel === 'Seated Most of the Day') {
       protein = lbm * .65;
-    } else if(activityLevel === 'Up and Down a Few Times a Day') {
+    } else if (activityLevel === 'Regularly On/Off Feet Throughout the Day') {
       protein = lbm * .7;
-    } else if(activityLevel === 'On Feet most of the Day') {
+    } else if (activityLevel === 'On Feet and Moving Consistently Moving All Day') {
       protein = lbm * .8;
-    } else if(activityLevel === 'Professional Athlete') {
+    } else if (activityLevel === 'Professional Athlete') {
       protein = lbm * .85;
     }
     let blocks = protein / 7;
-    if(goals === 'Lose Weight') {
+    if (goals === 'Lose Weight') {
       blocks = blocks - 1;
-    } else if(goals === 'Gain Mass' || goals === 'Athletic Performance') {
+    } else if (goals === 'Gain Mass' || goals === 'Athletic Performance') {
       blocks = blocks + 1;
     }
     return blocks;
@@ -67,5 +73,33 @@ export class BlockCalculatorService {
   }
   proteinToCals(protein: number) {
     return protein * 4;
+  }
+  dailyCals(user: User) {
+    let lbm = user.body.lbm.weight;
+    if (user.body.lbm.metric.toLowerCase() === 'kilograms') {
+      lbm = 2.2 * lbm;
+    }
+    const activityLevel = user.lifeStyle.activityLevel;
+    const goals = user.lifeStyle.fitnessGoal;
+    let protein = 0;
+    if (activityLevel === 'Seated Most of the Day') {
+      protein = lbm * .65;
+    } else if (activityLevel === 'Regularly On/Off Feet Throughout the Day') {
+      protein = lbm * .7;
+    } else if (activityLevel === 'On Feet and Moving Consistently Moving All Day') {
+      protein = lbm * .8;
+    } else if (activityLevel === 'Professional Athlete') {
+      protein = lbm * .85;
+    }
+    return protein / user.blockTemplate.protein * 100;
+  }
+  dailyCarbs(user: User) {
+    return this.dailyCals(user) / 100 * user.blockTemplate.carbs;
+  }
+  dailyFats(user: User) {
+    return this.dailyCals(user) / 100 * user.blockTemplate.fats;
+  }
+  dailyProtein(user: User) {
+    return this.dailyCals(user) / 100 * user.blockTemplate.protein;
   }
 }

@@ -1,0 +1,20 @@
+<div class="card">
+  <div class="card-body">
+    <div *ngIf="user.blockTemplate.metric === 'Zone Block'">
+      <h5 class="card-title">Here is your Block Perscription: </h5>
+      <p>We recommend to eat {{getBlocks() | number:'1.0-0'}} blocks a day!</p>
+      <p>Each Zone Block will consist of {{user?.blockTemplate?.carbs | number:'1.0-0'}}g Carbs, {{user?.blockTemplate?.fats | number:'1.0-0'}}g Fats, and {{user?.blockTemplate?.protein | number:'1.0-0'}}g Protein.</p>
+      <p>Total Each Day you should eat {{getCarbs() | number:'1.0-0'}}g Carbs, {{getFats() | number:'1.0-0'}}g Fats, and {{getProtein() | number:'1.0-0'}}g Protein.</p>
+    </div>
+    <div *ngIf="user.blockTemplate.metric === 'Percentage'">
+      <h5 class="card-title">Here is your Meal Template Breakdown: </h5>
+      <p>Each Meal will consist of {{user?.blockTemplate?.carbs | number:'1.0-0'}}% Carbs, {{user?.blockTemplate?.fats | number:'1.0-0'}}% Fats, and {{user?.blockTemplate?.protein | number:'1.0-0'}}% Protein.</p>
+      <p>Total Each Day you should eat {{getCarbs() | number:'1.0-0'}}g Carbs, {{getFats() | number:'1.0-0'}}g Fats, and {{getProtein() | number:'1.0-0'}}g Protein.</p>
+    </div>
+    <div class="row">
+      <div class="col center">
+        <button type="button" class="btn btn-primary mt-5" (click)="next()">Let's Create A Meal</button>
+      </div>
+    </div>
+  </div>
+</div>

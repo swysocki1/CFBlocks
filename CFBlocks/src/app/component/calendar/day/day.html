@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col">
       <h5 class="pull-left dayNumber rounded-circle" [ngClass]="{'red-fill' : isSelected}">{{day?.dayOfMonth}}</h5>
-      <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right add-meal pointer"><i class="fa fa-lg fa-fw fa-plus"></i></span>
+      <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right add-meal pointer" (click)="addMeal()"><i class="fa fa-lg fa-fw fa-plus"></i></span>
     </div>
   </div>
   <div class="col pointer meal" *ngFor="let meal of meals | mealSort" (click)="showMeal(meal)"

@@ -9,9 +9,9 @@
           <label for="fitnessGoal" class="control-label mr-2">Fitness Goal</label>
           <select type="text" id="fitnessGoal" formControlName="fitnessGoal" class="form-control" *ngIf="updateActive"
                   [ngClass]="{'is-invalid': this.isFieldInvalid('fitnessGoal'), 'is-valid': this.isFieldValid('fitnessGoal')}">
-            <option value="Loose Weight">Loose Weight</option>
+            <option value="Lose Weight">Lose Weight</option>
             <option value="Maintain / Eat Healthier">Maintain / Eat Healthier</option>
-            <option value="Gain Mass">Gail Mass</option>
+            <option value="Gain Mass">Gain Mass</option>
             <option value="Athletic Performance">Athletic Performance</option>
           </select>
           <span *ngIf="!updateActive">{{user?.lifeStyle?.fitnessGoal || ' None Provided '}}</span>

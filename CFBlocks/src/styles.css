@@ -37,6 +37,11 @@ i.fa.active {
 }
 
 /* Helper CSS */
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 /*.align-middle {*/
   /*position: absolute;*/
   /*top: 50%;*/

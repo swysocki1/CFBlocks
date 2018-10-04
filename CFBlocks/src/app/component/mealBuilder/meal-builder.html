@@ -1,22 +1,24 @@
 <div class="card meal-builder">
   <div class="card-body">
     <div class="row">
+      <div class="col">
+        <h1>{{user?.firstName}}'s Meals - {{mealDay | date:'MMMM d'}}</h1>
+      </div>
+    </div>
+    <div class="row">
       <div class="col-6 meal-container">
         <div class="row meal-totals">
-          <div class="col">
-            <h2>Meal Totals</h2>
-          </div>
-          <div class="col">
-            <label class="control-label">Carbs: </label>&nbsp;{{getMealCarbTotal()}}g
-          </div>
-          <div class="col">
-            <label class="control-label">Fats: </label>&nbsp;{{getMealFatTotal()}}g
-          </div>
-          <div class="col">
-            <label class="control-label">Protein: </label>&nbsp;{{getMealProteinTotal()}}g
-          </div>
-          <div class="col">
-            <label class="control-label">Calories: </label>&nbsp;{{getMealCalorieTotal()}}
+          <div class="col text-center">
+            <label class="control-label"><b>Carbs:</b></label><span class="mr-2">&nbsp;{{(getMealCarbTotal() | number:'1.0-1') + 'g / ' + (getDailyCarbTotal() | number:'1.0-1') + 'g'}}</span>
+          <!--</div>-->
+          <!--<div class="col">-->
+            <label class="control-label"><b>Fats:</b></label><span class="mr-2">&nbsp;{{(getMealFatTotal() | number:'1.0-1') + 'g / ' + (getDailyFatTotal() | number:'1.0-1') + 'g'}}</span>
+          <!--</div>-->
+          <!--<div class="col">-->
+            <label class="control-label"><b>Protein:</b></label><span class="mr-2">&nbsp;{{(getMealProteinTotal() | number:'1.0-1') + 'g / ' + (getDailyProteinTotal() | number:'1.0-1') + 'g'}}</span>
+          <!--</div>-->
+          <!--<div class="col">-->
+            <label class="control-label"><b>Calories:</b></label><span class="mr-2">&nbsp;{{(getMealCalorieTotal() | number:'1.0-1') + 'cals / ' + (getDailyCalorieTotal() | number:'1.0-1') + 'cals'}}</span>
           </div>
         </div>
         <div class="row meals">

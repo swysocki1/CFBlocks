@@ -1,17 +1,19 @@
 import {NgModule} from '@angular/core';
 import {BlockCalculatorComponent} from './block-calculator.component';
-import {BlockCalculatorResultsComponent} from './cards/block-calculator-results.component';
+import {BlockCalculatorResultsComponent} from './cards/results/block-calculator-results.component';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BlockCalculatorCardComponent} from './cards/block-calculator-card.component';
 import {BlockCalculatorService} from '../../../services/block-calculator.service';
 import {UserAccountModule} from '../../component/userAccount/userAccount.module';
+import {LetsGetStartedComponent} from './cards/getStarted/getStarted.component';
 
 @NgModule({
   declarations: [
     BlockCalculatorComponent,
     BlockCalculatorResultsComponent,
-    BlockCalculatorCardComponent
+    BlockCalculatorCardComponent,
+    LetsGetStartedComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -22,7 +24,8 @@ import {UserAccountModule} from '../../component/userAccount/userAccount.module'
   exports: [
     BlockCalculatorComponent,
     BlockCalculatorResultsComponent,
-    BlockCalculatorCardComponent
+    BlockCalculatorCardComponent,
+    LetsGetStartedComponent
   ],
   providers: [BlockCalculatorService]
 })

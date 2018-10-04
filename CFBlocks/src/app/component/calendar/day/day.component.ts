@@ -3,6 +3,8 @@ import {CalendarDay} from '../calendar.model';
 import {Meal} from '../../../../models/meal.module';
 import {MealService} from '../../../../services/meal.service';
 import {ValidationService} from '../../../../services/validation.service';
+import {Router} from '@angular/router';
+import * as moment from 'moment';
 @Pipe({
   name: 'mealSort'
 })
@@ -50,8 +52,10 @@ export class DayComponent {
   @Input() meals: [Meal];
   @Input() isSelected: boolean;
 
-  constructor(private mealService: MealService) { }
-
+  constructor(private mealService: MealService, private router: Router) { }
+  addMeal() {
+    this.router.navigate(['/meal-builder', moment(this.day.date).format('MMDDYYYY')]);
+  }
   showMeal() { }
   getMealDisplay(meal: Meal) {
     return this.formatName(this.mealService.getMealDisplay(meal));

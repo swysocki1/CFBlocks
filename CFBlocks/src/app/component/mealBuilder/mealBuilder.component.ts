@@ -3,7 +3,12 @@ import {Food, Meal, MealFood} from '../../../models/meal.module';
 import {ValidationService} from '../../../services/validation.service';
 import {FirebaseService} from '../../../services/firebase.service';
 import {BlockCalculatorService} from '../../../services/block-calculator.service';
+import {map, switchMap} from 'rxjs/operators';
+import {ActivatedRoute, ParamMap, Route} from '@angular/router';
 declare var $: any;
+import * as moment from 'moment';
+import {User} from '../../../models/user.model';
+import {LoginService} from '../../../services/login.service';
 
 @Pipe({
   name: 'foodFilter'
@@ -43,13 +48,27 @@ export class FoodFilterPipe implements PipeTransform {
   `]
 })
 export class MealBuilderComponent implements OnInit {
+  user: User;
   @Input() meal: Meal = new Meal();
   @Output() mealUpdated: Meal;
   foods: [Food] = [] as [Food];
   search: string;
   updateFood: Food;
-  constructor(private fs: FirebaseService, private bc: BlockCalculatorService) { }
+  mealDay: Date = new Date();
+  constructor(private fs: FirebaseService, private bc: BlockCalculatorService, private route: ActivatedRoute, private ls: LoginService) { }
   ngOnInit() {
+    this.user = this.ls.getUser();
+    this.ls.getUserUpdates.subscribe(user => {
+      this.user = user;
+    });
+    this.route.paramMap.pipe(
+      map((params: ParamMap) =>
+        moment(params.get('date'), 'MMDDYYYY').toDate())
+    ).subscribe(date => {
+      this.mealDay = date;
+    }, error => {
+      console.error(error);
+    });
     this.fs.getAllFoods().subscribe(foods => {
       this.foods = foods as [Food];
     });
@@ -103,6 +122,18 @@ export class MealBuilderComponent implements OnInit {
       total += this.bc.calcCalories(food);
     });
     return total;
+  }
+  getDailyCarbTotal() {
+    return this.bc.dailyCarbs(this.user);
+  }
+  getDailyFatTotal() {
+    return this.bc.dailyFats(this.user);
+  }
+  getDailyProteinTotal() {
+    return this.bc.dailyProtein(this.user);
+  }
+  getDailyCalorieTotal() {
+    return this.bc.dailyCals(this.user);
   }
 }
 

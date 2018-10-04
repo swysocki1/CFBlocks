@@ -9,11 +9,6 @@ import {LoginService} from '../../../services/login.service';
     .block-calculator {
       min-height: 70vh;
     }
-    .center {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
     .block-calc-footer {
       margin-top: -3px;
     }
@@ -33,14 +28,14 @@ export class BlockCalculatorComponent implements OnInit {
 
   constructor(private blockCalculatorService: BlockCalculatorService, private ls: LoginService) { }
   ngOnInit() {
-    this.updateUser(this.ls.getUser() as User);
+    this.userAccount = this.ls.getUser() as User;
     this.ls.getUserUpdates.subscribe(update => {
-      this.updateUser(update);
+      this.userAccount = update;
     });
   }
   updateUser(user: User) {
+    console.log(user);
     this.userAccount = user;
-    this.fieldSet = null;
     this.nextCard();
   }
   toggleFieldSet(fieldSet: string) {
@@ -59,11 +54,9 @@ export class BlockCalculatorComponent implements OnInit {
   }
   nextCard(): void {
     this.blockCalculatorPage += 1;
-    this.toggleFieldSet(this.fieldSets[this.blockCalculatorPage]);
   }
   backCard(): void {
     this.blockCalculatorPage -= 1;
-    this.toggleFieldSet(this.fieldSets[this.blockCalculatorPage]);
   }
 
   disableBackBtn(): boolean {

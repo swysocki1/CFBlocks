@@ -17,6 +17,6 @@ export const routes: Routes = [
   { path: 'account', component: UserAccountComponent},
   { path: 'block-calculator', component: BlockCalculatorComponent },
   { path: 'meal-calendar', component: MealCalendarComponent },
-  { path: 'meal-builder', component: MealBuilderComponent },
+  { path: 'meal-builder/:date', component: MealBuilderComponent },
   { path: '**', redirectTo: '/home' }
 ];
