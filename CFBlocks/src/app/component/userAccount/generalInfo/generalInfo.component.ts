@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {mergeUser, User, UserSession} from '../../../../models/user.model';
 import {LoginService} from '../../../../services/login.service';
 import {ValidationService} from '../../../../services/validation.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'user-general-info',
@@ -71,6 +72,13 @@ export class UserGeneralInfoComponent implements OnInit, OnChanges {
   }
   isFieldValid(field: string) {
     return this.vs.isFieldValid(this.form, field);
+  }
+  formatDate(date: Date) {
+    if (date) {
+      return moment(date).format('MMMM DD YYYY');
+    } else {
+      return null;
+    }
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.user && changes.user.currentValue !== changes.user.previousValue) {
