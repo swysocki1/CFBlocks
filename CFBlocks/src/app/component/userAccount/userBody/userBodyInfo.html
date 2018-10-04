@@ -1,5 +1,5 @@
 <form class="form-horizontal needs-validation" role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="card mb-2">
+  <div class="card">
     <div class="card-header">
       <h1>{{fieldSetName}}</h1>
     </div>
@@ -42,7 +42,7 @@
       </div>
       <div class="row">
         <div class="col text-center">
-          <button type="button" class="btn btn-default" *ngIf="updateActive" (click)="reset()">Cancel</button>
+          <button type="button" class="btn btn-default" *ngIf="updateActive && enableCancel" (click)="reset()">Cancel</button>
           <button type="submit" class="btn btn-primary" style="margin-left: 15px;" *ngIf="updateActive" [disabled]="!form.valid">Save</button>
           <button type="button" class="btn btn-primary" *ngIf="!updateActive" (click)="toggleUpdate()">Update</button>
         </div>

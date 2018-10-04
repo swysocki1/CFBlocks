@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from '../../../models/user.model';
 import {UtilService} from '../../../services/util.service';
 import {LoginService} from '../../../services/login.service';
@@ -7,11 +7,12 @@ import {LoginService} from '../../../services/login.service';
   selector: 'user-account',
   templateUrl: 'userAccount.html'
 })
-export class UserAccountComponent {
+export class UserAccountComponent implements OnInit {
   userAccount: User;
   fieldSet;
 
-  constructor(private util: UtilService, private ls: LoginService) {
+  constructor(private util: UtilService, private ls: LoginService) { }
+  ngOnInit() {
     this.updateUser(this.ls.getUser() as User);
     this.ls.getUserUpdates.subscribe(update => {
       this.updateUser(update);

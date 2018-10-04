@@ -1,12 +1,7 @@
-import {Component, OnInit} from "@angular/core";
-import {
-  BlockCalculatorAnswers,
-  BlockCalculatorCard,
-  OptionInput,
-  SelectInput,
-  TextInput
-} from "./block-calculator.model";
-import {BlockCalculatorService} from "../../../services/block-calculator.service";
+import {Component, OnInit} from '@angular/core';
+import {BlockCalculatorService} from '../../../services/block-calculator.service';
+import {User} from '../../../models/user.model';
+import {LoginService} from '../../../services/login.service';
 
 @Component({
   templateUrl: './block-calculator.html',
@@ -14,176 +9,71 @@ import {BlockCalculatorService} from "../../../services/block-calculator.service
     .block-calculator {
       min-height: 70vh;
     }
+    .center {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .block-calc-footer {
+      margin-top: -3px;
+    }
+    .block-calc-footer .card-body{
+      padding: 5px 0;
+    }
+    .block-calc-footer .card-body i.fa {
+      opacity: .3;
+    }
   `]
 })
 export class BlockCalculatorComponent implements OnInit {
-  
-  blockCalculatorAnswers: BlockCalculatorAnswers = new BlockCalculatorAnswers();
-  
-  blockCalculatorPage = 1;
-  
-  blockCalculatorCards: [BlockCalculatorCard] = [] as [BlockCalculatorCard];
-  
-   constructor(private blockCalculatorService: BlockCalculatorService) {}
-  
+  blockCalculatorPage = 0;
+  userAccount: User;
+  fieldSet;
+  fieldSets = ['Let\'s Get Started', 'General Info', 'Body Measurements', 'Life Style', 'Meal Template', 'Results'];
+
+  constructor(private blockCalculatorService: BlockCalculatorService, private ls: LoginService) { }
   ngOnInit() {
-    this.buildAllCards();
-  }
-  
-  buildAllCards() {
-    this.clearAllCards();
-    this.addIntroCard();
-    this.addBodyFatCard();
-    this.addBodyWeightCard();
-    this.addActivityLevelCard();
-    this.addGoalsCard();
-  }
-  
-  addIntroCard(order?: number) {
-    let card = new BlockCalculatorCard();
-    card.imgAlt = '';
-    card.imgSrc = '';
-    card.title = 'Let\'s Get Started';
-    card.paragraph = 'Answer the following questions to get your customized Zone Block Prescription.';
-    if(!order)
-      order = this.blockCalculatorCards.length + 1;
-    card.order = order;
-    this.incrementCardOrderIfOrderExists(order);
-    this.blockCalculatorCards.push(card);
-  }
-  
-  addBodyFatCard(order?: number) {
-    let card = new BlockCalculatorCard();
-    card.imgAlt = '';
-    card.imgSrc = '';
-    card.title = 'Body Mass Index';
-    let input = new TextInput();
-    input.label = 'What is your BMI';
-    input.postLabel = '%';
-    input.type = 'number';
-    card.input = input;
-    card.paragraph = 'Here is some additional resources on how to calculate your BMI.';
-    if(!order)
-      order = this.blockCalculatorCards.length + 1;
-    card.order = order;
-    this.incrementCardOrderIfOrderExists(order);
-    this.blockCalculatorCards.push(card);
-  }
-  
-  addBodyWeightCard(order?: number) {
-    let card = new BlockCalculatorCard();
-    card.imgAlt = '';
-    card.imgSrc = '';
-    card.title = 'Body Weight';
-    let input = new TextInput();
-    input.label = 'What is your Body Weight in Pounds';
-    input.postLabel = 'lbs';
-    input.type = 'number';
-    card.input = input;
-    card.paragraph = 'Here is some additional resources on how to calculate your BMI.';
-    if(!order)
-      order = this.blockCalculatorCards.length + 1;
-    card.order = order;
-    this.incrementCardOrderIfOrderExists(order);
-    this.blockCalculatorCards.push(card);
-  }
-  
-  addActivityLevelCard(order?: number) {
-    let card = new BlockCalculatorCard();
-    card.imgAlt = '';
-    card.imgSrc = '';
-    card.title = 'Activity Level';
-    let select = new SelectInput();
-    select.options = [] as [OptionInput];
-    ['Sitting Most of the Day', 'Up and Down a Few Times a Day', 'On Feet most of the Day', 'Professional Athlete'].forEach(opt => {
-      let option = new OptionInput();
-      option.label = opt;
-      option.value = opt;
-      select.options.push(option);
+    this.updateUser(this.ls.getUser() as User);
+    this.ls.getUserUpdates.subscribe(update => {
+      this.updateUser(update);
     });
-    select.label = 'How active on average are you through out the day';
-    card.select = select;
-    card.paragraph = 'Here is some additional resources on how to calculate your BMI.';
-    if(!order)
-      order = this.blockCalculatorCards.length + 1;
-    card.order = order;
-    this.incrementCardOrderIfOrderExists(order);
-    this.blockCalculatorCards.push(card);
   }
-  
-  addGoalsCard(order?: number) {
-    let card = new BlockCalculatorCard();
-    card.imgAlt = '';
-    card.imgSrc = '';
-    card.title = 'Nutrition Goals';
-    let select = new SelectInput();
-    select.options = [] as [OptionInput];
-    ['Lose Weight', 'Gain Mass', 'Eat Healthier', 'Athletic Performance', 'Baseline'].forEach(opt => {
-      let option = new OptionInput();
-      option.label = opt;
-      option.value = opt;
-      select.options.push(option);
-    });
-    select.label = 'What is your main nutritional goal';
-    card.select = select;
-    card.paragraph = 'Here is some additional resources.';
-    if(!order)
-      order = this.blockCalculatorCards.length + 1;
-    card.order = order;
-    this.incrementCardOrderIfOrderExists(order);
-    this.blockCalculatorCards.push(card);
+  updateUser(user: User) {
+    this.userAccount = user;
+    this.fieldSet = null;
+    this.nextCard();
   }
-  
-  clearAllCards() {
-    this.blockCalculatorCards = [] as [BlockCalculatorCard];
-    this.blockCalculatorAnswers = new BlockCalculatorAnswers();
-  }
-  
-  incrementCardOrderIfOrderExists(order: number) {
-    if(this.blockCalculatorCards.some(c => c.order === order)) {
-      this.blockCalculatorCards.filter(c => c.order >= order).forEach(c => {
-        c.order += 1;
-      });
+  toggleFieldSet(fieldSet: string) {
+    if (this.fieldSet && this.fieldSet === fieldSet) {
+      this.fieldSet = null;
+    } else {
+      this.fieldSet = fieldSet;
     }
   }
-  
-  updateResult(tab:number, value:any) {
-    const card = this.blockCalculatorCards.find(c => c.order === tab);
-    if(card) {
-      if(card.title === 'Body Mass Index') {
-        this.blockCalculatorAnswers.percentBodyFat = value;
-      } else if(card.title === 'Body Weight') {
-        this.blockCalculatorAnswers.bodyWeight = value;
-      } else if(card.title === 'Activity Level') {
-        this.blockCalculatorAnswers.activityLevel = value;
-      } else if(card.title === 'Nutrition Goals') {
-        this.blockCalculatorAnswers.goals = value;
-      }
-      this.nextCard();
-      this.calculateResults();
+  fieldSetActive(fieldSet: string) {
+    if (this.fieldSet) {
+      return this.fieldSet === fieldSet;
+    } else {
+      return false;
     }
   }
-  
-  calculateResults() {
-    if(this.blockCalculatorAnswers && this.blockCalculatorAnswers.percentBodyFat && this.blockCalculatorAnswers.bodyWeight &&
-      this.blockCalculatorAnswers.activityLevel && this.blockCalculatorAnswers.goals) {
-      this.blockCalculatorAnswers.result.blocks = this.blockCalculatorService.
-      getBlocks(this.blockCalculatorAnswers.percentBodyFat, this.blockCalculatorAnswers.bodyWeight,
-        this.blockCalculatorAnswers.activityLevel, this.blockCalculatorAnswers.goals);
-    }
-  }
-  
   nextCard(): void {
     this.blockCalculatorPage += 1;
+    this.toggleFieldSet(this.fieldSets[this.blockCalculatorPage]);
   }
   backCard(): void {
     this.blockCalculatorPage -= 1;
+    this.toggleFieldSet(this.fieldSets[this.blockCalculatorPage]);
   }
-  
+
   disableBackBtn(): boolean {
-    return this.blockCalculatorPage <= 1;
+    return this.blockCalculatorPage < 1;
   }
   disableNextBtn(): boolean {
-    return false; //TODO more logic
+    if (this.blockCalculatorPage >= this.fieldSets.length - 1) {
+      return true;
+    } else {
+      return false; // TODO more logic
+    }
   }
 }

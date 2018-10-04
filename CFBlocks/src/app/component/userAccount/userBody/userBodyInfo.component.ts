@@ -12,6 +12,7 @@ export class UserBodyInfoComponent implements OnInit, OnChanges {
   @Input() user: User;
   @Input() updateActive: boolean;
   @Input() fieldSetName: string;
+  @Input() enableCancel: boolean;
   @Output() toggleUpdateActive = new EventEmitter<string>();
   @Output() updateUser = new EventEmitter<User>();
 // https://loiane.com/2017/08/angular-reactive-forms-trigger-validation-on-submit/

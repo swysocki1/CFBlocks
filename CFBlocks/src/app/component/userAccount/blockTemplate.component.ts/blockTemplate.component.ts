@@ -3,7 +3,6 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {mergeUser, User, UserSession} from '../../../../models/user.model';
 import {LoginService} from '../../../../services/login.service';
 import {ValidationService} from '../../../../services/validation.service';
-import * as moment from 'moment';
 
 @Component({
   selector: 'user-block-template',
@@ -13,6 +12,7 @@ export class UserBlockTemplateComponent implements OnInit, OnChanges {
   @Input() user: User;
   @Input() updateActive: boolean;
   @Input() fieldSetName: string;
+  @Input() enableCancel: boolean;
   @Output() toggleUpdateActive = new EventEmitter<string>();
   @Output() updateUser = new EventEmitter<User>();
 // https://loiane.com/2017/08/angular-reactive-forms-trigger-validation-on-submit/

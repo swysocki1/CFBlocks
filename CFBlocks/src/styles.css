@@ -37,21 +37,21 @@ i.fa.active {
 }
 
 /* Helper CSS */
-.align-middle {
-  position: absolute;
-  top: 50%;
-}
-.align-middle-left {
-  position: absolute;
-  top: 50%;
-  left:0;
-}
-.align-middle-right {
-  position: absolute;
-  top: 50%;
-  right:0;
-}
-.pointer:hover {
-  cursor: pointer;
-}
+/*.align-middle {*/
+  /*position: absolute;*/
+  /*top: 50%;*/
+/*}*/
+/*.align-middle-left {*/
+  /*position: absolute;*/
+  /*top: 50%;*/
+  /*left:0;*/
+/*}*/
+/*.align-middle-right {*/
+  /*position: absolute;*/
+  /*top: 50%;*/
+  /*right:0;*/
+/*}*/
+/*.pointer:hover {*/
+  /*cursor: pointer;*/
+/*}*/
 

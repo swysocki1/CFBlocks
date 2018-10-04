@@ -1,19 +1,36 @@
 <div class="col-md-12">
   <div class="row block-calculator">
-    <div class="col-md-1 offset-2">
+    <div class="col-md-1 offset-2 center">
       <button type="button" class="btn btn-primary pull-right align-middle-right" (click)="backCard()" [disabled]="disableBackBtn()">Back</button>
     </div>
-    <div class="col-md-6">
-      <div class="card" style="height: 100%;">
-        <div [ngSwitch]="blockCalculatorPage" *ngIf="blockCalculatorPage <= blockCalculatorCards.length">
-          <span *ngFor="let card of blockCalculatorCards;let i = index">
-            <block-calculator-card *ngSwitchCase="i+1" [imgSrc]="card.imgSrc" [imgAlt]="card.imgAlt" [title]="card.title" [paragraph]="card.paragraph" [input]="card.input" [select]="card.select" (result)="updateResult(i+1,$event)"></block-calculator-card>
-            </span>
+    <div class="col-md-6 center">
+      <!--<div class="card" style="height: 100%;">-->
+        <!--<div [ngSwitch]="blockCalculatorPage" *ngIf="blockCalculatorPage <= blockCalculatorCards.length">-->
+          <!--<span *ngFor="let card of blockCalculatorCards;let i = index">-->
+            <!--<block-calculator-card *ngSwitchCase="i+1" [imgSrc]="card.imgSrc" [imgAlt]="card.imgAlt" [title]="card.title" [paragraph]="card.paragraph" [input]="card.input" [select]="card.select" (result)="updateResult(i+1,$event)"></block-calculator-card>-->
+            <!--</span>-->
+        <!--</div>-->
+        <!--<block-calculator-results *ngIf="blockCalculatorPage > blockCalculatorCards.length" [results]="blockCalculatorAnswers"></block-calculator-results>-->
+      <!--</div>-->
+      <div [ngSwitch]="fieldSets[blockCalculatorPage]">
+        <user-general-info [user]="userAccount" [updateActive]="fieldSetActive(fieldSets[0])" [fieldSetName]="fieldSets[0]" *ngSwitchCase="fieldSets[0]"
+                           (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);" [enableCancel]="false"></user-general-info>
+        <user-body-info [user]="userAccount" [updateActive]="fieldSetActive(fieldSets[1])" [fieldSetName]="fieldSets[1]" *ngSwitchCase="fieldSets[1]"
+                        (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);" [enableCancel]="false"></user-body-info>
+        <user-lifestyle [user]="userAccount" [updateActive]="fieldSetActive(fieldSets[2])" [fieldSetName]="fieldSets[2]" *ngSwitchCase="fieldSets[2]"
+                        (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);" [enableCancel]="false"></user-lifestyle>
+        <user-block-template [user]="userAccount" [updateActive]="fieldSetActive(fieldSets[3])" [fieldSetName]="fieldSets[3]" *ngSwitchCase="fieldSets[3]"
+                             (toggleUpdateActive)="toggleFieldSet($event);" (updateUser)="updateUser($event);" [enableCancel]="false"></user-block-template>
+      </div>
+      <div class="text-center block-calc-footer">
+        <div class="card">
+          <div class="card-body">
+            <i class="fa fa-circle fa-fw" *ngFor="let fs of fieldSets; let i = index;" [ngClass]="{'fa-sm grey3': i != blockCalculatorPage, 'fa-lg coal': i == blockCalculatorPage}"></i>
+          </div>
         </div>
-        <block-calculator-results *ngIf="blockCalculatorPage > blockCalculatorCards.length" [results]="blockCalculatorAnswers"></block-calculator-results>
       </div>
     </div>
-    <div class="col-md-1">
+    <div class="col-md-1 center">
       <button type="button" class="btn btn-primary pull-left align-middle-left" (click)="nextCard()" [disabled]="disableNextBtn()">Next</button>
     </div>
   </div>
