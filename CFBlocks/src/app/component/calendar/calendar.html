@@ -1,15 +1,31 @@
 <div class="row">
   <div class="col-8">
     <h1>
-      <b>{{name}}'s Plan : {{month.name}} {{month.year}}</b>
+      <b>{{name}}'s Plan :
+        <span class="dropdown-toggle" id="calendar-date-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{selectedDate | dateFormat: 'MMMM Do'}}</span>
+        <div id="calendar-date-dropdown-menu" class="dropdown-menu" aria-labelledby="calendar-date-dropdown"></div>
+      <!--<span id="calendar-date-input" data-bind="text: dateLabel, click: function() { $('#current-date').datepicker('show'); }">Thu, Oct 4</span>-->
+      <!--<span id="calendar-date-input-trigger" class="carat" data-bind="click: function() { $('#current-date').datepicker('show'); }"></span>-->
+      </b>
     </h1>
   </div>
   <div class="col-4">
     <button type="button" class="btn btn-primary pull-right mr-1" [ngClass]="{'btn-primary': todayIsSelected(), 'btn-default': !todayIsSelected()}" (click)="toggleToday()">Today</button>
     <div class="btn-group pull-right mr-1">
-      <button type="button" class="btn btn-primary" (click)="goBackMonth()"><</button>
-      <button type="button" class="btn btn-primary" (click)="goNextMonth()">></button>
+      <button type="button" class="btn btn-primary" (click)="goBackMonth()"><i class="fa fa-fw fa-lg fa-chevron-left"></i></button>
+      <button type="button" class="btn btn-primary" (click)="goNextMonth()"><i class="fa fa-fw fa-lg fa-chevron-right"></i></button>
     </div>
+    <span class="dropdown pull-right mr-1">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="calendar-type-drodown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{view}}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="calendar-type-drodown">
+        <a class="dropdown-item pointer" [ngClass]="{'active': isCurrentView('Monthly')}" (click)="loadView('Monthly')">Monthly</a>
+        <a class="dropdown-item pointer" [ngClass]="{'active': isCurrentView('Bi-Weekly')}" (click)="loadView('Bi-Weekly')">Bi-Weekly</a>
+        <a class="dropdown-item pointer" [ngClass]="{'active': isCurrentView('Weekly')}" (click)="loadView('Weekly')">Weekly</a>
+        <a class="dropdown-item pointer" [ngClass]="{'active': isCurrentView('Day')}" (click)="loadView('Day')">Day</a>
+      </div>
+    </span>
   </div>
 </div>
 <div class="table-responsive">
@@ -22,7 +38,7 @@
     <tbody>
     <tr *ngFor="let week of month.weeks;">
       <td *ngFor="let day of week.days" [ngClass]="{'snow-4-fill': !day.isThisMonth, 'snow-2-fill': day.isThisMonth}" style="overflow: hidden;">
-        <calendar-day [day]="day" [meals]="getMeal(day)" [isSelected]="isSameDay(selectedDate, day.date)"></calendar-day>
+        <calendar-day [day]="day" [meals]="getMeal(day)" [isSelected]="isSameDay(selectedDate, day.date)" [view]="view"></calendar-day>
       </td>
     </tr>
     </tbody>

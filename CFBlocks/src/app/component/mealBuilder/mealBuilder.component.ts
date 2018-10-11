@@ -63,7 +63,7 @@ export class MealBuilderComponent implements OnInit {
     });
     this.route.paramMap.pipe(
       map((params: ParamMap) =>
-        moment(params.get('date'), 'MMDDYYYY').toDate())
+        moment(params.get('date'), 'MMDDYY').toDate())
     ).subscribe(date => {
       this.mealDay = date;
     }, error => {

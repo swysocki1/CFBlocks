@@ -29,8 +29,9 @@
   margin-left: 5px;
   top:-2px;
 }
-.btn, .btn:hover, .btn:focus {
-  box-shadow: none;
+.btn, .btn:hover, .btn:focus, .btn:active {
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 /*Footer*/

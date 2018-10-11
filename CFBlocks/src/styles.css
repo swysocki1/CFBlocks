@@ -56,7 +56,7 @@ i.fa.active {
   /*top: 50%;*/
   /*right:0;*/
 /*}*/
-/*.pointer:hover {*/
-  /*cursor: pointer;*/
-/*}*/
+.pointer:hover {
+  cursor: pointer;
+}
 

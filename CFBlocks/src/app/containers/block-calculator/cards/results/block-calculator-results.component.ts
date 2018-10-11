@@ -28,6 +28,6 @@ export class BlockCalculatorResultsComponent {
     return this.blockCalculatorService.dailyProtein(this.user);
   }
   next() {
-    this.router.navigate(['/meal-builder', moment().format('MMDDYYYY')]);
+    this.router.navigate(['/meal-builder', moment().format('MMDDYY')]);
   }
 }

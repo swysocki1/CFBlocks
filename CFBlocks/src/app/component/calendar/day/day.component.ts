@@ -35,6 +35,7 @@ export class MealSortPipe implements PipeTransform {
     .day.is-selected .dayNumber{
       padding: 5px;
       color: #fff;
+      min-width: 2pc;
     }
     .breakfast, .lunch, .dinner, .snack { }
     .add-meal {
@@ -51,6 +52,7 @@ export class DayComponent {
   @Input() day: CalendarDay;
   @Input() meals: [Meal];
   @Input() isSelected: boolean;
+  @Input() view: string;
 
   constructor(private mealService: MealService, private router: Router) { }
   addMeal() {
@@ -79,6 +81,13 @@ export class DayComponent {
       return name.trim();
     } else {
       return name;
+    }
+  }
+  validMonth(isValid: boolean): boolean {
+    if (this.view === 'Monthly') {
+      return isValid;
+    } else {
+      return true;
     }
   }
 }
