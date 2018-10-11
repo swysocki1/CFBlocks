@@ -5,18 +5,7 @@ import {MealService} from '../../../../services/meal.service';
 import {ValidationService} from '../../../../services/validation.service';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
-@Pipe({
-  name: 'mealSort'
-})
-export class MealSortPipe implements PipeTransform {
-  constructor(private vs: ValidationService) {}
-  transform(items: [Meal]): [Meal] {
-    if (!items) {
-      return items;
-    }
-    return items.sort((m1, m2) => this.vs.compareMeals(m1, m2)) as [Meal];
-  }
-}
+
 @Component({
   selector: 'calendar-day',
   templateUrl: './day.html',
@@ -56,7 +45,7 @@ export class DayComponent {
 
   constructor(private mealService: MealService, private router: Router) { }
   addMeal() {
-    this.router.navigate(['/meal-builder', moment(this.day.date).format('MMDDYYYY')]);
+    this.router.navigate(['/meal-builder', moment(this.day.date).format('MMDDYY')]);
   }
   showMeal() { }
   getMealDisplay(meal: Meal) {

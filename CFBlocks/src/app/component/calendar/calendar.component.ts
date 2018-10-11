@@ -5,14 +5,8 @@ import * as moment from 'moment';
 declare var $: any;
 import {Meal, MealCalendar} from '../../../models/meal.module';
 import {MealService} from '../../../services/meal.service';
+import {Router} from '@angular/router';
 
-
-@Pipe({ name: 'dateFormat' })
-export class MomentPipe implements PipeTransform {
-  transform(value: Date | moment.Moment, dateFormat: string): any {
-    return moment(value).format(dateFormat);
-  }
-}
 @Component({
   selector: 'calendar',
   templateUrl: './calendar.html',
@@ -43,14 +37,12 @@ export class CalendarComponent implements OnInit {
   selectedDate: Date;
   mealCalendar: [MealCalendar];
   view = 'Monthly';
-  constructor(private cs: CalendarService, private mealService: MealService) { }
+  constructor(private cs: CalendarService, private mealService: MealService, private router: Router) { }
   ngOnInit() {
     this.daysOfWeek = this.cs.getDaysOfWeek();
     this.monthsOfYear = this.cs.getMonthsOfYear();
     this.selectDate(moment(new Date()).startOf('day').toDate());
-    $('#calendar-date-dropdown-menu').datepicker({startDate: this.selectedDate});
-    $('#calendar-date-dropdown-menu').datepicker().on('changeDate', (event) => {
-      console.log(`event: ${event}`);
+    $('#calendar-date-dropdown-menu').datepicker({startDate: this.selectedDate}).on('changeDate', (event) => {
       this.selectDate(event.date);
     });
     // this.month = this.cs.getMonth(moment(this.selectedDate).year(), moment(this.selectedDate).month());
@@ -141,7 +133,6 @@ export class CalendarComponent implements OnInit {
         this.mealCalendar = mealCalendar;
       });
     } else {
-      console.log(this.month);
       this.month.weeks.forEach(week => {
         week.days.forEach(day => {
           if (moment(day.date).isBefore(moment(start)) || start === undefined) {
@@ -170,8 +161,8 @@ export class CalendarComponent implements OnInit {
       this.goToBiWeekly(this.selectedDate);
     } else if (!this.view || this.view === 'Monthly') {
       this.goToMonth(this.selectedDate);
-    } else {
-      this.goToMonth(this.selectedDate);
+    } else if(this.view === 'Day') {
+      this.router.navigate(['/meal-builder', moment(this.selectedDate).format('MMDDYY')]);
     }
   }
 }

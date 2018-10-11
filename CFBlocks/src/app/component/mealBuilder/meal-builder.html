@@ -2,7 +2,12 @@
   <div class="card-body">
     <div class="row">
       <div class="col">
-        <h1>{{user?.firstName}}'s Meals - {{mealDay | date:'MMMM d'}}</h1>
+        <h1>
+          <b>{{getFormatedName()}}'s Meals -
+            <span class="dropdown-toggle" id="meal-builder-date-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{mealDay | date: 'MMMM d'}}</span>
+            <div id="meal-builder-date-dropdown-menu" class="dropdown-menu" aria-labelledby="meal-builder-date-dropdown"></div>
+          </b>
+        </h1>
       </div>
     </div>
     <div class="row">

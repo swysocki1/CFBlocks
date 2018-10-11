@@ -1,16 +1,17 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {FoodFilterPipe, MealBuilderComponent} from './mealBuilder.component';
+import {MealBuilderComponent} from './mealBuilder.component';
 import {FoodItemComponent} from './food-item/food-item.component';
 import {FoodCreatorComponent} from './food-creator/food-creator.component';
 import {MealEditorComponent} from './mealEditor/mealEditor.component';
 import {MealFoodItemComponent} from './mealFood-item/mealFood-item.component';
+import {MomentPipeModule} from '../../pipe/moment.pipe';
+import {FoodFilterPipeModule} from '../../pipe/foodFilter.pipe';
 
 @NgModule({
   declarations: [
     MealBuilderComponent,
-    FoodFilterPipe,
     FoodItemComponent,
     FoodCreatorComponent,
     MealEditorComponent,
@@ -19,7 +20,9 @@ import {MealFoodItemComponent} from './mealFood-item/mealFood-item.component';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MomentPipeModule,
+    FoodFilterPipeModule
   ],
   exports: [
     MealBuilderComponent,

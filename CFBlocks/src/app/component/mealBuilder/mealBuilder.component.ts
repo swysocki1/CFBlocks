@@ -4,34 +4,12 @@ import {ValidationService} from '../../../services/validation.service';
 import {FirebaseService} from '../../../services/firebase.service';
 import {BlockCalculatorService} from '../../../services/block-calculator.service';
 import {map, switchMap} from 'rxjs/operators';
-import {ActivatedRoute, ParamMap, Route} from '@angular/router';
+import {ActivatedRoute, ParamMap, Route, Router} from '@angular/router';
 declare var $: any;
 import * as moment from 'moment';
 import {User} from '../../../models/user.model';
 import {LoginService} from '../../../services/login.service';
 
-@Pipe({
-  name: 'foodFilter'
-})
-export class FoodFilterPipe implements PipeTransform {
-  constructor(private vs: ValidationService) {}
-  transform(items: [Food], filter: {search: string, alreadyUsed: [Food]}): [Food] {
-    if (!items || items.length < 1) {
-      return items;
-    }
-    items = items.filter(item => filter.alreadyUsed.some(food => food.name !== item.name) &&
-      (!filter.search || item.name.indexOf(filter.search) >= 0)) as [Food];
-    return items.sort((f1, f2) => {
-      if (f1.name > f2.name) {
-        return 1;
-      }
-      if (f1.name > f2.name) {
-        return -1;
-      }
-      return 0;
-    }) as [Food];
-  }
-}
 @Component({
   selector: 'meal-builder',
   templateUrl: './meal-builder.html',
@@ -55,7 +33,10 @@ export class MealBuilderComponent implements OnInit {
   search: string;
   updateFood: Food;
   mealDay: Date = new Date();
-  constructor(private fs: FirebaseService, private bc: BlockCalculatorService, private route: ActivatedRoute, private ls: LoginService) { }
+  constructor(private fs: FirebaseService, private bc: BlockCalculatorService, private route: ActivatedRoute, private router: Router, private ls: LoginService) { }
+  getFormatedName() {
+    return this.ls.getFormatedName();
+  }
   ngOnInit() {
     this.user = this.ls.getUser();
     this.ls.getUserUpdates.subscribe(user => {
@@ -68,6 +49,9 @@ export class MealBuilderComponent implements OnInit {
       this.mealDay = date;
     }, error => {
       console.error(error);
+    });
+    $('#meal-builder-date-dropdown-menu').datepicker({startDate: this.mealDay}).on('changeDate', (event) => {
+      this.router.navigate(['/meal-builder', moment(event.date).format('MMDDYY')]);
     });
     this.fs.getAllFoods().subscribe(foods => {
       this.foods = foods as [Food];
