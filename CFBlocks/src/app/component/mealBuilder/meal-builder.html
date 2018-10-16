@@ -11,10 +11,10 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-6 meal-container">
+      <div class="col meal-container">
         <div class="row meal-totals">
           <div class="col text-center">
-            <label class="control-label"><b>Carbs:</b></label><span class="mr-2">&nbsp;{{(getMealCarbTotal() | number:'1.0-1') + 'g / ' + (getDailyCarbTotal() | number:'1.0-1') + 'g'}}</span>
+            <label class="control-label"><b>Carbs:</b></label><span class="mr-2">&nbsp;{{(getMealCarbTotal() | number:'1.0-1') + 'g / ' + (getDailyCarbTotal() | number:'1.0-1' ) + 'g'}}</span>
           <!--</div>-->
           <!--<div class="col">-->
             <label class="control-label"><b>Fats:</b></label><span class="mr-2">&nbsp;{{(getMealFatTotal() | number:'1.0-1') + 'g / ' + (getDailyFatTotal() | number:'1.0-1') + 'g'}}</span>
@@ -24,16 +24,30 @@
           <!--</div>-->
           <!--<div class="col">-->
             <label class="control-label"><b>Calories:</b></label><span class="mr-2">&nbsp;{{(getMealCalorieTotal() | number:'1.0-1') + 'cals / ' + (getDailyCalorieTotal() | number:'1.0-1') + 'cals'}}</span>
+            <span class="rounded-circle coal grey1-fill grey3-fill-hover create-food pointer" (click)="loadSelectFoodModule()"><i class="fa fa-lg fa-fw fa-plus"></i></span>
           </div>
         </div>
         <div class="row meals">
           <div class="col">
-            <meal-editor [meal]="meal"></meal-editor>
+            <meal-editor [meals]="meals"></meal-editor>
           </div>
         </div>
       </div>
-      <div class="col-6 food-container">
-        <div class="row">
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="food-selector-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select Foods in the Meal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="fa fa-fw fa-times coal"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row food-container">
           <div class="col-11">
             <div class="form-group">
               <input type="search" class="form-control" [ngClass]="{'is-invalid': foods.length < 1}" id="food-filter" [(ngModel)]="search" placeholder="Filter"/>
@@ -45,9 +59,17 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-6" *ngFor="let food of foods">
+          <div class="col-6" *ngFor="let food of foods | foodFilter:search:meal.foods">
             <!--<food-item *ngFor="let food of foods | foodFilter : {search: search, alreadyUsed: meal.foods}" [food]="food"  (updateFood)="loadFoodModal(food)"></food-item>-->
             <food-item [food]="food" [canAdd]="true" [canUpdate]="true" (updateFood)="loadFoodModal(food)" (add)="addFoodToMeal($event)"></food-item>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col text-center">
+            <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Cancel">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="margin-left: 15px;" [disabled]="false" (click)="updateMeal()">Create Meal</button>
           </div>
         </div>
       </div>

@@ -27,10 +27,11 @@ import {LoginService} from '../../../services/login.service';
 })
 export class MealBuilderComponent implements OnInit {
   user: User;
-  @Input() meal: Meal = new Meal();
+  @Input() meals: [Meal] = [] as [Meal];
   @Output() mealUpdated: Meal;
   foods: [Food] = [] as [Food];
-  search: string;
+  meal: Meal = new Meal();
+  search = '';
   updateFood: Food;
   mealDay: Date = new Date();
   constructor(private fs: FirebaseService, private bc: BlockCalculatorService, private route: ActivatedRoute, private router: Router, private ls: LoginService) { }
@@ -57,6 +58,13 @@ export class MealBuilderComponent implements OnInit {
       this.foods = foods as [Food];
     });
   }
+  loadSelectFoodModule(meal?: Meal) {
+    if (meal) {
+      this.meal = meal;
+    }
+    this.resetFoodCreator();
+    $('#food-selector-modal').modal('show');
+  }
   loadFoodModal(food?: Food) {
     if (food) {
       this.updateFood = food;
@@ -74,10 +82,17 @@ export class MealBuilderComponent implements OnInit {
     mealFood.food = {... food};
     mealFood.servingAmount = food.serving.amount;
     this.meal.foods.push(mealFood);
-    this.updateMeal();
   }
   updateMeal() {
-    // TODO update FireStore
+    if (this.meal) {
+      const meal = this.meals.find(meal => meal.name === this.meal.name);
+      if (meal) {
+        meal.foods = this.meal.foods;
+      } else {
+        this.meals.push(this.meal);
+      }
+    }
+    // TODO update to firestore
   }
   getMealCarbTotal() {
     let total = 0;

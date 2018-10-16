@@ -25,15 +25,28 @@
         </div>
       </div>
     </div>
-    <div class="row" *ngIf="hasFoods()">
-      <div class="col" *ngIf="meal?.foods">
-        <meal-food-item *ngFor="let mealFood of meal.foods" [food]="mealFood"></meal-food-item>
+    <div  *ngIf="hasFoods()">
+      <div class="row" *ngFor="let meal of meals">
+        <div class="col" *ngIf="meal?.foods">
+          <div class="row">
+            <div class="col">
+              <span class="rounded-circle coal grey1-fill grey3-fill-hover toggle-foods pointer" data-toggle="collapse" [attr.data-target]="'#' + meal.name + '-collapse'" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-lg fa-fw fa-chevron-circle-down"></i></span>
+              {{meal.name}} mealName
+            </div>
+          </div>
+          <div [id]="meal.name + '-collapse'" class="row collapse">
+            <div class="col">
+              <meal-food-item *ngFor="let mealFood of meal.foods" [food]="mealFood"></meal-food-item>
+            </div>
+          </div>
+        </div>
       </div>
+      <button type="button" class="btn btn-default btn-block">Add New Meal</button>
     </div>
     <div class="row meal-editor-submit-container mt-1" *ngIf="hasFoods()">
       <div class="col text-center">
         <button type="button" class="btn btn-default" (click)="reset()">Reset</button>
-        <button type="button" class="btn btn-primary" style="margin-left: 15px;">{{meal ? 'Save' : 'Create'}}</button>
+        <button type="button" class="btn btn-primary" style="margin-left: 15px;">{{meals ? 'Save' : 'Create'}}</button>
       </div>
     </div>
     <div class="row empty-meal-display-text" *ngIf="!hasFoods()">

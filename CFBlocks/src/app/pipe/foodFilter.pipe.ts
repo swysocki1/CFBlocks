@@ -7,12 +7,15 @@ import {ValidationService} from '../../services/validation.service';
 })
 export class FoodFilterPipe implements PipeTransform {
   constructor(private vs: ValidationService) {}
-  transform(items: [Food], filter: {search: string, alreadyUsed: [Food]}): [Food] {
+  transform(items: [Food], search: string, alreadyUsed: [Food]): [Food] {
     if (!items || items.length < 1) {
       return items;
     }
-    items = items.filter(item => filter.alreadyUsed.some(food => food.name !== item.name) &&
-      (!filter.search || item.name.indexOf(filter.search) >= 0)) as [Food];
+    items = items.filter(item => !alreadyUsed.some(food => food.name === item.name)) as [Food];
+    if (search) {
+      search = search.toLowerCase();
+      items = items.filter(item => item.name.toLowerCase().indexOf(search) >= 0) as [Food];
+    }
     return items.sort((f1, f2) => {
       if (f1.name > f2.name) {
         return 1;

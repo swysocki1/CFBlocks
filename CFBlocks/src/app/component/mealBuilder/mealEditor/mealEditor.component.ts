@@ -24,27 +24,40 @@ import {ValidationService} from '../../../../services/validation.service';
       bottom: 0;
       z-index: 1;
     }
+    .toggle-foods{
+      display:inline-block;
+      padding:6px;
+      opacity: 0.3;
+      /*margin: 0 15px;*/
+    }
+    .toggle-foods:hover {
+      opacity:1;
+    }
   `]
 })
 export class MealEditorComponent implements OnInit, OnChanges {
-  @Input() meal: Meal;
+  @Input() meals: [Meal] = [] as [Meal];
   form: FormGroup;
   constructor(private bc: BlockCalculatorService, private fb: FormBuilder, private vs: ValidationService) { }
   ngOnInit() {
     this.loadForm();
   }
-  loadForm(meal?: Meal) {
-    if (!meal) {
-      meal = new Meal();
+  loadForm(meals?: [Meal]) {
+    if (!meals || this.meals) {
+      meals = [] as [Meal];
     }
-    if (this.meal) {
-      meal = {... this.meal} as Meal;
+    if (this.meals) {
+      this.meals.forEach(m => {
+        meals.push({... m} as Meal);
+      });
     }
     this.form = this.fb.group({});
-    meal.foods.forEach(food => {
-      this.form.addControl(food.food.name, this.fb.control([food.servingAmount, Validators.required]));
+    meals.forEach(meal => {
+      meal.foods.forEach(food => {
+        this.form.addControl(`${meal.name}${food.food.name}`, this.fb.control([food.servingAmount, Validators.required]));
+      });
     });
-    if (this.meal) {
+    if (this.meals) {
       this.vs.validateAllFormFields(this.form);
     }
   }
@@ -66,11 +79,14 @@ export class MealEditorComponent implements OnInit, OnChanges {
     // TODO something???
   }
   hasFoods() {
-    return this.meal && this.meal.foods && this.meal.foods.length && this.meal.foods.length > 0;
+    return this.meals && this.meals.length;
+  }
+  reset() {
+    // TODO???
   }
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.meal.currentValue) {
-      this.loadForm(changes.meal.currentValue);
+    if (changes.meals.currentValue) {
+      this.loadForm(changes.meals.currentValue);
     }
   }
 }
