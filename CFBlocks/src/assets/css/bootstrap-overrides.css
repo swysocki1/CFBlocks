@@ -17,6 +17,8 @@
   background: #fff;
   opacity: .95;
 }
+.card.active .card-header,
+.card.active .card-body {background: #3cc}
 
 /* Forms */
 .form-group label.control-label {

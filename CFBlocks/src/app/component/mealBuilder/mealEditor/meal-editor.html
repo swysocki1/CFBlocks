@@ -28,13 +28,29 @@
     <div  *ngIf="hasFoods()">
       <div class="row" *ngFor="let meal of meals">
         <div class="col" *ngIf="meal?.foods">
-          <div class="row">
+          <div class="row" style="padding: 3px 20px;">
+            <div class="col-3">
+              <span class="rounded-circle coal toggle-foods pointer" data-toggle="collapse" [attr.data-target]="'#'+getMealCollapseId(meal)" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-lg fa-fw fa-chevron-circle-down"></i></span>
+              {{meal.name}}
+            </div>
             <div class="col">
-              <span class="rounded-circle coal grey1-fill grey3-fill-hover toggle-foods pointer" data-toggle="collapse" [attr.data-target]="'#' + meal.name + '-collapse'" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-lg fa-fw fa-chevron-circle-down"></i></span>
-              {{meal.name}} mealName
+              <div class="row">
+                <div class="col">
+                  {{getMealCarbs(meal) + 'g'}}
+                </div>
+                <div class="col">
+                  {{getMealFats(meal) + 'g'}}
+                </div>
+                <div class="col">
+                  {{getMealProtein(meal) + 'g'}}
+                </div>
+                <div class="col">
+                  {{getMealCalories(meal) + 'g'}}
+                </div>
+              </div>
             </div>
           </div>
-          <div [id]="meal.name + '-collapse'" class="row collapse">
+          <div [id]="getMealCollapseId(meal)" class="row collapse">
             <div class="col">
               <meal-food-item *ngFor="let mealFood of meal.foods" [food]="mealFood"></meal-food-item>
             </div>

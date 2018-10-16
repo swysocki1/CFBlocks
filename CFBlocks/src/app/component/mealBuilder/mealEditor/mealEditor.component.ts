@@ -84,6 +84,45 @@ export class MealEditorComponent implements OnInit, OnChanges {
   reset() {
     // TODO???
   }
+  getMealCarbs(meal: Meal) {
+    let grams = 0;
+    if (meal) {
+      meal.foods.forEach(food => {
+        grams += this.bc.getFoodMealCarbs(food);
+      });
+    }
+    return grams;
+  }
+  getMealFats(meal: Meal) {
+    let grams = 0;
+    if (meal) {
+      meal.foods.forEach(food => {
+        grams += this.bc.getFoodMealFats(food);
+      });
+    }
+    return grams;
+  }
+  getMealProtein(meal: Meal) {
+    let grams = 0;
+    if (meal) {
+      meal.foods.forEach(food => {
+        grams += this.bc.getFoodMealProtein(food);
+      });
+    }
+    return grams;
+  }
+  getMealCalories(meal: Meal) {
+    let grams = 0;
+    if (meal) {
+      meal.foods.forEach(food => {
+        grams += this.bc.calcCalories(food);
+      });
+    }
+    return grams;
+  }
+  getMealCollapseId(meal: Meal): string {
+      return 'collapse-' + meal.name.replace(' ', '-');
+  }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.meals.currentValue) {
       this.loadForm(changes.meals.currentValue);

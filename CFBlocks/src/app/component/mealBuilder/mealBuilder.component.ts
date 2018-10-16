@@ -61,6 +61,8 @@ export class MealBuilderComponent implements OnInit {
   loadSelectFoodModule(meal?: Meal) {
     if (meal) {
       this.meal = meal;
+    } else {
+      this.meal = new Meal();
     }
     this.resetFoodCreator();
     $('#food-selector-modal').modal('show');
@@ -77,22 +79,31 @@ export class MealBuilderComponent implements OnInit {
     $('#modify-food-modal').modal('hide');
     this.updateFood = new Food();
   }
+  resetFoodSelector() {
+    $('#food-selector-modal').modal('hide');
+    this.meal = new Meal();
+  }
   addFoodToMeal(food: Food) {
-    const mealFood = new MealFood();
-    mealFood.food = {... food};
-    mealFood.servingAmount = food.serving.amount;
-    this.meal.foods.push(mealFood);
+    if (food && !this.meal.foods.some(f => f.food.name === food.name)) {
+      const mealFood = new MealFood();
+      mealFood.food = {...food};
+      mealFood.servingAmount = food.serving.amount;
+      this.meal.foods.push(mealFood);
+    } else if (food && this.meal.foods.some(f => f.food.name === food.name)) {
+      this.meal.foods.splice(this.meal.foods.findIndex(f => f.food.name === food.name), 1);
+    }
   }
   updateMeal() {
     if (this.meal) {
-      const meal = this.meals.find(meal => meal.name === this.meal.name);
+      let meal = this.meals.find(m => m.name === this.meal.name);
       if (meal) {
-        meal.foods = this.meal.foods;
+        meal = {... this.meal};
       } else {
-        this.meals.push(this.meal);
+        this.meals.push({... this.meal});
       }
     }
     // TODO update to firestore
+    this.resetFoodSelector();
   }
   getMealCarbTotal() {
     let total = 0;
@@ -133,6 +144,16 @@ export class MealBuilderComponent implements OnInit {
   }
   getDailyCalorieTotal() {
     return this.bc.dailyCals(this.user);
+  }
+  inMeal(food: Food) {
+    if (food && this.meal && this.meal.foods && this.meal.foods.length) {
+      return this.meal.foods.some(f => f.food.name === food.name);
+    } else {
+      return false;
+    }
+  }
+  canUpdateMeal() {
+    return (this.meal && this.meal.foods && this.meal.foods.length > 0 && this.meal.name);
   }
 }
 

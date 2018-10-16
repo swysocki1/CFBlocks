@@ -1,0 +1,65 @@
+<div class="card" [ngClass]="{'active': isSelected}">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <h3>{{food.name}}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <img [src]="food.image" class="img-fluid" style="width: 2em;height:auto;" *ngIf="food.image"/>
+                <i class="fa fa-fw fa-5x fa-leaf leaf-green" *ngIf="!food.image"></i>
+              </div>
+            </div>
+          </div>
+          <!--</div>-->
+          <!--<div class="row">-->
+          <div class="col">
+            <div class="row">
+              <div class="col">Serving: {{food.serving.amount}} {{food.serving.metric}}</div>
+            </div>
+            <div class="row">
+              <div class="col">Carbs: {{food.carb}}g</div>
+            </div>
+            <div class="row">
+              <div class="col">Fats: {{food.fat}}g</div>
+            </div>
+            <div class="row">
+              <div class="col">Protein: {{food.protein}}g</div>
+            </div>
+            <div class="row">
+              <div class="col">Calories: {{calcCalories(food)}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-1">
+        <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food remove pointer" title="Remove Food"
+              (click)="removeFood()" *ngIf="canRemove"><i class="fa fa-xs fa-fw fa-times"></i></span>
+        <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food add pointer" title="Add Food"
+              (click)="addFood()" *ngIf="canAdd"><i class="fa fa-xs fa-fw fa-plus"></i></span>
+        <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food edit pointer" title="Update Food"
+              (click)="loadFoodModal()" *ngIf="canUpdate"><i class="fa fa-xs fa-fw fa-pencil"></i></span>
+        <!--<span class="dropdown">-->
+          <!--<span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food edit pointer dropdown-toggle"-->
+                <!--title="Additional Variations" *ngIf="hasAdditionalVariations()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+            <!--<i class="fa fa-xs fa-fw fa-chevron-circle-down"></i>-->
+          <!--</span>-->
+          <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="z-index: 1;">-->
+            <!--<a class="dropdown-item" href="#">Action</a>-->
+            <!--<a class="dropdown-item" href="#">Another action</a>-->
+            <!--<a class="dropdown-item" href="#">Something else here</a>-->
+          <!--</div>-->
+        <!--</span>-->
+      </div>
+    </div>
+  </div>
+</div>
