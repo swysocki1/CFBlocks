@@ -45,3 +45,14 @@ footer.footer {
   background-color: #f5f5f5;
   /*border-top: 2px solid #666;*/
 }
+
+/*Modals*/
+
+/* Important part */
+.modal.scroll .modal-dialog {
+  overflow-y: initial !important
+}
+.modal.scroll .modal-body {
+  height: 80vh;
+  overflow-y: auto;
+}

@@ -16,7 +16,7 @@ import {BlockCalculatorService} from '../../../../services/block-calculator.serv
     .update-food:hover {
       opacity:1;
     }
-    .update-food.dropdown-toggle::after {
+    .update-food.dropdown-toggle::before {
       display:none !important;
     }
   `]

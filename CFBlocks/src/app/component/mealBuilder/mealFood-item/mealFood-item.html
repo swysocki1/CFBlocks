@@ -31,16 +31,16 @@
         <div class="col food-statistics">
           <div class="row">
             <div class="col">
-              {{getCarbs(food) + 'g'}}
+              {{getCarbs(food) | number:'1.0-2' + 'g'}}
             </div>
             <div class="col">
-              {{getFats(food) + 'g'}}
+              {{getFats(food) | number:'1.0-2' + 'g'}}
             </div>
             <div class="col">
-              {{getProtein(food) + 'g'}}
+              {{getProtein(food) | number:'1.0-2' + 'g'}}
             </div>
             <div class="col">
-              {{getCalories(food) + 'g'}}
+              {{getCalories(food) | number:'1.0-2' + 'kcal'}}
             </div>
           </div>
         </div>

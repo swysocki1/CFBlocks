@@ -24,19 +24,19 @@
           <!--<div class="row">-->
           <div class="col">
             <div class="row">
-              <div class="col">Serving: {{food.serving.amount}} {{food.serving.metric}}</div>
+              <div class="col">Serving: {{food.serving.amount | number:'1.0-2'}} {{food.serving.metric}}</div>
             </div>
             <div class="row">
-              <div class="col">Carbs: {{food.carb}}g</div>
+              <div class="col">Carbs: {{food.carb | number:'1.0-2'}}g</div>
             </div>
             <div class="row">
-              <div class="col">Fats: {{food.fat}}g</div>
+              <div class="col">Fats: {{food.fat | number:'1.0-2'}}g</div>
             </div>
             <div class="row">
-              <div class="col">Protein: {{food.protein}}g</div>
+              <div class="col">Protein: {{food.protein | number:'1.0-2'}}g</div>
             </div>
             <div class="row">
-              <div class="col">Calories: {{calcCalories(food)}}</div>
+              <div class="col">Calories: {{calcCalories(food) | number:'1.0-2'}}kcal</div>
             </div>
           </div>
         </div>
@@ -48,17 +48,26 @@
               (click)="addFood()" *ngIf="canAdd"><i class="fa fa-xs fa-fw fa-plus"></i></span>
         <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food edit pointer" title="Update Food"
               (click)="loadFoodModal()" *ngIf="canUpdate"><i class="fa fa-xs fa-fw fa-pencil"></i></span>
-        <!--<span class="dropdown">-->
-          <!--<span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food edit pointer dropdown-toggle"-->
-                <!--title="Additional Variations" *ngIf="hasAdditionalVariations()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-            <!--<i class="fa fa-xs fa-fw fa-chevron-circle-down"></i>-->
-          <!--</span>-->
-          <!--<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="z-index: 1;">-->
-            <!--<a class="dropdown-item" href="#">Action</a>-->
-            <!--<a class="dropdown-item" href="#">Another action</a>-->
-            <!--<a class="dropdown-item" href="#">Something else here</a>-->
-          <!--</div>-->
-        <!--</span>-->
+        <span class="dropleft">
+          <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food edit pointer dropdown-toggle"
+                title="Additional Variations" *ngIf="hasAdditionalVariations()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-xs fa-fw fa-chevron-circle-left"></i>
+          </span>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="z-index: 1;">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </span>
       </div>
     </div>
   </div>
