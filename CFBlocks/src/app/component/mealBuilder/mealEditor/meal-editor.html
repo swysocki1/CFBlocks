@@ -57,17 +57,17 @@
           </div>
         </div>
       </div>
-      <button type="button" class="btn btn-default btn-block">Add New Meal</button>
-    </div>
-    <div class="row meal-editor-submit-container mt-1" *ngIf="hasFoods()">
-      <div class="col text-center">
-        <button type="button" class="btn btn-default" (click)="reset()">Reset</button>
-        <button type="button" class="btn btn-primary" style="margin-left: 15px;">{{meals ? 'Save' : 'Create'}}</button>
-      </div>
     </div>
     <div class="row empty-meal-display-text" *ngIf="!hasFoods()">
       <div class="col-6 offset-3 text-center">
         <p class="text-muted">This meal currently has no ingredients to display. Drag ingredient to here or click the Add Icon to add to your meal.</p>
+      </div>
+    </div>
+    <div class="row meal-editor-submit-container mt-1">
+      <div class="col text-center">
+        <button type="button" class="btn btn-primary btn-block mb-1" (click)="createNewMeal()">Add New Meal</button>
+        <button type="button" class="btn btn-default" (click)="reset()" *ngIf="hasFoods()">Reset</button>
+        <button type="button" class="btn btn-primary" style="margin-left: 15px;" *ngIf="hasFoods()">{{meals ? 'Save' : 'Create'}}</button>
       </div>
     </div>
   </div>

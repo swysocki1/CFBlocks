@@ -37,6 +37,7 @@ import {ValidationService} from '../../../../services/validation.service';
 })
 export class MealEditorComponent implements OnInit, OnChanges {
   @Input() meals: [Meal] = [] as [Meal];
+  @Output() loadMealModal = new EventEmitter();
   form: FormGroup;
   constructor(private bc: BlockCalculatorService, private fb: FormBuilder, private vs: ValidationService) { }
   ngOnInit() {
@@ -122,6 +123,9 @@ export class MealEditorComponent implements OnInit, OnChanges {
   }
   getMealCollapseId(meal: Meal): string {
       return 'collapse-' + meal.name.replace(' ', '-');
+  }
+  createNewMeal() {
+    this.loadMealModal.emit();
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.meals.currentValue) {

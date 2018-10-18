@@ -89,7 +89,10 @@ export class MealBuilderComponent implements OnInit {
       mealFood.food = {...food};
       mealFood.servingAmount = food.serving.amount;
       this.meal.foods.push(mealFood);
-    } else if (food && this.meal.foods.some(f => f.food.name === food.name)) {
+    }
+  }
+  removeFoodFromMeal(food: Food) {
+    if (food && this.meal.foods.some(f => f.food.name === food.name)) {
       this.meal.foods.splice(this.meal.foods.findIndex(f => f.food.name === food.name), 1);
     }
   }
@@ -105,6 +108,8 @@ export class MealBuilderComponent implements OnInit {
     // TODO update to firestore
     this.resetFoodSelector();
   }
+
+  // For one Meal
   getMealCarbTotal() {
     let total = 0;
     this.meal.foods.forEach(food => {
@@ -133,7 +138,48 @@ export class MealBuilderComponent implements OnInit {
     });
     return total;
   }
+
+  // For current Day
+  getTodaysCarbTotal() {
+    let total = 0;
+    this.meals.forEach(meal => {
+      meal.foods.forEach(food => {
+        total += this.bc.calcCarbs(food);
+      });
+    });
+    return total;
+  }
+  getTodaysFatTotal() {
+    let total = 0;
+    this.meals.forEach(meal => {
+      meal.foods.forEach(food => {
+        total += this.bc.calcFats(food);
+      });
+    });
+    return total;
+  }
+  getTodaysProteinTotal() {
+    let total = 0;
+    this.meals.forEach(meal => {
+      meal.foods.forEach(food => {
+        total += this.bc.calcProtein(food);
+      });
+    });
+    return total;
+  }
+  getTodaysCalorieTotal() {
+    let total = 0;
+    this.meals.forEach(meal => {
+      meal.foods.forEach(food => {
+        total += this.bc.calcCalories(food);
+      });
+    });
+    return total;
+  }
+
+  // Based from User template
   getDailyCarbTotal() {
+    console.log(this.bc.dailyCarbs(this.user));
     return this.bc.dailyCarbs(this.user);
   }
   getDailyFatTotal() {
