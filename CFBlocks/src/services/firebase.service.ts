@@ -1,10 +1,11 @@
 import { AngularFirestore } from 'angularfire2/firestore';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {Injectable} from '@angular/core';
-import {Food} from '../models/meal.module';
+import {Food, Meal, MealCalendar} from '../models/meal.module';
 import {User} from '../models/user.model';
 import { map } from 'rxjs/operators';
 import {Subscription} from 'rxjs/internal/Subscription';
+import * as moment from 'moment';
 
 @Injectable()
 export class FirebaseService {
@@ -62,7 +63,7 @@ export class FirebaseService {
   }
 
   // Food Creation
-  private queryAllFoods() {
+  queryAllFoods() {
     return this.firebaseDb.collection('food');
   }
   getAllFoods() {
@@ -76,7 +77,13 @@ export class FirebaseService {
     }));
   }
   queryFood(food: Food) {
-    return this.firebaseDb.collection('food').doc(food.name);
+    if (food && !food.id) {
+      food.id = this.firebaseDb.createId();
+    }
+    return this.firebaseDb.collection('food').doc(food.id);
+  }
+  getFoodByRef(ref) {
+    return ref.get();
   }
   // getFood(food: Food) {
   //   return this.mapSnapShotChanges(this.queryFood(food));
@@ -93,13 +100,58 @@ export class FirebaseService {
     });
   }*/
 
+  queryMealCalendarByDateRange(user: User, startRange?: Date, endRange?: Date) {
+    return this.firebaseDb.collection(`mealCalendar`, ref => {
+      if (startRange && endRange) {
+        // return ref.orderBy('date').startAt(startRange).endAt(endRange.getTime());
+        return ref.where('user', '==', user.id).where('date', '>=', startRange).where('date', '<=', endRange);
+      } else {
+        return ref;
+      }
+    });
+  }
+  getMealCalendarByDateRange(user: User, startRange?: Date, endRange?: Date) {
+    return this.queryMealCalendarByDateRange(user, startRange, endRange).snapshotChanges().pipe(map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data() as MealCalendar;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      });
+    }));
+  }
+  queryMealCalendarOnDay(user: User, date?: Date) {
+    return this.queryMealCalendarByDateRange(user, moment(date).startOf('day').toDate(), moment(date).endOf('day').toDate());
+  }
+  getMealCalendarOnDay(user: User, date: Date) {
+    return this.queryMealCalendarOnDay(user, date).snapshotChanges().pipe(map(actions => {
+      return actions.map(a => {
+        const data = a.payload.doc.data();
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      });
+    }));
+  }
+  queryMealCalendarById(id: string) {
+    return this.firebaseDb.collection(`mealCalendar`).doc(id);
+  }
+  createMealCalendar(mc) {
+    mc.id = this.firebaseDb.createId();
+    return this.queryMealCalendarById(mc.id).set(mc);
+  }
+  updateMealCalendar(mc) {
+    return this.queryMealCalendarById(mc.id).update(mc);
+  }
   // Email Encode/Decode
   encodeEmail(email: string): string {
-    email = email.replace('.', ',');
+    if (email) {
+      email = email.replace('.', ',');
+    }
     return email;
   }
   decodeEmail(email: string): string {
-    email = email.replace(',', '.');
+    if (email) {
+      email = email.replace(',', '.');
+    }
     return email;
   }
   formatObj(obj: any) {

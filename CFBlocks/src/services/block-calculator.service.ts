@@ -34,25 +34,53 @@ export class BlockCalculatorService {
     }
   }
   getFoodMealCarbs(food: MealFood) {
-    return (food.servingAmount / food.food.serving.amount) * food.food.carb;
+    if (food && food.food && food.food.serving) {
+      return (food.servingAmount / food.food.serving.amount) * food.food.carb;
+    } else {
+      return 0;
+    }
   }
   getFoodMealFats(food: MealFood) {
-    return (food.servingAmount / food.food.serving.amount) * food.food.fat;
+    if (food && food.food && food.food.serving) {
+      return (food.servingAmount / food.food.serving.amount) * food.food.fat;
+    } else {
+      return 0;
+    }
   }
   getFoodMealProtein(food: MealFood) {
-    return (food.servingAmount / food.food.serving.amount) * food.food.protein;
+      if (food && food.food && food.food.serving) {
+        return (food.servingAmount / food.food.serving.amount) * food.food.protein;
+      } else {
+        return 0;
+      }
   }
   calcCarbs(food: MealFood): number {
-    return this.carbsToCals(this.getFoodMealCarbs(food));
+      if (food && food.food && food.food.serving) {
+        return this.getFoodMealCarbs(food);
+      } else {
+        return 0;
+      }
   }
   calcFats(food: MealFood): number {
-    return this.fatsToCals(this.getFoodMealFats(food));
+    if (food && food.food && food.food.serving) {
+      return this.getFoodMealFats(food);
+    } else {
+      return 0;
+    }
   }
   calcProtein(food: MealFood): number {
-    return this.proteinToCals(this.getFoodMealProtein(food));
+    if (food && food.food && food.food.serving) {
+      return this.getFoodMealProtein(food);
+    } else {
+      return 0;
+    }
   }
   calcCalories(food: MealFood): number {
-    return this.calcCarbs(food) + this.calcFats(food) + this.calcProtein(food);
+    if (food && food.food && food.food.serving) {
+      return this.carbsToCals(this.calcCarbs(food)) + this.fatsToCals(this.calcFats(food)) + this.proteinToCals(this.calcProtein(food));
+    } else {
+      return 0;
+    }
   }
   calcFoodCalories(food: Food): number {
     const mealFood = new MealFood();
@@ -60,7 +88,7 @@ export class BlockCalculatorService {
     mealFood.servingAmount = food.serving.amount;
     return this.calcCalories(mealFood);
   }
-  getCarbs(blocks: number) {
+  getCarbs(blocks: number) { // TODO needs to reflect template
     return blocks * 9;
   }
   getFats(blocks: number) {
@@ -80,23 +108,38 @@ export class BlockCalculatorService {
   }
   dailyCals(user: User) {
     if (user && user.username) {
-      let lbm = user.body.lbm.weight;
-      if (user.body.lbm.metric.toLowerCase() === 'kilograms') {
-        lbm = 2.2 * lbm;
+      if (user.blockTemplate.metric === 'Zone Block') {
+        const blocks = this.getBlocks(user);
+        let cals = 0;
+        cals += this.carbsToCals(blocks * user.blockTemplate.carbs);
+        cals += this.fatsToCals(blocks * user.blockTemplate.fats);
+        cals += this.proteinToCals(blocks * user.blockTemplate.protein);
+        return cals;
+      } else if (user.blockTemplate.metric === 'Percentage') {
+        let lbm = user.body.lbm.weight;
+        if (user.body.lbm.metric.toLowerCase() === 'kilograms') {
+          lbm = 2.2 * lbm;
+        }
+        const activityLevel = user.lifeStyle.activityLevel;
+        let protein = 0;
+        if (activityLevel === 'Seated Most of the Day') {
+          protein = lbm * .65;
+        } else if (activityLevel === 'Regularly On/Off Feet Throughout the Day') {
+          protein = lbm * .7;
+        } else if (activityLevel === 'On Feet and Moving Consistently Moving All Day') {
+          protein = lbm * .8;
+        } else if (activityLevel === 'Professional Athlete') {
+          protein = lbm * .85;
+        }
+        const baseFigure = protein / 30;
+        let cals = 0;
+        cals += this.carbsToCals(baseFigure * user.blockTemplate.carbs);
+        cals += this.fatsToCals(baseFigure * user.blockTemplate.fats);
+        cals += this.proteinToCals(baseFigure * user.blockTemplate.protein);
+        return cals;
+      } else {
+        return 0;
       }
-      const activityLevel = user.lifeStyle.activityLevel;
-      const goals = user.lifeStyle.fitnessGoal;
-      let protein = 0;
-      if (activityLevel === 'Seated Most of the Day') {
-        protein = lbm * .65;
-      } else if (activityLevel === 'Regularly On/Off Feet Throughout the Day') {
-        protein = lbm * .7;
-      } else if (activityLevel === 'On Feet and Moving Consistently Moving All Day') {
-        protein = lbm * .8;
-      } else if (activityLevel === 'Professional Athlete') {
-        protein = lbm * .85;
-      }
-      return protein / user.blockTemplate.protein * 100;
     } else {
       return 0;
     }

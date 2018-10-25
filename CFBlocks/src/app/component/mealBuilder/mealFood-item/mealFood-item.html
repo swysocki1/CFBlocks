@@ -3,11 +3,11 @@
     <div class="card-body pt-0 pb-0">
       <div class="row">
         <div class="col">
-          <h3>{{food.food.name}}</h3>
+          <h3>{{food?.food?.name}}</h3>
         </div>
         <div class="col-1">
           <button type="button" class="btn btn-sm btn-close pull-right">
-            <i class="fa fa-fw fa-lg fa-times red" *ngIf="!food.image"></i>
+            <i class="fa fa-fw fa-lg fa-times red" *ngIf="!food?.image"></i>
           </button>
         </div>
       </div>
@@ -22,7 +22,7 @@
               <input type="number" placeholder="Customized Serving Amount" class="form-control form-control-sm" formControlName="food"
                      [ngClass]="{'is-invalid': this.isFieldInvalid(), 'is-valid': this.isFieldValid()}" required (change)="updateMealFood()">
               <div class="input-group-append">
-                <span class="input-group-text">{{food.food.serving.metric}}</span>
+                <span class="input-group-text">{{food?.food?.serving?.metric}}</span>
               </div>
             </div>
             <div class="invalid-feedback">Must Be Greator Than Zero!</div>
@@ -31,16 +31,16 @@
         <div class="col food-statistics">
           <div class="row">
             <div class="col">
-              {{getCarbs(food) | number:'1.0-2' + 'g'}}
+              {{(getCarbs(food) | number:'1.0-2') + 'g'}}
             </div>
             <div class="col">
-              {{getFats(food) | number:'1.0-2' + 'g'}}
+              {{(getFats(food) | number:'1.0-2') + 'g'}}
             </div>
             <div class="col">
-              {{getProtein(food) | number:'1.0-2' + 'g'}}
+              {{(getProtein(food) | number:'1.0-2') + 'g'}}
             </div>
             <div class="col">
-              {{getCalories(food) | number:'1.0-2' + 'kcal'}}
+              {{(getCalories(food) | number:'1.0-2') + 'kcal'}}
             </div>
           </div>
         </div>

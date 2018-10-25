@@ -29,7 +29,7 @@
         </div>
         <div class="row meals">
           <div class="col">
-            <meal-editor [meals]="meals" (loadMealModal)="loadSelectFoodModule()"></meal-editor>
+            <meal-editor [meals]="mealCalendar.meals" (loadMealModal)="loadSelectFoodModule()" (saveMeals)="updateAndSaveMeals($event)"></meal-editor>
           </div>
         </div>
       </div>

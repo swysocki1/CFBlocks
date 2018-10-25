@@ -34,7 +34,6 @@ export class BlockCalculatorComponent implements OnInit {
     });
   }
   updateUser(user: User) {
-    console.log(user);
     this.userAccount = user;
     this.nextCard();
   }

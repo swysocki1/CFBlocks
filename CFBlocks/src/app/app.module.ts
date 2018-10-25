@@ -26,6 +26,7 @@ import {UtilService} from '../services/util.service';
 import {UserAccountModule} from './component/userAccount/userAccount.module';
 import {SigninModule} from './containers/signin/signin.module';
 import {MealBuilderModule} from './component/mealBuilder/mealBuilder.module';
+import {FirebaseAbstractionLayerService} from '../services/firebaseAbstractionLayer.service';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import {MealBuilderModule} from './component/mealBuilder/mealBuilder.module';
     MealService,
     HelperService,
     FirebaseService,
+    FirebaseAbstractionLayerService,
     UtilService
   ],
   bootstrap: [AppComponent]

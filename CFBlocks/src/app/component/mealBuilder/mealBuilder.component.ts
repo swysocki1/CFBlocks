@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, Output, Pipe, PipeTransform} from '@angular/core';
-import {Food, Meal, MealFood} from '../../../models/meal.module';
+import {Food, Meal, MealCalendar, MealFood} from '../../../models/meal.module';
 import {ValidationService} from '../../../services/validation.service';
 import {FirebaseService} from '../../../services/firebase.service';
 import {BlockCalculatorService} from '../../../services/block-calculator.service';
@@ -9,6 +9,7 @@ declare var $: any;
 import * as moment from 'moment';
 import {User} from '../../../models/user.model';
 import {LoginService} from '../../../services/login.service';
+import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstractionLayer.service';
 
 @Component({
   selector: 'meal-builder',
@@ -27,16 +28,25 @@ import {LoginService} from '../../../services/login.service';
 })
 export class MealBuilderComponent implements OnInit {
   user: User;
-  @Input() meals: [Meal] = [] as [Meal];
+  mealCalendar: MealCalendar = new MealCalendar();
+  // @Input() meals: [Meal] = [] as [Meal];
   @Output() mealUpdated: Meal;
   foods: [Food] = [] as [Food];
   meal: Meal = new Meal();
   search = '';
   updateFood: Food;
   mealDay: Date = new Date();
-  constructor(private fs: FirebaseService, private bc: BlockCalculatorService, private route: ActivatedRoute, private router: Router, private ls: LoginService) { }
+  constructor(private fs: FirebaseService, private fsa: FirebaseAbstractionLayerService, private bc: BlockCalculatorService,
+              private route: ActivatedRoute, private router: Router, private ls: LoginService) { }
   getFormatedName() {
     return this.ls.getFormatedName();
+  }
+  updateAndSaveMeals(meals: [Meal]) {
+    // TODO
+    this.mealCalendar.meals = meals;
+    this.fsa.saveMealCalendar(this.ls.getUser(), this.mealCalendar).catch(error => {
+      console.error(error);
+    });
   }
   ngOnInit() {
     this.user = this.ls.getUser();
@@ -48,6 +58,7 @@ export class MealBuilderComponent implements OnInit {
         moment(params.get('date'), 'MMDDYY').toDate())
     ).subscribe(date => {
       this.mealDay = date;
+      this.loadCalendarDay(date);
     }, error => {
       console.error(error);
     });
@@ -57,6 +68,20 @@ export class MealBuilderComponent implements OnInit {
     this.fs.getAllFoods().subscribe(foods => {
       this.foods = foods as [Food];
     });
+  }
+  loadCalendarDay(date: Date) {
+    if (this.ls.getUserSession().authenticated) {
+      this.fsa.getMealCalendarOnDay(this.ls.getUser(), date).subscribe((mc: any) => {
+        if (mc) {
+          this.mealCalendar = mc;
+        } else {
+          this.mealCalendar.date = date;
+          this.mealCalendar.user = this.user.id;
+        }
+      }, error => {
+        console.error(error);
+      });
+    }
   }
   loadSelectFoodModule(meal?: Meal) {
     if (meal) {
@@ -98,11 +123,11 @@ export class MealBuilderComponent implements OnInit {
   }
   updateMeal() {
     if (this.meal) {
-      let meal = this.meals.find(m => m.name === this.meal.name);
+      let meal = this.mealCalendar.meals.find(m => m.name === this.meal.name);
       if (meal) {
         meal = {... this.meal};
       } else {
-        this.meals.push({... this.meal});
+        this.mealCalendar.meals.push({... this.meal});
       }
     }
     // TODO update to firestore
@@ -142,7 +167,7 @@ export class MealBuilderComponent implements OnInit {
   // For current Day
   getTodaysCarbTotal() {
     let total = 0;
-    this.meals.forEach(meal => {
+    this.mealCalendar.meals.forEach(meal => {
       meal.foods.forEach(food => {
         total += this.bc.calcCarbs(food);
       });
@@ -151,7 +176,7 @@ export class MealBuilderComponent implements OnInit {
   }
   getTodaysFatTotal() {
     let total = 0;
-    this.meals.forEach(meal => {
+    this.mealCalendar.meals.forEach(meal => {
       meal.foods.forEach(food => {
         total += this.bc.calcFats(food);
       });
@@ -160,7 +185,7 @@ export class MealBuilderComponent implements OnInit {
   }
   getTodaysProteinTotal() {
     let total = 0;
-    this.meals.forEach(meal => {
+    this.mealCalendar.meals.forEach(meal => {
       meal.foods.forEach(food => {
         total += this.bc.calcProtein(food);
       });
@@ -169,7 +194,7 @@ export class MealBuilderComponent implements OnInit {
   }
   getTodaysCalorieTotal() {
     let total = 0;
-    this.meals.forEach(meal => {
+    this.mealCalendar.meals.forEach(meal => {
       meal.foods.forEach(food => {
         total += this.bc.calcCalories(food);
       });
@@ -179,7 +204,6 @@ export class MealBuilderComponent implements OnInit {
 
   // Based from User template
   getDailyCarbTotal() {
-    console.log(this.bc.dailyCarbs(this.user));
     return this.bc.dailyCarbs(this.user);
   }
   getDailyFatTotal() {

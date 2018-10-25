@@ -43,7 +43,6 @@ export class SignupComponent implements OnInit {
     if (this.account.value.password === this.account.value.password2) {
       this.ls.createAccount(this.account.value.username, this.account.value.password, this.account.value.firstName,
         this.account.value.lastName, this.account.value.dob).subscribe((userSession: UserSession) => {
-        console.log(userSession);
         this.router.navigate(['/account']);
         // TODO go to New User Signup Flow
       }, error => {

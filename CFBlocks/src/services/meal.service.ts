@@ -22,12 +22,13 @@ export class MealService {
   }
 
   getMealDisplay(meal: Meal): string {
-    const foodContents = this.getFoodContentsDisplay(meal.foods);
-    if (foodContents) {
-      return `${meal.name} - ${this.getFoodContentsDisplay(meal.foods)}`;
-    } else {
-      return meal.name;
-    }
+    return meal.name;
+    // const foodContents = this.getFoodContentsDisplay(meal.foods);
+    // if (foodContents) {
+    //   return `${meal.name} - ${this.getFoodContentsDisplay(meal.foods)}`;
+    // } else {
+    //   return meal.name;
+    // }
   }
   getFoodContentsDisplay(foods: [MealFood]): string {
     const displayItems = [];
@@ -56,6 +57,7 @@ export class MealService {
     const cal: [MealCalendar] = [] as [MealCalendar];
     for (let day = start; moment(day).isSameOrBefore(moment(end)); day = moment(day).add(1, 'days').toDate()) {
       const mc = new MealCalendar();
+      mc.user = 'swysoc1@gmail,com';
       mc.date = this.helper.startOfDay(day);
       const meal1 = new Meal();
       meal1.name = 'Cheese Pizza';

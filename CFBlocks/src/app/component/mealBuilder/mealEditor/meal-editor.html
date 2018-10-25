@@ -36,16 +36,16 @@
             <div class="col">
               <div class="row">
                 <div class="col">
-                  {{getMealCarbs(meal) | number:'1.0-2' + 'g'}}
+                  {{(getMealCarbs(meal) | number:'1.0-2') + 'g'}}
                 </div>
                 <div class="col">
-                  {{getMealFats(meal) | number:'1.0-2' + 'g'}}
+                  {{(getMealFats(meal) | number:'1.0-2') + 'g'}}
                 </div>
                 <div class="col">
-                  {{getMealProtein(meal) | number:'1.0-2' + 'g'}}
+                  {{(getMealProtein(meal) | number:'1.0-2') + 'g'}}
                 </div>
                 <div class="col">
-                  {{getMealCalories(meal) | number:'1.0-2' + 'cals'}}
+                  {{(getMealCalories(meal) | number:'1.0-2') + 'kcals'}}
                 </div>
               </div>
             </div>
@@ -67,7 +67,7 @@
       <div class="col text-center">
         <button type="button" class="btn btn-primary btn-block mb-1" (click)="createNewMeal()">Add New Meal</button>
         <button type="button" class="btn btn-default" (click)="reset()" *ngIf="hasFoods()">Reset</button>
-        <button type="button" class="btn btn-primary" style="margin-left: 15px;" *ngIf="hasFoods()">{{meals ? 'Save' : 'Create'}}</button>
+        <button type="button" class="btn btn-primary" style="margin-left: 15px;" *ngIf="hasFoods()" (click)="save()">Save</button>
       </div>
     </div>
   </div>

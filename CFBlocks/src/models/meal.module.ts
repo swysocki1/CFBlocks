@@ -6,7 +6,8 @@ export class Meal {
   description: string;
 }
 export class MealFood {
-  food: Food = new Food();
+  food?: Food = new Food();
+  foodRef?;
   servingAmount: number;
 }
 export class Food {
@@ -35,7 +36,6 @@ export function mergeServing(o: Serving, n: Serving): Serving {
     o.amount = n.amount;
     o.metric = n.metric;
   }
-  console.log(o);
   return o;
 }
 export function isBlank(value: string): string {
@@ -45,9 +45,10 @@ export function isBlank(value: string): string {
   return '';
 }
 export class MealCalendar {
-  id: string;
-  date: Date;
-  meals: [Meal];
+  id?: string;
+  user = '';
+  date: Date = new Date();
+  meals: [Meal] = [] as [Meal];
 }
 export class BlockTemplate {
   metric: string;
@@ -55,3 +56,5 @@ export class BlockTemplate {
   fats: number;
   protein: number;
 }
+
+/* Abstract Data Types For FireStore */

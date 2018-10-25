@@ -3,6 +3,8 @@ import {Food, Meal, MealFood} from '../../../../models/meal.module';
 import {BlockCalculatorService} from '../../../../services/block-calculator.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ValidationService} from '../../../../services/validation.service';
+import {FirebaseService} from '../../../../services/firebase.service';
+import {LoginService} from '../../../../services/login.service';
 
 @Component({
   selector: 'meal-editor',
@@ -37,11 +39,15 @@ import {ValidationService} from '../../../../services/validation.service';
 })
 export class MealEditorComponent implements OnInit, OnChanges {
   @Input() meals: [Meal] = [] as [Meal];
+  @Output() saveMeals = new EventEmitter<[Meal]>();
   @Output() loadMealModal = new EventEmitter();
   form: FormGroup;
-  constructor(private bc: BlockCalculatorService, private fb: FormBuilder, private vs: ValidationService) { }
+  constructor(private bc: BlockCalculatorService, private fb: FormBuilder, private vs: ValidationService, private fs: FirebaseService, private ls: LoginService) { }
   ngOnInit() {
     this.loadForm();
+  }
+  save() {
+    this.saveMeals.emit(this.meals);
   }
   loadForm(meals?: [Meal]) {
     if (!meals || this.meals) {
@@ -53,9 +59,11 @@ export class MealEditorComponent implements OnInit, OnChanges {
       });
     }
     this.form = this.fb.group({});
-    meals.forEach(meal => {
-      meal.foods.forEach(food => {
-        this.form.addControl(`${meal.name}${food.food.name}`, this.fb.control([food.servingAmount, Validators.required]));
+    meals.forEach((meal, m) => {
+      meal.foods.forEach((food, f) => {
+        if (meals[m].foods[f].food) {
+          this.form.addControl(`${meal.name}${food.food.name}`, this.fb.control([food.servingAmount, Validators.required]));
+        }
       });
     });
     if (this.meals) {
