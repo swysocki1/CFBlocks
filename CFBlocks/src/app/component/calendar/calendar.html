@@ -35,7 +35,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let week of month.weeks;">
-      <td *ngFor="let day of week.days" [ngClass]="{'snow-4-fill': !day.isThisMonth, 'snow-2-fill': day.isThisMonth}" style="overflow: hidden;">
+      <td *ngFor="let day of week.days" [ngClass]="{'snow-4-fill': !day.isThisMonth, 'snow-2-fill': day.isThisMonth}" style="overflow: hidden;padding:0;">
         <calendar-day [day]="day" [meals]="getMeal(day)" [isSelected]="isSameDay(selectedDate, day.date)" [view]="view"></calendar-day>
       </td>
     </tr>

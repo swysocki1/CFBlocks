@@ -42,16 +42,16 @@ export class MealService {
     }
   }
   isBreakFast(meal: Meal): boolean {
-    return meal.type.toUpperCase() === 'BREAKFAST';
+    return meal && meal.type && meal.type.toUpperCase() === 'BREAKFAST';
   }
   isLunch(meal: Meal): boolean {
-    return meal.type.toUpperCase() === 'LUNCH';
+    return meal && meal.type && meal.type.toUpperCase() === 'LUNCH';
   }
   isDinner(meal: Meal): boolean {
-    return meal.type.toUpperCase() === 'DINNER';
+    return meal && meal.type && meal.type.toUpperCase() === 'DINNER';
   }
   isSnack(meal: Meal): boolean {
-    return meal.type.toUpperCase() === 'SNACK';
+    return (meal && meal.type && meal.type.toUpperCase() === 'SNACK') || (!this.isBreakFast(meal) || !this.isLunch(meal) || !this.isDinner(meal));
   }
   private getTestMealCalendar(start: Date, end: Date): [MealCalendar] {
     const cal: [MealCalendar] = [] as [MealCalendar];

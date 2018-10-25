@@ -165,6 +165,7 @@
 }
 .azure-fill {
   fill: #3cc;
+  background: #3cc;
 }
 .blush {
   color: #ff5050;
@@ -172,6 +173,7 @@
 }
 .blush-fill {
   fill: #ff5050;
+  background: #ff5050;
 }
 .lavender {
   color: #c9f;
@@ -179,6 +181,7 @@
 }
 .lavender-fill {
   fill: #c9f;
+  background: #c9f;
 }
 .mint {
   color: #0fc;
@@ -186,6 +189,7 @@
 }
 .mint-fill {
   fill: #0fc;
+  background: #0fc;
 }
 .seafoam {
   color: #099;
@@ -193,6 +197,7 @@
 }
 .seafoam-fill {
   fill: #099;
+  background: #099;
 }
 .tiger {
   color: #fc6;

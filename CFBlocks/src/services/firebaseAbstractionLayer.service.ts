@@ -6,10 +6,11 @@ import {map} from 'rxjs/operators';
 import {FirebaseService} from './firebase.service';
 import {Observable} from 'rxjs/internal/Observable';
 import {deepCopy} from '../util/deepCopy.util';
+import {CalendarService} from '../app/component/calendar/calendar.service';
 
 @Injectable()
 export class FirebaseAbstractionLayerService {
-  constructor(private fs: FirebaseService) { }
+  constructor(private fs: FirebaseService, private cs: CalendarService) { }
   getMealCalendarByDateRange(user: User, startRange?: Date, endRange?: Date) {
     return new Observable(sub => {
       this.fs.queryMealCalendarByDateRange(user, startRange, endRange).snapshotChanges().pipe(map(actions => {
@@ -18,25 +19,36 @@ export class FirebaseAbstractionLayerService {
           const id = a.payload.doc.id;
           return { id, ...data };
         });
-      })).subscribe( data => {
-        if (data) {
-          if (data.length > 0) {
-            data[0].meals.forEach((meal, m) => {
-              meal.foods.forEach((food, f) => {
-                food.foodRef.get().then(res => {
-                  data[0].meals[m].foods[f].foodRef = null;
-                  data[0].meals[m].foods[f].food = res.data() as Food;
-                }, error => {
-                  sub.error(error);
+      })).subscribe( mealCalendar => {
+        console.log(mealCalendar);
+        if (mealCalendar) {
+          if (mealCalendar.length > 0) {
+            mealCalendar.forEach((day, d) => {
+              if (day.date) {
+                mealCalendar[d].date = (<any>day.date).toDate();
+              }
+              day.meals.forEach((meal, m) => {
+                meal.foods.forEach((food, f) => {
+                  food.foodRef.get().then(res => {
+                    mealCalendar[d].meals[m].foods[f].foodRef = null;
+                    mealCalendar[d].meals[m].foods[f].food = res.data() as Food;
+                  }, error => {
+                    sub.error(error);
+                  });
                 });
               });
             });
-            sub.next(data[0] as MealCalendar);
+            // console.log(mealCalendar);
+            // if (this.cs.isSameDay(startRange, endRange)) {
+            //   sub.next(mealCalendar[0] as MealCalendar);
+            // } else {
+              sub.next(mealCalendar as [MealCalendar]);
+            // }
           } else {
-            sub.next(null);
+            sub.next([] as [MealCalendar]);
           }
         } else {
-          sub.next(null);
+          sub.next([] as [MealCalendar]);
         }
       }, error => {
         sub.error(error);

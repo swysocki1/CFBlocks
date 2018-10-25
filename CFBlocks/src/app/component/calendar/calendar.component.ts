@@ -6,6 +6,8 @@ declare var $: any;
 import {Meal, MealCalendar} from '../../../models/meal.module';
 import {MealService} from '../../../services/meal.service';
 import {Router} from '@angular/router';
+import {LoginService} from '../../../services/login.service';
+import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstractionLayer.service';
 
 @Component({
   selector: 'calendar',
@@ -35,9 +37,9 @@ export class CalendarComponent implements OnInit {
   monthsOfYear: [string] = [] as [string];
   month: CalendarMonth = new CalendarMonth();
   selectedDate: Date;
-  mealCalendar: [MealCalendar];
+  mealCalendar: [MealCalendar] = [] as [MealCalendar];
   view = 'Monthly';
-  constructor(private cs: CalendarService, private mealService: MealService, private router: Router) { }
+  constructor(private cs: CalendarService, private mealService: MealService, private router: Router, private ls: LoginService, private fsa: FirebaseAbstractionLayerService) { }
   ngOnInit() {
     this.daysOfWeek = this.cs.getDaysOfWeek();
     this.monthsOfYear = this.cs.getMonthsOfYear();
@@ -119,8 +121,18 @@ export class CalendarComponent implements OnInit {
     return this.isSameDay(this.selectedDate, new Date());
   }
   getMeal(day: CalendarDay): [Meal] {
+    // if (this.cs.isSameDay(day.date, new Date())) {
+    //   console.log(this.mealCalendar);
+    //   console.log(day.date);
+    //   this.mealCalendar.forEach(m => {
+    //     console.log(m.date);
+    //     if (this.cs.isSameDay(day.date, moment(m.date).toDate())) {
+    //       console.log(m);
+    //     }
+    //   });
+    // }
     if (day) {
-      const mealCalendar = this.mealCalendar.find(meal => moment(meal.date).isSame(moment(day.date)));
+      const mealCalendar = this.mealCalendar.find(meal => this.cs.isSameDay(new Date(meal.date), day.date));
       if (mealCalendar) {
         return mealCalendar.meals;
       }
@@ -129,9 +141,25 @@ export class CalendarComponent implements OnInit {
   }
   getMealCalendar(start?: Date, end?: Date, doNotRepeat?: boolean) {
     if (start && end) {
-      this.mealService.getMealCalendar(start, end).subscribe(mealCalendar => {
-        this.mealCalendar = mealCalendar;
-      });
+      // this.mealService.getMealCalendar(start, end).subscribe(mealCalendar => {
+      //   this.mealCalendar = mealCalendar;
+      // });
+      if (this.ls.getUserSession().authenticated) {
+        this.fsa.getMealCalendarByDateRange(this.ls.getUser(), start, end).subscribe((mc: any) => {
+          if (mc) {
+            this.mealCalendar = mc;
+          }
+          // } else {
+          //   this.mealCalendar.forEach(mealCalendar => {
+          //     mealCalendar.date = date;
+          //   });
+          //   this.mealCalendar.date = date;
+          //   this.mealCalendar.user = this.user.id;
+          // }
+        }, error => {
+          console.error(error);
+        });
+      }
     } else {
       this.month.weeks.forEach(week => {
         week.days.forEach(day => {

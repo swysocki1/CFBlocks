@@ -130,7 +130,7 @@ export class MealEditorComponent implements OnInit, OnChanges {
     return grams;
   }
   getMealCollapseId(meal: Meal): string {
-      return 'collapse-' + meal.name.replace(' ', '-');
+      return 'collapse-' + meal.name.replace(new RegExp(' ', 'g'), '-').replace(new RegExp('\'', 'g'), '-');
   }
   createNewMeal() {
     this.loadMealModal.emit();
