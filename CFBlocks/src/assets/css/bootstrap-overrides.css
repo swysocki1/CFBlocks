@@ -13,7 +13,7 @@
 .card .card-header {
   background: #fff;
 }
-.card .card-body {
+.card .card-body, .jumbotron {
   background: #fff;
   opacity: .95;
 }

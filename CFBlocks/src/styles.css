@@ -7,6 +7,7 @@ html, body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  font-family: 'PT Sans', 'Helvetica Nue', arial, sans-serif;
 }
 html.kitchen-theme, body.kitchen-theme {
   background-color: rgba(256,256,256,0);

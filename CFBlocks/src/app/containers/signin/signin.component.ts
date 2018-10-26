@@ -9,7 +9,13 @@ declare var $: any;
 
 @Component({
   selector: 'signin',
-  templateUrl: './signin.html'
+  templateUrl: './signin.html',
+  styles: [ `
+    .jumbotron {
+      padding-top: 25vh;
+      padding-bottom: 30vh;
+    }
+  `]
 })
 export class SigninComponent implements OnInit {
   constructor(private ls: LoginService, private vs: ValidationService, private router: Router, private fb: FormBuilder) {}
