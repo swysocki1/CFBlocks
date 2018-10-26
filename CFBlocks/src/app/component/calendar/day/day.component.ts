@@ -1,4 +1,4 @@
-import {Component, Input, Pipe, PipeTransform} from '@angular/core';
+import {Component, EventEmitter, Input, Output, Pipe, PipeTransform} from '@angular/core';
 import {CalendarDay} from '../calendar.model';
 import {Meal} from '../../../../models/meal.module';
 import {MealService} from '../../../../services/meal.service';
@@ -43,6 +43,7 @@ export class DayComponent {
   @Input() meals: [Meal];
   @Input() isSelected: boolean;
   @Input() view: string;
+  @Output() updateSelectedDate: EventEmitter<Date> = new EventEmitter<Date>();
 
   constructor(private mealService: MealService, private router: Router) { }
   addMeal() {
@@ -79,5 +80,8 @@ export class DayComponent {
     } else {
       return true;
     }
+  }
+  selectDate(date: Date) {
+    this.updateSelectedDate.emit(date);
   }
 }

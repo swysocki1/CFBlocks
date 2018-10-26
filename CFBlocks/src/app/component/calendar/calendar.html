@@ -30,13 +30,13 @@
   <table class="table table-bordered">
     <thead>
     <tr class="snow-fill">
-      <th scope="col" *ngFor="let day of daysOfWeek">{{day}}</th>
+      <th scope="col" *ngFor="let day of daysOfWeek" style="width:calc(100%/7);">{{day}}</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let week of month.weeks;">
       <td *ngFor="let day of week.days" [ngClass]="{'snow-4-fill': !day.isThisMonth, 'snow-2-fill': day.isThisMonth}" style="overflow: hidden;padding:0;">
-        <calendar-day [day]="day" [meals]="getMeal(day)" [isSelected]="isSameDay(selectedDate, day.date)" [view]="view"></calendar-day>
+        <calendar-day [day]="day" [meals]="getMeal(day)" [isSelected]="isSameDay(selectedDate, day.date)" [view]="view" (updateSelectedDate)="selectDate($event);"></calendar-day>
       </td>
     </tr>
     </tbody>

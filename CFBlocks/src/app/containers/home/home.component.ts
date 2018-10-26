@@ -1,4 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {LoginService} from '../../../services/login.service';
+import {User, UserSession} from '../../../models/user.model';
+import {Router} from '@angular/router';
 
 @Component({
   templateUrl: './home.html',
