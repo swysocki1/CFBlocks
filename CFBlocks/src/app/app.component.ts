@@ -22,14 +22,15 @@ export class AppComponent implements OnInit {
     this.router.events.subscribe(event => {
       if (event && event['url']) {
         this.updateMainBackground(event['url']);
-
         if (this.userSession && this.userSession.authenticated) {
           if (event['url'] === '/home' || event['url'] === '/') {
             this.router.navigate(['/meal-calendar']);
           }
         } else {
           if (this.userSession && !this.userSession.authenticated) {
-            this.router.navigate(['/home']);
+            if (event['url'] !== '/home' && event['url'] !== '/') {
+              this.router.navigate(['/home']);
+            }
           }
         }
       }
@@ -38,7 +39,6 @@ export class AppComponent implements OnInit {
   updateMainBackground(pathname?: string) {
     if ((!this.currentPathname && pathname) || this.currentPathname !== pathname) {
       let backgroundClass = '';
-      console.log(pathname);
       if (pathname !== '/home' && pathname !== '/') {
         backgroundClass = 'kitchen-theme';
       }
