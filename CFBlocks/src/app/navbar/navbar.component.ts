@@ -115,4 +115,7 @@ export class NavbarComponent implements OnInit {
   hasNewNotifications() {
     return this.notifications.some(notification => !notification.viewed);
   }
+  showLinks() {
+    return this.router.url !== '/home';
+  }
 }

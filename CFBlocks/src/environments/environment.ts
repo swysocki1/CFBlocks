@@ -14,6 +14,7 @@ export const environment = {
     storageBucket: 'cfblocks-b3c6f.appspot.com',
     messagingSenderId: '898967420145'
   },
+  themes: ['kitchen-theme'],
   facebook: '',
   twitter: '',
   youtube: '',

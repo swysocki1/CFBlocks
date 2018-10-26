@@ -1,34 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 /* Main CSS */
 html, body {
-  /*height: 100vh;*/
-  /*width: 100vw;*/
-  /*margin: 0;*/
-  /*outline: 0 none;*/
-  /*padding: 0;*/
-  background-image: url('./assets/imgs/colorful-background.jpg');
-
+  background-color: #fff;
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
 }
+html.kitchen-theme, body.kitchen-theme {
+  background-color: rgba(256,256,256,0);
+  background-image: url('./assets/imgs/colorful-background.jpg');
+}
 .main {
-  /*margin-top: 15px;*/
-  /*margin-bottom: 15px;*/
-  /*height: 100%;*/
-  /*overflow: auto;*/
-  /*margin-top: 4rem;*/
   padding-top: 57px;
 }
+
 div.page-header {
   border-radius: 5px;
   padding: 15px 25px;
   background: #fff;
   border: 3px solid #ddd;
   margin-bottom: 15px;
-
 }
 
 /* font awesome overrides */
@@ -59,4 +52,3 @@ i.fa.active {
 .pointer:hover {
   cursor: pointer;
 }
-

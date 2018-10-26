@@ -17,7 +17,7 @@
       <a class="nav-link" [href]="instagram"><i class="fa fa-instagram fa-fw fa-lg"></i></a>
     </li>
   </ul>
-  <ul class="navbar-nav mr-auto">
+  <ul class="navbar-nav mr-auto" *ngIf="showLinks()">
     <li class="nav-item" routerLinkActive="active">
       <a class="nav-link" routerLink="/home">Home <span class="sr-only">(current)</span></a>
     </li>
@@ -70,13 +70,13 @@
       <a class="nav-link pointer" title="settings"><i class="fa fa-fw fa-lg" [ngClass]="{'fa-user-circle' : isAdmin(), 'fa-user-circle-o': !isAdmin()}"></i></a>
     </li>
     <li class="nav-item" *ngIf="isLogedIn()">
-      <a (click)="logout()" class="nav-link pointer" title="signin">(Logout)</a>
+      <a (click)="logout()" class="nav-link pointer" title="signin">Logout</a>
     </li>
     <li class="nav-item" *ngIf="!isLogedIn()">
-      <a routerLink="/signin" class="btn pull-left" title="signin">(Sign In)</a>
+      <a routerLink="/signin" class="nav-link pull-left" title="signin">Sign In</a>
     </li>
-    <li class="nav-item" *ngIf="!isLogedIn()">
-      <a routerLink="/signup" class="btn pull-right" title="Create New Account">(Create New Account)</a>
+    <li class="nav-item" *ngIf="!isLogedIn() && showLinks()">
+      <a routerLink="/signup" class="nav-link pull-right" title="Create New Account">Create New Account</a>
     </li>
   </ul>
   </div>
