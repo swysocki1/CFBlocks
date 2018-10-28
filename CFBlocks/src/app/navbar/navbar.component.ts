@@ -116,6 +116,6 @@ export class NavbarComponent implements OnInit {
     return this.notifications.some(notification => !notification.viewed);
   }
   showLinks() {
-    return this.router.url !== '/home';
+    return !['/', '/home', '/signin', '/signup'].some(path => path === this.router.url);
   }
 }

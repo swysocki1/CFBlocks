@@ -28,7 +28,8 @@ export class AppComponent implements OnInit {
           }
         } else {
           if (this.userSession && !this.userSession.authenticated) {
-            if (event['url'] !== '/home' && event['url'] !== '/') {
+            const validPaths = ['/', '/home', '/signin', '/signup'];
+            if (!validPaths.some(path => path === event['url'])) {
               this.router.navigate(['/home']);
             }
           }
