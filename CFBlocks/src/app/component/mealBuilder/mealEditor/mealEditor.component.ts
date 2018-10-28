@@ -20,6 +20,12 @@ import {LoginService} from '../../../../services/login.service';
       top: 0;
       z-index: 1;
     }
+    .meal-food-item-header.card .card-body {
+      padding: .2rem 1.25rem;
+    }
+    .meal-food-item-header.card .card-body label.control-label{
+      margin-bottom: 0;
+    }
     .meal-editor-submit-container {
       position: sticky;
       position: -webkit-sticky;
@@ -34,6 +40,9 @@ import {LoginService} from '../../../../services/login.service';
     }
     .toggle-foods:hover {
       opacity:1;
+    }
+    .meal-editor-submit-container {
+      background-color: inherit;
     }
   `]
 })

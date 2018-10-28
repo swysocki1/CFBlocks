@@ -24,6 +24,10 @@ import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstrac
     .create-food:hover {
       opacity:1;
     }
+    .todays-totals {
+      white-space: nowrap;
+      display: inline-block;
+    }
   `]
 })
 export class MealBuilderComponent implements OnInit {
@@ -62,7 +66,9 @@ export class MealBuilderComponent implements OnInit {
     }, error => {
       console.error(error);
     });
-    $('#meal-builder-date-dropdown-menu').datepicker({startDate: this.mealDay}).on('changeDate', (event) => {
+    $('#meal-builder-date-dropdown-menu').datepicker({
+      todayHighlight: true
+    }).datepicker('update', this.mealDay).on('changeDate', (event) => {
       this.router.navigate(['/meal-builder', moment(event.date).format('MMDDYY')]);
     });
     this.fs.getAllFoods().subscribe(foods => {
@@ -75,6 +81,7 @@ export class MealBuilderComponent implements OnInit {
         if (mc) {
           this.mealCalendar = mc;
         } else {
+          this.mealCalendar = new MealCalendar();
           this.mealCalendar.date = date;
           this.mealCalendar.user = this.user.id;
         }

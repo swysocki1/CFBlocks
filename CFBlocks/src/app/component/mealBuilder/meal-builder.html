@@ -14,17 +14,18 @@
       <div class="col meal-container">
         <div class="row meal-totals">
           <div class="col text-center">
-            <label class="control-label"><b>Carbs:</b></label><span class="mr-2">&nbsp;{{(getTodaysCarbTotal() | number:'1.0-2') + 'g / ' + (getDailyCarbTotal() | number:'1.0-2' ) + 'g'}}</span>
-          <!--</div>-->
-          <!--<div class="col">-->
-            <label class="control-label"><b>Fats:</b></label><span class="mr-2">&nbsp;{{(getTodaysFatTotal() | number:'1.0-2') + 'g / ' + (getDailyFatTotal() | number:'1.0-2') + 'g'}}</span>
-          <!--</div>-->
-          <!--<div class="col">-->
-            <label class="control-label"><b>Protein:</b></label><span class="mr-2">&nbsp;{{(getTodaysProteinTotal() | number:'1.0-2') + 'g / ' + (getDailyProteinTotal() | number:'1.0-2') + 'g'}}</span>
-          <!--</div>-->
-          <!--<div class="col">-->
-            <label class="control-label"><b>Calories:</b></label><span class="mr-2">&nbsp;{{(getTodaysCalorieTotal() | number:'1.0-2') + 'kcals / ' + (getDailyCalorieTotal() | number:'1.0-2') + 'kcals'}}</span>
-            <!--<span class="rounded-circle coal grey1-fill grey3-fill-hover create-food pointer" (click)="loadSelectFoodModule()"><i class="fa fa-lg fa-fw fa-plus"></i></span>-->
+            <span class="todays-totals">
+              <label class="control-label"><b>Carbs:</b></label><span class="mr-2 ">&nbsp;{{(getTodaysCarbTotal() | number:'1.0-2') + 'g / ' + (getDailyCarbTotal() | number:'1.0-2' ) + 'g'}}</span>
+            </span>
+            <span class="todays-totals">
+              <label class="control-label"><b>Fats:</b></label><span class="mr-2">&nbsp;{{(getTodaysFatTotal() | number:'1.0-2') + 'g / ' + (getDailyFatTotal() | number:'1.0-2') + 'g'}}</span>
+            </span>
+            <span class="todays-totals">
+              <label class="control-label"><b>Protein:</b></label><span class="mr-2">&nbsp;{{(getTodaysProteinTotal() | number:'1.0-2') + 'g / ' + (getDailyProteinTotal() | number:'1.0-2') + 'g'}}</span>
+            </span>
+            <span class="todays-totals">
+              <label class="control-label"><b>Calories:</b></label><span class="mr-2">&nbsp;{{(getTodaysCalorieTotal() | number:'1.0-2') + 'kcals / ' + (getDailyCalorieTotal() | number:'1.0-2') + 'kcals'}}</span>
+            </span>
           </div>
         </div>
         <div class="row meals">

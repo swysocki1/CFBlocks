@@ -44,10 +44,13 @@ export class CalendarComponent implements OnInit {
     this.daysOfWeek = this.cs.getDaysOfWeek();
     this.monthsOfYear = this.cs.getMonthsOfYear();
     this.selectDate(moment(new Date()).startOf('day').toDate());
-    $('#calendar-date-dropdown-menu').datepicker({startDate: this.selectedDate}).on('changeDate', (event) => {
-      this.selectDate(event.date);
+    $('#calendar-date-dropdown-menu').datepicker({
+      todayHighlight: true
+    }).datepicker('update', this.selectedDate).on('changeDate', (event) => {
+      if (!this.isSameDay(event.date, this.selectedDate)) {
+        this.selectDate(event.date);
+      }
     });
-    // this.month = this.cs.getMonth(moment(this.selectedDate).year(), moment(this.selectedDate).month());
     this.getMealCalendar();
   }
   goToMonth(dateOfMonth: Date) {
@@ -96,11 +99,14 @@ export class CalendarComponent implements OnInit {
     }
   }
   toggleToday(): void {
-    this.selectDate(moment().toDate());
+    if (!this.isSameDay(moment().toDate(), this.selectedDate)) {
+      this.selectDate(moment().toDate());
+    }
   }
   selectDate(date: Date) {
     if (!this.selectedDate || !this.isSameDay(date, this.selectedDate)) {
       this.selectedDate = date;
+      $('#calendar-date-dropdown-menu').datepicker('update', this.selectedDate);
       if (!this.cs.dateInCalendarMonth(this.month, this.selectedDate)) {
         if (!this.view || this.view === 'Monthly') {
           this.goToMonth(this.selectedDate);
@@ -111,7 +117,9 @@ export class CalendarComponent implements OnInit {
         }
       }
     } else {
-      this.selectedDate = null;
+      if (this.selectedDate) {
+        this.router.navigate(['/meal-builder', moment(this.selectedDate).format('MMDDYY')]);
+      }
     }
   }
   isSameDay(date1: Date, date2: Date) {

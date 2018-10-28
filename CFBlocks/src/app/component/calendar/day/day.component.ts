@@ -22,10 +22,12 @@ import * as moment from 'moment';
     .day.valid-month {
       opacity: 1;
     }
-    .day.is-selected .dayNumber{
+    .day .dayNumber {
       padding: 5px;
-      color: #fff;
       min-width: 2pc;
+    }
+    .day.is-selected .dayNumber{
+      color: #fff;
     }
     .breakfast, .lunch, .dinner, .snack { }
     .add-meal {

@@ -20,7 +20,6 @@ export class FirebaseAbstractionLayerService {
           return { id, ...data };
         });
       })).subscribe( mealCalendar => {
-        console.log(mealCalendar);
         if (mealCalendar) {
           if (mealCalendar.length > 0) {
             mealCalendar.forEach((day, d) => {
