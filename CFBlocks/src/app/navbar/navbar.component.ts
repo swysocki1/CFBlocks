@@ -8,6 +8,7 @@ import {NotificationService} from '../../services/notification.service';
 import {Notification} from '../../models/notification.model';
 import {Router} from '@angular/router';
 import {environment} from '../../environments/environment';
+declare var $: any;
 
 @Component({
   selector: 'navbar',
@@ -84,7 +85,7 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.loginService.logout().subscribe(userSession => {
       this.userSession = userSession;
-      this.router.navigate(['/home']);
+      this.navigate('/home');
     }, error => {
       console.error(error);
     });
@@ -103,7 +104,7 @@ export class NavbarComponent implements OnInit {
   isAdmin(): boolean {
     return this.loginService.isAdmin();
   }
-  atLoginPage() {
+  atSignupPage() {
     return this.router.url === '/signup';
   }
   atSigninPage() {
@@ -117,5 +118,9 @@ export class NavbarComponent implements OnInit {
   }
   showLinks() {
     return !['/', '/home', '/signin', '/signup'].some(path => path === this.router.url);
+  }
+  navigate(path: string) {
+    $('#navbarSupportedContent.show').collapse('hide');
+    this.router.navigate([path]);
   }
 }
