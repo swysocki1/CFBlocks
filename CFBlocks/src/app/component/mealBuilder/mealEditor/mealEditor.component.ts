@@ -56,6 +56,7 @@ export class MealEditorComponent implements OnInit, OnChanges {
     this.loadForm();
   }
   save() {
+    console.log(this.meals);
     this.saveMeals.emit(this.meals);
   }
   loadForm(meals?: [Meal]) {
@@ -93,7 +94,16 @@ export class MealEditorComponent implements OnInit, OnChanges {
       return false;
     }
   }
-  removeFood(food: Food) {
+  updateFood(food: MealFood) {
+    if (this.meals && this.meals.length) {
+      const m = this.meals.findIndex(meal => meal.foods.some(mealFood => mealFood.food.id === food.food.id));
+      if (this.meals[m] && this.meals[m].foods.length) {
+        const mf = this.meals[m].foods.findIndex(mealFood => mealFood.food.id === food.food.id);
+        this.meals[m].foods[mf] = food;
+      }
+    }
+  }
+  removeFood(food: MealFood) {
     // TODO something???
   }
   hasFoods() {

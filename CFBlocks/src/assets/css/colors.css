@@ -207,3 +207,11 @@
   fill: #fc6;
   background: #fc6;
 }
+.cream {
+  color: #FFFDD0;
+  text-shadow: 1px 1px 1px #000;
+}
+.cream-fill {
+  fill: #FFFDD0;
+  background: #FFFDD0;
+}

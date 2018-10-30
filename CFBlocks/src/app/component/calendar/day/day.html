@@ -1,4 +1,4 @@
-<div class="day" [ngClass]="{'valid-month': validMonth(day?.isThisMonth), 'is-selected': isSelected}">
+<div class="day" [ngClass]="{'valid-month': validMonth(day?.isThisMonth), 'is-selected': isSelected, 'cream-fill': isToday(day.date)}">
   <div class="row">
     <div class="col">
       <h5 class="pull-left dayNumber text-center rounded-circle pointer" [ngClass]="{'red-fill' : isSelected}" (click)="selectDate(day?.date)">{{day?.dayOfMonth}}</h5>
@@ -6,11 +6,12 @@
     </div>
   </div>
   <div class="row">
-    <div class="col pointer meal" *ngFor="let meal of meals | mealSort" (click)="showMeal(meal)"
-      [ngClass]="{'breakfast tiger-fill': isBreakFast(meal), 'lunch seafoam-fill': isLunch(meal), 'dinner lavender-fill': isDinner(meal), 'snack mint-fill': isSnack(meal)}"
-      >{{getMealDisplay(meal)}}</div>
+    <div class="col-12 pointer meal" *ngFor="let meal of meals | mealSort" (click)="showMeal(meal)"
+      [ngClass]="{'breakfast tiger-fill': isBreakFast(meal), 'lunch seafoam-fill': isLunch(meal), 'dinner lavender-fill': isDinner(meal), 'snack mint-fill': isSnack(meal)}">
+      <span class="meal-text">{{getMealDisplay(meal)}}</span>
+    </div>
     <div *ngIf="!meals || meals.length < 1" class="col">
-      <p class="text-muted">No Meals to Display!</p>
+      <p class="text-muted text-center">No Meals to Display!</p>
     </div>
   </div>
 </div>

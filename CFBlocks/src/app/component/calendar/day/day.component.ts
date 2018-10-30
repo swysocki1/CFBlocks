@@ -5,6 +5,7 @@ import {MealService} from '../../../../services/meal.service';
 import {ValidationService} from '../../../../services/validation.service';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
+import {CalendarService} from '../calendar.service';
 
 @Component({
   selector: 'calendar-day',
@@ -38,6 +39,9 @@ import * as moment from 'moment';
     .add-meal:hover {
       opacity:1;
     }
+    .meal-text {
+      padding:0 .5em;
+    }
   `]
 })
 export class DayComponent {
@@ -47,7 +51,7 @@ export class DayComponent {
   @Input() view: string;
   @Output() updateSelectedDate: EventEmitter<Date> = new EventEmitter<Date>();
 
-  constructor(private mealService: MealService, private router: Router) { }
+  constructor(private mealService: MealService, private router: Router, private cs: CalendarService) { }
   addMeal() {
     this.router.navigate(['/meal-builder', moment(this.day.date).format('MMDDYY')]);
   }
@@ -85,5 +89,8 @@ export class DayComponent {
   }
   selectDate(date: Date) {
     this.updateSelectedDate.emit(date);
+  }
+  isToday(date: Date) {
+    return this.cs.isSameDay(date, moment().toDate());
   }
 }

@@ -66,6 +66,7 @@ export class FirebaseAbstractionLayerService {
         })).subscribe( data => {
         if (data) {
           if (data.length > 0) {
+            data[0].date = (<any>data[0].date).toDate();
             data[0].meals.forEach((meal, m) => {
               meal.foods.forEach((food, f) => {
                 food.foodRef.get().then(res => {
@@ -90,6 +91,7 @@ export class FirebaseAbstractionLayerService {
   }
   saveMealCalendar(user: User, mc: MealCalendar) {
     const copy = this.mealCalendarDeepCopy(user, mc);
+    console.log(copy);
     if (mc && !mc.id) {
       return this.fs.createMealCalendar(copy);
     } else {

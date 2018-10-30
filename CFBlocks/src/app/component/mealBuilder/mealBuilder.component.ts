@@ -79,6 +79,7 @@ export class MealBuilderComponent implements OnInit {
     if (this.ls.getUserSession().authenticated) {
       this.fsa.getMealCalendarOnDay(this.ls.getUser(), date).subscribe((mc: any) => {
         if (mc) {
+          console.log(mc);
           this.mealCalendar = mc;
         } else {
           this.mealCalendar = new MealCalendar();

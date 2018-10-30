@@ -52,7 +52,7 @@
           </div>
           <div [id]="getMealCollapseId(meal)" class="row collapse">
             <div class="col">
-              <meal-food-item *ngFor="let mealFood of meal.foods" [food]="mealFood"></meal-food-item>
+              <meal-food-item *ngFor="let mealFood of meal.foods" [food]="mealFood" (foodUpdate)="updateFood($event)" (remove)="removeFood($event)"></meal-food-item>
             </div>
           </div>
         </div>
