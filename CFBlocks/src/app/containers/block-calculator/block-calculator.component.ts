@@ -65,7 +65,21 @@ export class BlockCalculatorComponent implements OnInit {
     if (this.blockCalculatorPage >= this.fieldSets.length - 1) {
       return true;
     } else {
-      return false; // TODO more logic
+      if (this.blockCalculatorPage === 0) {
+      
+      } else if (this.blockCalculatorPage === 1) {
+    
+      } else if (this.blockCalculatorPage === 2) {
+    
+      } else if (this.blockCalculatorPage === 3) {
+    
+      } else if (this.blockCalculatorPage === 4) {
+    
+      } else if (this.blockCalculatorPage === 5) {
+    
+      } else {
+        return false; // TODO more logic
+      }
     }
   }
 }

@@ -13,6 +13,7 @@ export class User {
   lifeStyle: UserLifeStyle = new UserLifeStyle();
   blockTemplate: BlockTemplate = new BlockTemplate();
   photoURL: string;
+  favFoods?: [string] = [] as [string];
 }
 export function mergeUser(oldUser: User, newUser: User): User {
   // oldUser.email = isBlank(newUser.email) ? isBlank(newUser.email) : oldUser.email;
@@ -40,6 +41,7 @@ export function mergeUser(oldUser: User, newUser: User): User {
   oldUser.blockTemplate.carbs = newUser.blockTemplate.carbs ? newUser.blockTemplate.carbs : oldUser.blockTemplate.carbs;
   oldUser.blockTemplate.fats = newUser.blockTemplate.fats ? newUser.blockTemplate.fats : oldUser.blockTemplate.fats;
   oldUser.blockTemplate.protein = newUser.blockTemplate.protein ? newUser.blockTemplate.protein : oldUser.blockTemplate.protein;
+  oldUser.favFoods = newUser.favFoods && newUser.favFoods.length ? newUser.favFoods : oldUser.favFoods;
   return oldUser;
 }
 export function isBlank(value: string): string {

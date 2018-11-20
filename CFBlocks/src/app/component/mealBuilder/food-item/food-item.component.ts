@@ -1,17 +1,23 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Food, Meal} from '../../../../models/meal.module';
 import {BlockCalculatorService} from '../../../../services/block-calculator.service';
+import {MealService} from "../../../../services/meal.service";
+import {FirebaseAbstractionLayerService} from "../../../../services/firebaseAbstractionLayer.service";
+import {LoginService} from "../../../../services/login.service";
 
 @Component({
   selector: 'food-item',
   templateUrl: './food-item.html',
   styles: [`
-    .card-body{ padding: 10px;}
-    .update-food{
+    .card-body { padding: 10px;}
+    .update-food {
       display:inline-block;
       padding:3px;
       opacity: 0.3;
       margin-bottom: 5px;
+    }
+    .update-food.active {
+      opacity:.8;
     }
     .update-food:hover {
       opacity:1;
@@ -30,7 +36,8 @@ export class FoodItemComponent {
   @Output() updateFood: EventEmitter<Food> = new EventEmitter<Food>();
   @Output() add: EventEmitter<Food> = new EventEmitter<Food>();
   @Output() remove: EventEmitter<Food> = new EventEmitter<Food>();
-  constructor(private bc: BlockCalculatorService) { }
+  constructor(private bc: BlockCalculatorService, private mealService: MealService, private fsa: FirebaseAbstractionLayerService,
+              private ls: LoginService) { }
   calcCalories(food: Food) {
     return this.bc.calcFoodCalories(food);
   }
@@ -51,5 +58,22 @@ export class FoodItemComponent {
   }
   hasAdditionalVariations(): boolean {
     return true;
+  }
+  isFavoriteFood() {
+    return this.mealService.isFavoriteFood(this.food);
+  }
+  favoriteFood() {
+    this.fsa.favoriteFood(this.ls.getUser(), this.food).subscribe(res => {
+      console.log(res);
+    },error => {
+      console.error(error);
+    });
+  }
+  unFavoriteFood() {
+    this.fsa.unFavoriteFood(this.ls.getUser(), this.food).subscribe(res => {
+      console.log(res);
+    },error => {
+      console.error(error);
+    });
   }
 }

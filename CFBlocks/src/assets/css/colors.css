@@ -215,3 +215,11 @@
   fill: #FFFDD0;
   background: #FFFDD0;
 }
+.gold {
+  color: #FFD700;
+  text-shadow: 1px 1px 1px #000;
+}
+.gold-fill {
+  fill: #FFD700;
+  background: #FFD700;
+}

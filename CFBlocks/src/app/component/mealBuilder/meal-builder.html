@@ -74,7 +74,7 @@
           </div>
           <div class="col-5">
             <div class="form-group">
-              <input type="search" class="form-control form-control-sm" [ngClass]="{'is-invalid': (foods | foodFilter:search:meal.foods).length < 1}" id="food-filter" [(ngModel)]="search" placeholder="Filter"/>
+              <input type="search" class="form-control form-control-sm" [ngClass]="{'is-invalid': (foods | foodFilter:search:meal?.foods:user?.favFoods).length < 1}" id="food-filter" [(ngModel)]="search" placeholder="Filter"/>
               <div class="invalid-feedback">No Results Were Found</div>
             </div>
           </div>
@@ -83,7 +83,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-6" *ngFor="let food of foods | foodFilter:search:meal.foods" style="padding:5px;">
+          <div class="col-6" *ngFor="let food of foods | foodFilter:search:meal?.foods:user?.favFoods" style="padding:5px;">
             <!--<food-item *ngFor="let food of foods | foodFilter : {search: search, alreadyUsed: meal.foods}" [food]="food"  (updateFood)="loadFoodModal(food)"></food-item>-->
             <food-item [food]="food" [isSelected]="inMeal(food)" [canAdd]="!inMeal(food)" [canUpdate]="true" [canRemove]="inMeal(food)" (updateFood)="loadFoodModal(food)" (add)="addFoodToMeal($event)" (remove)="removeFoodFromMeal($event)"></food-item>
           </div>

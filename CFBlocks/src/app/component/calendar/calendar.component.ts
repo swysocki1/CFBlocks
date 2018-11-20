@@ -11,25 +11,7 @@ import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstrac
 
 @Component({
   selector: 'calendar',
-  templateUrl: './calendar.html',
-  styles: [`
-    #calendar-date-input {
-      width: 125px;
-      border: 0;
-      border-bottom: 1px dotted #fff;
-      background: none;
-      outline: 0;
-      padding: 0;
-      color: #fff;
-      font-size: 23px;
-      line-height: 1;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-      margin: 0;
-      cursor: pointer;
-    }
-  `]
+  templateUrl: './calendar.html'
 })
 export class CalendarComponent implements OnInit {
   @Input() name: string;

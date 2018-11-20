@@ -7,10 +7,11 @@ import {FirebaseService} from './firebase.service';
 import {Observable} from 'rxjs/internal/Observable';
 import {deepCopy} from '../util/deepCopy.util';
 import {CalendarService} from '../app/component/calendar/calendar.service';
+import {LoginService} from "./login.service";
 
 @Injectable()
 export class FirebaseAbstractionLayerService {
-  constructor(private fs: FirebaseService, private cs: CalendarService) { }
+  constructor(private fs: FirebaseService, private cs: CalendarService, private ls: LoginService) { }
   getMealCalendarByDateRange(user: User, startRange?: Date, endRange?: Date) {
     return new Observable(sub => {
       this.fs.queryMealCalendarByDateRange(user, startRange, endRange).snapshotChanges().pipe(map(actions => {
@@ -111,5 +112,38 @@ export class FirebaseAbstractionLayerService {
     }
     copy.user = user.id;
     return copy;
+  }
+  favoriteFood(user: User, food: Food) {
+    if (user && !user.favFoods) {
+      user.favFoods = [] as [string];
+    }
+    if (user && !user.favFoods.some(favFood => favFood === food.id)) {
+      user.favFoods.push(food.id);
+      return this.ls.updateUser(user);
+    } else {
+      return new Observable(sub => {
+        if (!user) {
+          sub.error(new Error('USER_NOT_PROVIDED'));
+        } else {
+          sub.next(new Error('FOOD_ALREADY_A_FAVORITE'));
+        }
+        sub.complete();
+      });
+    }
+  }
+  unFavoriteFood(user: User, food: Food) {
+    if (user && user.favFoods.some(favFood => favFood === food.id)) {
+      user.favFoods.splice(user.favFoods.findIndex(favFood => favFood === food.id), 1);
+      return this.ls.updateUser(user);
+    } else {
+      return new Observable(sub => {
+        if (!user) {
+          sub.error(new Error('USER_NOT_PROVIDED'));
+        } else {
+          sub.next(new Error('FOOD_NOT_FOUND_IN_FAVORITES'));
+        }
+        sub.complete();
+      });
+    }
   }
 }

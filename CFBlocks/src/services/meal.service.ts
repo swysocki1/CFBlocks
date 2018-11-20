@@ -104,4 +104,7 @@ export class MealService {
     }
     return cal;
   }
+  isFavoriteFood(food: Food) {
+    return this.loginService.getUser().favFoods.some(favFoodId => favFoodId === food.id)
+  }
 }

@@ -42,6 +42,8 @@
         </div>
       </div>
       <div class="col-1">
+        <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food favorite pointer" title="Favorite Food" [ngClass]="{'gold active': isFavoriteFood()}"
+              (click)="isFavoriteFood() ? unFavoriteFood() : favoriteFood()"><i class="fa fa-xs fa-fw fa-star"></i></span>
         <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food remove pointer" title="Remove Food"
               (click)="removeFood()" *ngIf="canRemove"><i class="fa fa-xs fa-fw fa-times"></i></span>
         <span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food add pointer" title="Add Food"
