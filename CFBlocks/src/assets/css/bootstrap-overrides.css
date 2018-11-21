@@ -65,5 +65,10 @@ footer.footer {
   background-color: inherit;
 }
 .background.mobileSafari .modal.scroll .modal-footer {
-  bottom:44px;
+  bottom:100px;
+}
+/*Stupid Bottom Menu Bar*/
+.background.mobileSafari,
+.background.mobileSafari .modal.show .modal-dialog {
+  padding-bottom: 100px;
 }

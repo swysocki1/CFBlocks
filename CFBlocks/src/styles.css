@@ -24,11 +24,6 @@ div.page-header {
   margin-bottom: 15px;
 }
 
-/*Stupid Bottom Menu Bar*/
-.background.mobileSafari,
-.background.mobileSafari .modal.show {
-  /*margin-bottom: 44px;*/
-}
 /* font awesome overrides */
 i.fa.active {
   color: #0072c6;
