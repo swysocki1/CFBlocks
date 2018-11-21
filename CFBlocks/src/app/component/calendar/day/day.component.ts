@@ -16,7 +16,7 @@ import {CalendarService} from '../calendar.service';
       height: 0;
       padding-bottom: 100%;
       width: 100%;
-      min-width: 115px;
+      min-width: 135px;
     }
     .day.valid-month {
       opacity: 1;
