@@ -28,7 +28,7 @@ export class CalendarComponent implements OnInit {
   month: CalendarMonth = new CalendarMonth();
   selectedDate: Date;
   mealCalendar: [MealCalendar] = [] as [MealCalendar];
-  view = 'Monthly';
+  view = 'Bi-Weekly';
   constructor(private cs: CalendarService, private mealService: MealService, private router: Router, private ls: LoginService, private fsa: FirebaseAbstractionLayerService) { }
   ngOnInit() {
     this.daysOfWeek = this.cs.getDaysOfWeek();
