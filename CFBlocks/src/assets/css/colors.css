@@ -1,225 +1,225 @@
 
 /* Color Helper */
 .snow {
-  color: #fff;
-  text-shadow: 1px 1px 1px #000;
+  color: #fff !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .snow-fill {
-  fill: #fff;
-  background-color: #fff;
+  fill: #fff !important;
+  background-color: #fff !important;
 }
 .snow-fill-hover:hover {
-  fill: #fff;
-  background-color: #fff;
+  fill: #fff !important;
+  background-color: #fff !important;
 }
 .snow-1 {
-  color: rgba(255, 255, 255,.95);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0,.95);
+  color: rgba(255, 255, 255,.95) !important;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0,.95) !important;
 }
 .snow-1-fill {
-  fill: rgba(255, 255, 255,.95);
-  background-color: rgba(255, 255, 255,.95);
+  fill: rgba(255, 255, 255,.95) !important;
+  background-color: rgba(255, 255, 255,.95) !important;
 }
 
 .snow-2 {
-  color: rgba(255, 255, 255,.90);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0,.90);
+  color: rgba(255, 255, 255,.90) !important;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0,.90) !important;
 }
 .snow-2-fill {
-  fill: rgba(255, 255, 255,.90);
-  background-color: rgba(255, 255, 255,.90);
+  fill: rgba(255, 255, 255,.90) !important;
+  background-color: rgba(255, 255, 255,.90) !important;
 }
 
 .snow-3 {
-  color: rgba(255, 255, 255,.85);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0,.85);
+  color: rgba(255, 255, 255,.85) !important;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0,.85) !important;
 }
 .snow-3-fill {
-  fill: rgba(255, 255, 255,.85);
-  background-color: rgba(255, 255, 255,.85);
+  fill: rgba(255, 255, 255,.85) !important;
+  background-color: rgba(255, 255, 255,.85) !important;
 }
 
 .snow-4 {
-  color: rgba(255, 255, 255,.80);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0,.80);
+  color: rgba(255, 255, 255,.80) !important;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0,.80) !important;
 }
 .snow-4-fill {
-  fill: rgba(255, 255, 255,.80);
-  background-color: rgba(255, 255, 255,.80);
+  fill: rgba(255, 255, 255,.80) !important;
+  background-color: rgba(255, 255, 255,.80) !important;
 }
 .snow-5 {
-  color: rgba(255, 255, 255,.75);
-  text-shadow: 1px 1px 1px rgba(0, 0, 0,.75);
+  color: rgba(255, 255, 255,.75) !important;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0,.75) !important;
 }
 .snow-5-fill {
-  fill: rgba(255, 255, 255,.75);
-  background-color: rgba(255, 255, 255,.75);
+  fill: rgba(255, 255, 255,.75) !important;
+  background-color: rgba(255, 255, 255,.75) !important;
 }
 
 .grey1 {
-  color: #eee;
-  text-shadow: 1px 1px 1px #111;
+  color: #eee !important;
+  text-shadow: 1px 1px 1px #111 !important;
 }
 .grey1-fill {
-  fill: #eee;
-  background-color: #eee;
+  fill: #eee !important;
+  background-color: #eee !important;
 }
 .grey1-fill-hover:hover {
-  fill: #eee;
-  background-color: #eee;
+  fill: #eee !important;
+  background-color: #eee !important;
 }
 .grey2 {
-  color: #ddd;
-  text-shadow: 1px 1px 1px #222;
+  color: #ddd !important;
+  text-shadow: 1px 1px 1px #222 !important;
 }
 .grey2-fill {
-  fill: #ddd;
-  background-color: #ddd;
+  fill: #ddd !important;
+  background-color: #ddd !important;
 }
 .grey2-fill-hover:hover {
-  fill: #ddd;
-  background-color: #ddd;
+  fill: #ddd !important;
+  background-color: #ddd !important;
 }
 .grey3 {
-  color: #ccc;
-  text-shadow: 1px 1px 1px #333;
+  color: #ccc !important;
+  text-shadow: 1px 1px 1px #333 !important;
 }
 .grey3-fill {
-  fill: #ccc;
-  background-color: #ccc;
+  fill: #ccc !important;
+  background-color: #ccc !important;
 }
 .grey3-fill-hover:hover {
-  fill: #ccc;
-  background-color: #ccc;
+  fill: #ccc !important;
+  background-color: #ccc !important;
 }
 .grey4 {
-  color: #bbb;
-  text-shadow: 1px 1px 1px #444;
+  color: #bbb !important;
+  text-shadow: 1px 1px 1px #444 !important;
 }
 .grey4-fill {
-  fill: #bbb;
-  background-color: #bbb;
+  fill: #bbb !important;
+  background-color: #bbb !important;
 }
 .grey4-fill-hover:hover {
-  fill: #bbb;
-  background-color: #bbb;
+  fill: #bbb !important;
+  background-color: #bbb !important;
 }
 .grey5 {
-  color: #aaa;
-  text-shadow: 1px 1px 1px #555;
+  color: #aaa !important;
+  text-shadow: 1px 1px 1px #555 !important;
 }
 .grey5-fill {
-  fill: #aaa;
-  background-color: #aaa;
+  fill: #aaa !important;
+  background-color: #aaa !important;
 }
 .grey5-fill-hover:hover {
-  fill: #aaa;
-  background-color: #aaa;
+  fill: #aaa !important;
+  background-color: #aaa !important;
 }
 /*TODO more Greys*/
 .coal {
-  color: #000;
-  text-shadow: 1px 1px 1px #fff;
+  color: #000 !important;
+  text-shadow: 1px 1px 1px #fff !important;
 }
 .coal-fill {
-  fill: #000;
-  background-color: #000;
+  fill: #000 !important;
+  background-color: #000 !important;
 }
 .coal-fill-hover:hover {
-  fill: #000;
-  background-color: #000;
+  fill: #000 !important;
+  background-color: #000 !important;
 }
 .coal-1 {
-  color: rgba(0, 0, 0,.95);
-  text-shadow: 1px 1px 1px rgba(255, 255, 255,.95);
+  color: rgba(0, 0, 0,.95) !important;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255,.95) !important;
 }
 .coal-1-fill {
-  fill: rgba(0, 0, 0,.95);
-  background-color: rgba(0, 0, 0,.95);
+  fill: rgba(0, 0, 0,.95) !important;
+  background-color: rgba(0, 0, 0,.95) !important;
 }
 
 .red {
-  color: #e24037;
-  text-shadow: 1px 1px 1px #000;
+  color: #e24037 !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .red-fill {
-  fill: #e24037;
-  background-color: #e24037;
+  fill: #e24037 !important;
+  background-color: #e24037 !important;
 }
 .red-fill-hover:hover {
-  fill: #e24037;
-  background-color: #e24037;
+  fill: #e24037 !important;
+  background-color: #e24037 !important;
 }
 .leaf-green {
-  color: #248f24;
-  text-shadow: 1px 1px 1px #000;
+  color: #248f24 !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .leaf-green-fill {
-  fill: #248f24;
-  background-color: #248f24;
+  fill: #248f24 !important;
+  background-color: #248f24 !important;
 }
 
 .azure {
-  color: #3cc;
-  text-shadow: 1px 1px 1px #000;
+  color: #3cc !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .azure-fill {
-  fill: #3cc;
-  background: #3cc;
+  fill: #3cc !important;
+  background: #3cc !important;
 }
 .blush {
-  color: #ff5050;
-  text-shadow: 1px 1px 1px #000;
+  color: #ff5050 !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .blush-fill {
-  fill: #ff5050;
-  background: #ff5050;
+  fill: #ff5050 !important;
+  background: #ff5050 !important;
 }
 .lavender {
-  color: #c9f;
-  text-shadow: 1px 1px 1px #000;
+  color: #c9f !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .lavender-fill {
-  fill: #c9f;
-  background: #c9f;
+  fill: #c9f !important;
+  background: #c9f !important;
 }
 .mint {
-  color: #0fc;
-  text-shadow: 1px 1px 1px #000;
+  color: #0fc !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .mint-fill {
-  fill: #0fc;
-  background: #0fc;
+  fill: #0fc !important;
+  background: #0fc !important;
 }
 .seafoam {
-  color: #099;
-  text-shadow: 1px 1px 1px #000;
+  color: #099 !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .seafoam-fill {
-  fill: #099;
-  background: #099;
+  fill: #099 !important;
+  background: #099 !important;
 }
 .tiger {
-  color: #fc6;
-  text-shadow: 1px 1px 1px #000;
+  color: #fc6 !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .tiger-fill {
-  fill: #fc6;
-  background: #fc6;
+  fill: #fc6 !important;
+  background: #fc6 !important;
 }
 .cream {
-  color: #FFFDD0;
-  text-shadow: 1px 1px 1px #000;
+  color: #FFFDD0 !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .cream-fill {
-  fill: #FFFDD0;
-  background: #FFFDD0;
+  fill: #FFFDD0 !important;
+  background: #FFFDD0 !important;
 }
 .gold {
-  color: #FFD700;
-  text-shadow: 1px 1px 1px #000;
+  color: #FFD700 !important;
+  text-shadow: 1px 1px 1px #000 !important;
 }
 .gold-fill {
-  fill: #FFD700;
-  background: #FFD700;
+  fill: #FFD700 !important;
+  background: #FFD700 !important;
 }

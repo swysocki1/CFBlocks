@@ -15,6 +15,12 @@ import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstrac
   selector: 'meal-builder',
   templateUrl: './meal-builder.html',
   styles: [`
+    .meal-container > div {
+      margin-bottom: .5rem;
+    }
+    .meal-container label.control-label {
+    margin-bottom: 0;
+    }
     .create-food{
       display:inline-block;
       padding:6px;

@@ -11,7 +11,15 @@ import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstrac
 
 @Component({
   selector: 'calendar',
-  templateUrl: './calendar.html'
+  templateUrl: './calendar.html',
+  styles: [`
+    .meal-calendar-heading {
+      position: sticky;
+      position: -webkit-sticky;
+      top: 45px;
+      z-index: 1;
+    }
+  `]
 })
 export class CalendarComponent implements OnInit {
   @Input() name: string;

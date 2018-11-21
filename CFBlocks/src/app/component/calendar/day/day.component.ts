@@ -16,17 +16,18 @@ import {CalendarService} from '../calendar.service';
       height: 0;
       padding-bottom: 100%;
       width: 100%;
+      min-width: 115px;
     }
     .day.valid-month {
       opacity: 1;
     }
-    .day .dayNumber {
-      padding: 5px;
-      min-width: 2pc;
-    }
-    .day.is-selected .dayNumber{
-      color: #fff;
-    }
+    /*.day .dayNumber {*/
+      /*padding: 5px;*/
+      /*min-width: 2pc;*/
+    /*}*/
+    /*.day.is-selected .dayNumber{*/
+      /*color: #fff;*/
+    /*}*/
     .breakfast, .lunch, .dinner, .snack { }
     .add-meal {
       display:inline-block;
@@ -38,6 +39,9 @@ import {CalendarService} from '../calendar.service';
     }
     .meal-text {
       padding:0 .5em;
+    }
+    h5 {
+      margin-bottom: 0;
     }
   `]
 })
