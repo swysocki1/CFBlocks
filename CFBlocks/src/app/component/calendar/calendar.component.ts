@@ -19,6 +19,9 @@ import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstrac
       top: 45px;
       z-index: 1;
     }
+    .meal-calendar-body.card-body {
+      padding:.3em;
+    }
   `]
 })
 export class CalendarComponent implements OnInit {
