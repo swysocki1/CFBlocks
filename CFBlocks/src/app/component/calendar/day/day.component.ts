@@ -21,13 +21,6 @@ import {CalendarService} from '../calendar.service';
     .day.valid-month {
       opacity: 1;
     }
-    /*.day .dayNumber {*/
-      /*padding: 5px;*/
-      /*min-width: 2pc;*/
-    /*}*/
-    /*.day.is-selected .dayNumber{*/
-      /*color: #fff;*/
-    /*}*/
     .breakfast, .lunch, .dinner, .snack { }
     .add-meal {
       display:inline-block;

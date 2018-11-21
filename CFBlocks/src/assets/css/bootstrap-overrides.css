@@ -46,12 +46,24 @@ footer.footer {
 }
 
 /*Modals*/
-
-/* Important part */
-.modal.scroll .modal-dialog {
-  overflow-y: initial !important
-}
-.modal.scroll .modal-body {
-  height: 80vh;
+.modal.scroll {
+  height: 100vh;
   overflow-y: auto;
+}
+.modal.scroll .modal-header {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1;
+  background-color: inherit;
+}
+.modal.scroll .modal-footer {
+  position: sticky;
+  position: -webkit-sticky;
+  bottom: 0;
+  z-index: 1;
+  background-color: inherit;
+}
+.background.mobileSafari .modal.scroll .modal-footer {
+  bottom:44px;
 }

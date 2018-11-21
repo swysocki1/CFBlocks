@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {environment} from '../environments/environment';
 import {UserSession} from '../models/user.model';
 import {LoginService} from '../services/login.service';
+import {UtilService} from "../services/util.service";
 declare var $: any;
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent implements OnInit {
   userSession: UserSession = new UserSession();
   currentPathname = '';
   backgroundClasses = environment.themes;
-  constructor(private router: Router, private ls: LoginService) {}
+  constructor(private router: Router, private ls: LoginService, private utils: UtilService) {}
   ngOnInit() {
     this.userSession = this.ls.getUserSession();
     this.ls.getUserSessionUpdates.subscribe(update => {
@@ -54,5 +55,8 @@ export class AppComponent implements OnInit {
       }
       this.currentPathname = pathname;
     }
+  }
+  isMobileSafari() {
+    return this.utils.isMobileSafari();
   }
 }

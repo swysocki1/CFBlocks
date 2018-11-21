@@ -1,4 +1,4 @@
-<div class="background">
+<div class="background" [ngClass]="{'mobileSafari': isMobileSafari()}">
   <navbar></navbar>
   <main class="main mt-1 mb-1">
     <router-outlet></router-outlet>
