@@ -13,12 +13,10 @@ import {LoginService} from "../../../../services/login.service";
     .update-food {
       display:inline-block;
       padding:3px;
-      opacity: 0.3;
-      margin-bottom: 5px;
-    }
-    .update-food.active {
+      margin: .2em;
       opacity:.8;
     }
+    .update-food.active,
     .update-food:hover {
       opacity:1;
     }
@@ -44,6 +42,13 @@ export class FoodItemComponent {
   loadFoodModal() {
     if (this.canUpdate) {
       this.updateFood.emit(this.food);
+    }
+  }
+  toggleSelectFood() {
+    if (this.isSelected) {
+      this.removeFood();
+    } else {
+      this.addFood();
     }
   }
   removeFood() {

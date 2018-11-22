@@ -34,6 +34,11 @@ import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstrac
       white-space: nowrap;
       display: inline-block;
     }
+    .food-container .col-md-6,
+    .food-container .col-lg-3 {
+      padding-left: 0;
+      padding-right: 0;
+    }
   `]
 })
 export class MealBuilderComponent implements OnInit {
