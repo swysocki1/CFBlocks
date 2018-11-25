@@ -8,13 +8,7 @@ export class UtilService {
     }
     return '';
   }
-  isMobileSafari() {
-    const userAgent = window.navigator.userAgent;
-    if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+  isMobile() {
+    return window.navigator.userAgent.match(/mobile/i);
   }
 }

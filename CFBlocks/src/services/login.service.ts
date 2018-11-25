@@ -55,17 +55,21 @@ export class LoginService {
     }
   }
   login(username: string, password: string, rememberMe: boolean): Observable<UserSession> {
+    console.log(username, password, rememberMe);
     this.closeActiveLoginSubscription();
     this.cacheSession = rememberMe;
     return new Observable(subscriber => {
       let cachedSession: UserSession = JSON.parse(localStorage.getItem('CFBlocks'));
-      if (this.cacheSession && cachedSession && cachedSession.user.username === username && cachedSession.lastLogin &&
+      if (cachedSession && cachedSession.user.username === username && cachedSession.lastLogin &&
         moment(cachedSession.lastLogin).isSameOrAfter(moment().subtract(1, 'days'))) {
         cachedSession.lastLogin = new Date();
-        localStorage.setItem('CFBlocks', JSON.stringify(cachedSession));
+        if (this.cacheSession) {
+          localStorage.setItem('CFBlocks', JSON.stringify(cachedSession));
+        }
+        this.setUserSession(cachedSession);
         subscriber.next(cachedSession);
         subscriber.complete();
-      } else if (cachedSession || !this.cacheSession) {
+      } else if (cachedSession) {
         localStorage.removeItem('CFBlocks');
         cachedSession = null;
       }

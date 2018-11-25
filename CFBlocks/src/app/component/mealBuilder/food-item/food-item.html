@@ -1,19 +1,17 @@
-<div class="row pointer m-1" [ngClass]="{'active leaf-green-fill snow': isSelected, 'coal': !isSelected}" (click)="toggleSelectFood()">
+<div class="row pointer m-1" [ngClass]="{'active leaf-green-fill snow': isSelected, 'coal grey2-fill': !isSelected}" (click)="toggleSelectFood()">
   <div class="col-12">
     <span style="display:inline-block;">{{food.name}}</span>
   <!--<div class="col">-->
-    <span class="text-center rounded-circle grey1-fill grey3-fill-hover pull-right update-food favorite pointer" title="Favorite Food" [ngClass]="{'active': isFavoriteFood()}"
-          (click)="$event.stopPropagation();isFavoriteFood() ? unFavoriteFood() : favoriteFood()"><i class="fa fa-xs fa-fw fa-star" [ngClass]="{'gold': isFavoriteFood(), 'coal': !isFavoriteFood()}"></i></span>
-    <!--<span class="rounded-circle grey1-fill grey3-fill-hover pull-right update-food remove pointer" title="Remove Food" [ngClass]="{'active': isSelected}"-->
-          <!--(click)="removeFood()" *ngIf="canRemove"><i class="fa fa-xs fa-fw fa-times coal"></i></span>-->
-    <!--<span class="rounded-circle grey1-fill grey3-fill-hover pull-right update-food add pointer" title="Add Food" [ngClass]="{'active': isSelected}"-->
-          <!--(click)="addFood()" *ngIf="canAdd"><i class="fa fa-xs fa-fw fa-plus coal"></i></span >-->
-    <span class="text-center rounded-circle grey1-fill grey3-fill-hover pull-right update-food edit pointer" title="Update Food"
-          (click)="$event.stopPropagation();loadFoodModal()" *ngIf="canEdit()"><i class="fas fa-xs fa-fw fa-edit coal"></i></span>
-    <span class="text-center rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food see-nutrition-facts pointer"
-        title="See Nutrition Facts" (click)="$event.stopPropagation();toggleNutritionFacts()">
-      <span *ngIf="displayNutritionFacts"><i class="fas fa-xs fa-fw coal fa-chevron-circle-down"></i></span>
-      <span *ngIf="!displayNutritionFacts"><i class="fas fa-xs fa-fw coal fa-chevron-circle-up"></i></span>
+      <span style="white-space: nowrap;display:inline-block;" class="pull-right">
+      <span class="text-center rounded-circle grey1-fill grey3-fill-hover pull-right update-food favorite pointer" title="Favorite Food" [ngClass]="{'active': isFavoriteFood()}"
+            (click)="$event.stopPropagation();isFavoriteFood() ? unFavoriteFood() : favoriteFood()"><i class="fa fa-xs fa-fw fa-star" [ngClass]="{'gold': isFavoriteFood(), 'coal': !isFavoriteFood()}"></i></span>
+      <span class="text-center rounded-circle grey1-fill grey3-fill-hover pull-right update-food edit pointer" title="Update Food"
+            (click)="$event.stopPropagation();loadFoodModal()" *ngIf="canEdit()"><i class="fas fa-xs fa-fw fa-edit coal"></i></span>
+      <span class="text-center rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food see-nutrition-facts pointer"
+          title="See Nutrition Facts" (click)="$event.stopPropagation();toggleNutritionFacts()">
+        <span *ngIf="displayNutritionFacts"><i class="fas fa-xs fa-fw coal fa-chevron-circle-down"></i></span>
+        <span *ngIf="!displayNutritionFacts"><i class="fas fa-xs fa-fw coal fa-chevron-circle-up"></i></span>
+      </span>
     </span>
     <!--<span class="dropleft">-->
       <!--<span class="rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food edit pointer dropdown-toggle" [ngClass]="{'active': isSelected}"-->

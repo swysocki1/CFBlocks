@@ -254,5 +254,8 @@ export class MealBuilderComponent implements OnInit {
   canUpdateMeal() {
     return (this.meal && this.meal.foods && this.meal.foods.length > 0 && this.meal.name);
   }
+  getWindowHeight() {
+    return window.innerHeight;
+  }
 }
 

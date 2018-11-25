@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
       this.currentPathname = pathname;
     }
   }
-  isMobileSafari() {
-    return this.utils.isMobileSafari();
+  isMobile() {
+    return this.utils.isMobile();
   }
 }
