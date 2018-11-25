@@ -25,7 +25,8 @@ export class NavbarComponent implements OnInit {
   loginErrorMessage: string;
   login: FormGroup = new FormGroup({
     username: new FormControl(),
-    password: new FormControl()
+    password: new FormControl(),
+    rememberMe: new FormControl()
   });
   search: FormGroup = new FormGroup({
     search: new FormControl()
@@ -51,7 +52,8 @@ export class NavbarComponent implements OnInit {
   private resetLoginFormGroup() {
     this.login = new FormGroup({
       username: new FormControl(),
-      password: new FormControl()
+      password: new FormControl(),
+      rememberMe: new FormControl()
     });
   }
 
@@ -68,7 +70,7 @@ export class NavbarComponent implements OnInit {
     const validateLogin = loginCombo.validate();
     if (validateLogin) {
       if (validateLogin.valid) {
-        this.loginService.login(loginCombo.username, loginCombo.password).subscribe(userSession => {
+        this.loginService.login(loginCombo.username, loginCombo.password, this.login.value['']).subscribe(userSession => {
           this.updateUserSession(userSession);
           // Navigate to page???
         }, error => {

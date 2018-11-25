@@ -28,12 +28,12 @@ export class SigninComponent implements OnInit {
     this.login = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-      rememberMe: ['', Validators.required]
+      rememberMe: [true, Validators.required]
     })
   }
   onSubmit() {
     this.loginError = '';
-    this.ls.login(this.login.value.username, this.login.value.password).subscribe(userSession => {
+    this.ls.login(this.login.value.username, this.login.value.password, this.login.value.rememberMe).subscribe(userSession => {
       this.loadUserSession(userSession);
     }, error => {
       this.loadLoginError(error);
