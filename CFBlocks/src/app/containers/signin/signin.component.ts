@@ -34,7 +34,6 @@ export class SigninComponent implements OnInit {
   onSubmit() {
     this.loginError = '';
     this.ls.login(this.login.value.username, this.login.value.password, this.login.value.rememberMe).subscribe(userSession => {
-      console.log(userSession);
       this.loadUserSession(userSession);
     }, error => {
       this.loadLoginError(error);

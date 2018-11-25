@@ -56,7 +56,6 @@ export class MealEditorComponent implements OnInit, OnChanges {
     this.loadForm();
   }
   save() {
-    console.log(this.meals);
     this.saveMeals.emit(this.meals);
   }
   loadForm(meals?: [Meal]) {

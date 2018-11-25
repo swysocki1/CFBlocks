@@ -55,7 +55,6 @@ export class LoginService {
     }
   }
   login(username: string, password: string, rememberMe: boolean): Observable<UserSession> {
-    console.log(username, password, rememberMe);
     this.closeActiveLoginSubscription();
     this.cacheSession = rememberMe;
     return new Observable(subscriber => {
@@ -184,37 +183,15 @@ export class LoginService {
   updateUser(user: User) {
     return new Observable(subscriber => {
       this.firebaseService.updateUserAccount(user).then(() => {
-        this.cacheUserSession().subscribe((userSession: UserSession) => {
-          subscriber.next(userSession);
-          this.setUserSession(userSession);
-          subscriber.complete();
-        }, error => {
-          subscriber.error(error);
-          subscriber.complete();
-        });
-      }).catch(error => {
-        subscriber.error(error);
-        subscriber.complete();
-      });
-    });
-  }
-  cacheUserSession() {
-    return new Observable(subscriber => {
-      this.firebaseService.getUserAccount(this._user.username).subscribe(user => {
-
-        localStorage.removeItem('CFBlocks');
-        const userSession = new UserSession();
-        userSession.created = new Date();
-        userSession.lastLogin = userSession.created;
-        userSession.authenticated = true;
-        userSession.user = user as User;
+        const userSession = {... this._userSession} as UserSession;
+        userSession.user = user;
+        this.setUserSession(userSession);
         if (this.cacheSession) {
           localStorage.setItem('CFBlocks', JSON.stringify(userSession));
         }
-        this.setUserSession(userSession);
         subscriber.next(userSession);
         subscriber.complete();
-      }, error => {
+      }).catch(error => {
         subscriber.error(error);
         subscriber.complete();
       });

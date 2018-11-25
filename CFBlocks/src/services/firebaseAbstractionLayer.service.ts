@@ -92,7 +92,6 @@ export class FirebaseAbstractionLayerService {
   }
   saveMealCalendar(user: User, mc: MealCalendar) {
     const copy = this.mealCalendarDeepCopy(user, mc);
-    console.log(copy);
     if (mc && !mc.id) {
       return this.fs.createMealCalendar(copy);
     } else {

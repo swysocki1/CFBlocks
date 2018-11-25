@@ -67,8 +67,8 @@ export class MealBuilderComponent implements OnInit {
   }
   ngOnInit() {
     this.user = this.ls.getUser();
-    this.ls.getUserSessionUpdates.subscribe(userSession => {
-      this.user = userSession.user;
+    this.ls.getUserUpdates.subscribe(user => {
+      this.user = user;
       this.getAllFoods();
     });
     this.route.paramMap.pipe(
@@ -92,7 +92,6 @@ export class MealBuilderComponent implements OnInit {
       this.allFoodsSub.unsubscribe();
     }
     this.allFoodsSub = this.fs.getAllFoods(this.ls.getUser(), this.ls.isAdmin()).subscribe(foods => {
-      console.log(foods);
       this.foods = foods as [Food];
     });
   }
@@ -100,7 +99,6 @@ export class MealBuilderComponent implements OnInit {
     if (this.ls.getUserSession().authenticated) {
       this.fsa.getMealCalendarOnDay(this.ls.getUser(), date).subscribe((mc: any) => {
         if (mc) {
-          console.log(mc);
           this.mealCalendar = mc;
         } else {
           this.mealCalendar = new MealCalendar();

@@ -79,6 +79,7 @@ export class FirebaseService {
     }
   }
   getAllFoods(user: User, isAdmin?: boolean) {
+    console.log(user.favFoods);
     const queryAllFoods = this.queryAllFoods(isAdmin).snapshotChanges().pipe(map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as Food;
