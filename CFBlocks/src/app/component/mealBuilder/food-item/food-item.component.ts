@@ -61,6 +61,21 @@ export class FoodItemComponent {
       this.add.emit(this.food);
     }
   }
+  canEdit() {
+    if (this.canUpdate) {
+      if (this.food) {
+        if (this.food.isCustom) {
+          return this.ls.isAdmin() || this.ls.getUser().customFoods.some(food => food.id === this.food.id);
+        } else {
+          return this.ls.isAdmin();
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
+  }
   hasAdditionalVariations(): boolean {
     return true;
   }

@@ -4,16 +4,17 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ValidationService} from '../../../../services/validation.service';
 import {mergeUser, User, UserSession} from '../../../../models/user.model';
 import {FirebaseService} from '../../../../services/firebase.service';
+import {LoginService} from "../../../../services/login.service";
 
 @Component({
   selector: 'food-creator',
   templateUrl: 'food-creator.html'
 })
 export class FoodCreatorComponent implements OnInit, OnChanges {
-  @Input() food: Food;
+  @Input() food: Food = new Food();
   @Output() cancelEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   form: FormGroup;
-  constructor(private fb: FormBuilder, private vs: ValidationService, private firebase: FirebaseService) { }
+  constructor(private fb: FormBuilder, private vs: ValidationService, private firebase: FirebaseService, private ls: LoginService) { }
   ngOnInit() {
     this.loadForm();
   }
@@ -26,14 +27,27 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
       food.protein = this.form.value.protein;
       food.serving.amount = this.form.value.servings;
       food.serving.metric = this.form.value.serving;
+      food.isCustom = this.form.value.isCustom;
       let newUpdate = false;
-      if (this.food) {
+      if (!this.food.id) {
         newUpdate = true;
       }
       this.food = mergeFood(this.food, food);
       if (newUpdate) {
+        if (!this.ls.isAdmin()) {
+          this.food.isCustom = true;
+        }
+        this.food.id = this.firebase.createId();
         this.firebase.createFood(this.food).then(() => {
-          this.cancelEvent.emit(true);
+          if (this.food.isCustom) {
+            this.ls.addCustomFood(this.food).subscribe(res => {
+              this.cancelEvent.emit(true);
+            }, error => {
+              console.error(error);
+            });
+          }
+        }).catch(error => {
+          console.error(error);
         });
       } else {
         this.firebase.updateFood(this.food).then(() => {
@@ -55,7 +69,8 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
       fat: [food.fat, Validators.required],
       protein: [food.protein, Validators.required],
       serving: [food.serving.metric, Validators.required],
-      servings: [food.serving.amount, Validators.required]
+      servings: [food.serving.amount, Validators.required],
+      isCustom: [food.isCustom]
     });
     if (this.food) {
       this.vs.validateAllFormFields(this.form);
@@ -70,6 +85,9 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
   }
   isFieldValid(field: string) {
     return this.vs.isFieldValid(this.form, field);
+  }
+  isAdmin() {
+    return this.ls.isAdmin();
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.food && changes.food.currentValue !== changes.food.previousValue) {

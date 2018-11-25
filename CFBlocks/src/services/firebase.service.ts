@@ -3,9 +3,12 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {Injectable} from '@angular/core';
 import {Food, Meal, MealCalendar} from '../models/meal.module';
 import {User} from '../models/user.model';
-import { map } from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Subscription} from 'rxjs/internal/Subscription';
 import * as moment from 'moment';
+import { combineLatest, merge  } from "rxjs";
+import {Observable} from "rxjs/internal/Observable";
+import {forkJoin} from "rxjs/internal/observable/forkJoin";
 
 @Injectable()
 export class FirebaseService {
@@ -31,6 +34,9 @@ export class FirebaseService {
         return { id, ...data };
       })
     );
+  }
+  createId() {
+    return this.firebaseDb.createId();
   }
   // User Accounts
   createUserWithEmailAndPassword(email, password) {
@@ -63,18 +69,38 @@ export class FirebaseService {
   }
 
   // Food Creation
-  queryAllFoods() {
-    return this.firebaseDb.collection('food');
+  queryAllFoods(isAdmin?: boolean) {
+    if (isAdmin) {
+      return this.firebaseDb.collection('food');
+    } else {
+      return this.firebaseDb.collection('food', ref => {
+        return ref.where('isCustom', '==', false);
+      });
+    }
   }
-  getAllFoods() {
-    // return this.mapSnapShotChanges(this.queryAllFoods());
-    return this.queryAllFoods().snapshotChanges().pipe(map(actions => {
+  getAllFoods(user: User, isAdmin?: boolean) {
+    const queryAllFoods = this.queryAllFoods(isAdmin).snapshotChanges().pipe(map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as Food;
         const id = a.payload.doc.id;
         return { id, ...data };
       });
-    }));
+    })) as Observable<[Food]>;
+    if (isAdmin) {
+      return queryAllFoods;
+    } else {
+      let foods: Observable<[Food]> = queryAllFoods;
+      user.customFoods.forEach(food => {
+        const queryMyCustomFoods = this.queryFood(food).snapshotChanges().pipe(map(action => {
+            const data = action.payload.data() as Food;
+            const id = action.payload.id;
+            return [{ id, ...data }] as [Food];
+          })
+        ) as Observable<[Food]>;
+        foods = combineLatest(foods, queryMyCustomFoods).pipe(map(([f1, f2]) => [...f1, ...f2])) as Observable<[Food]>;
+      });
+      return foods;
+    }
   }
   queryFood(food: Food) {
     if (food && !food.id) {
@@ -103,7 +129,6 @@ export class FirebaseService {
   queryMealCalendarByDateRange(user: User, startRange?: Date, endRange?: Date) {
     return this.firebaseDb.collection(`mealCalendar`, ref => {
       if (startRange && endRange) {
-        // return ref.orderBy('date').startAt(startRange).endAt(endRange.getTime());
         return ref.where('user', '==', user.id).where('date', '>=', startRange).where('date', '<=', endRange);
       } else {
         return ref;

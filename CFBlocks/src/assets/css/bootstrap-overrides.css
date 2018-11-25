@@ -72,3 +72,8 @@ footer.footer {
 .background.mobileSafari .modal.show .modal-dialog {
   padding-bottom: 100px;
 }
+.nav-item:hover,
+.nav-item:hover > .nav-link {
+  cursor: pointer;
+  color: #fff !important;
+}

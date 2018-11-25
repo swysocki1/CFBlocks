@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import {User} from '../../../models/user.model';
 import {LoginService} from '../../../services/login.service';
 import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstractionLayer.service';
+import {Subscription} from "rxjs/internal/Subscription";
 
 @Component({
   selector: 'meal-builder',
@@ -51,6 +52,7 @@ export class MealBuilderComponent implements OnInit {
   search = '';
   updateFood: Food;
   mealDay: Date = new Date();
+  allFoodsSub = new Subscription();
   constructor(private fs: FirebaseService, private fsa: FirebaseAbstractionLayerService, private bc: BlockCalculatorService,
               private route: ActivatedRoute, private router: Router, private ls: LoginService) { }
   getFormatedName() {
@@ -65,8 +67,9 @@ export class MealBuilderComponent implements OnInit {
   }
   ngOnInit() {
     this.user = this.ls.getUser();
-    this.ls.getUserUpdates.subscribe(user => {
-      this.user = user;
+    this.ls.getUserSessionUpdates.subscribe(userSession => {
+      this.user = userSession.user;
+      this.getAllFoods();
     });
     this.route.paramMap.pipe(
       map((params: ParamMap) =>
@@ -82,7 +85,14 @@ export class MealBuilderComponent implements OnInit {
     }).datepicker('update', this.mealDay).on('changeDate', (event) => {
       this.router.navigate(['/meal-builder', moment(event.date).format('MMDDYY')]);
     });
-    this.fs.getAllFoods().subscribe(foods => {
+    this.getAllFoods();
+  }
+  getAllFoods() {
+    if (this.allFoodsSub) {
+      this.allFoodsSub.unsubscribe();
+    }
+    this.allFoodsSub = this.fs.getAllFoods(this.ls.getUser(), this.ls.isAdmin()).subscribe(foods => {
+      console.log(foods);
       this.foods = foods as [Food];
     });
   }

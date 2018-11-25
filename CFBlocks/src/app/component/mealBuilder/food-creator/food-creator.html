@@ -63,6 +63,9 @@
         <div class="col text-center">
           <button type="button" class="btn btn-default" (click)="reset()">Cancel</button>
           <button type="submit" class="btn btn-primary" style="margin-left: 15px;" [disabled]="!form.valid">{{food ? 'Save' : 'Create'}}</button>
+          <label style="display:inline-block;" *ngIf="isAdmin()" class="ml-3">
+            <input type="checkbox" class="checkbox" formControlName="isCustom" /><b> Is Custom?</b>
+          </label>
         </div>
       </div>
     </div>

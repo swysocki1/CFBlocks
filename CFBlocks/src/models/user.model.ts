@@ -1,5 +1,5 @@
 import {ValidationService} from '../services/validation.service';
-import {BlockTemplate} from './meal.module';
+import {BlockTemplate, Food, Meal} from './meal.module';
 
 export class User {
   id?: string;
@@ -14,6 +14,8 @@ export class User {
   blockTemplate: BlockTemplate = new BlockTemplate();
   photoURL: string;
   favFoods?: [string] = [] as [string];
+  customFoods?: [Food] = [] as [Food];
+  // favMeals?: [Meal] = [] as [Meal];
 }
 export function mergeUser(oldUser: User, newUser: User): User {
   // oldUser.email = isBlank(newUser.email) ? isBlank(newUser.email) : oldUser.email;

@@ -11,13 +11,14 @@ export class MealFood {
   servingAmount: number;
 }
 export class Food {
-  id: string;
-  name: string;
-  fat: number;
-  carb: number;
-  protein: number;
-  serving: Serving = new Serving();
+  id?: string;
+  name?: string;
+  fat?: number;
+  carb?: number;
+  protein?: number;
+  serving?: Serving = new Serving();
   image?: string;
+  isCustom?: boolean = true;
 }
 export class Serving {
   amount: number;

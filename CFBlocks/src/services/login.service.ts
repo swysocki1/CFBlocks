@@ -3,11 +3,13 @@
  */
 
 import {EventEmitter, Injectable} from '@angular/core';
-import {User, UserSession} from '../models/user.model';
+import {Permission, Role, User, UserSession} from '../models/user.model';
 import * as moment from 'moment';
 import {FirebaseService} from './firebase.service';
 import {Subscription} from 'rxjs/internal/Subscription';
 import {Observable} from 'rxjs/internal/Observable';
+import * as uuid from 'uuid';
+import {Food} from "../models/meal.module";
 
 @Injectable()
 export class LoginService {
@@ -74,7 +76,9 @@ export class LoginService {
           this.firebaseService.getUserAccount(username).subscribe(user => {
 
             userSession.user = user as User;
-
+            if (user['admin']) {
+              this.addAdminRole(userSession);
+            }
             localStorage.setItem('CFBlocks', JSON.stringify(userSession));
             this.setUserSession(userSession);
             subscriber.next(userSession);
@@ -96,6 +100,19 @@ export class LoginService {
 
       // TODO error on logging out
     });
+  }
+  addAdminRole(userSession: UserSession) {
+    const role = new Role();
+    role.updatedBy = 'ADMIN';
+    role.lastUpdated = new Date();
+    role.id = uuid();
+    role.type = 'ADMIN';
+    role.active = true;
+    // const perm = new Permission();
+    // perm.permission = 'ADMIN';
+    // perm.id = uuid();
+    // role.permissions.push(perm);
+    userSession.roles.push(role);
   }
   hasAdmin() {
     if (this._userSession && this._userSession.roles) {
@@ -212,5 +229,10 @@ export class LoginService {
     } else {
       return 'Guest';
     }
+  }
+  addCustomFood(food: Food) {
+    food = {id: food.id};
+    this._user.customFoods.push(food);
+    return this.updateUser(this._user);
   }
 }

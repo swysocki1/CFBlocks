@@ -1,20 +1,20 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand mr-15" (click)="navigate('/')">
+  <a class="navbar-brand mr-15 pointer" (click)="navigate('/')">
     <img src="assets/imgs/logo.png" alt="CF Blocks" style="width: auto; max-height: 30px;">
   </a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
   <ul class="navbar-nav mr-auto">
-    <li class="nav-item">
-      <a class="nav-link" [href]="facebook"><i class="fa fa-facebook fa-fw fa-lg"></i></a>
+    <li class="nav-item facebook">
+      <a class="nav-link" [href]="facebook"><i class="fab fa-facebook fa-fw fa-lg fb-blue-hover"></i></a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" [href]="twitter"><i class="fa fa-twitter fa-fw fa-lg"></i></a>
+    <li class="nav-item twitter">
+      <a class="nav-link" [href]="twitter"><i class="fab fa-twitter fa-fw fa-lg"></i></a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" [href]="youtube"><i class="fa fa-youtube fa-fw fa-lg"></i></a>
+    <li class="nav-item youtube">
+      <a class="nav-link" [href]="youtube"><i class="fab fa-youtube fa-fw fa-lg"></i></a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" [href]="instagram"><i class="fa fa-instagram fa-fw fa-lg"></i></a>
+    <li class="nav-item instagram">
+      <a class="nav-link" [href]="instagram"><i class="fab fa-instagram fa-fw fa-lg"></i></a>
     </li>
   </ul>
   <ul class="navbar-nav mr-auto" *ngIf="showLinks()">
@@ -58,6 +58,9 @@
         <div *ngIf="!notifications || notifications.length <= 0" class="text-muted p-1"><small>No Notifications Found.</small></div>
       </div>
     </li>
+    <li class="nav-item" *ngIf="hasAdmin()">
+      <a class="nav-link pointer" title="ADMIN" (click)="toggleAdmin()" [ngClass]="{'gold' : isAdmin()}"><i class="fas fa-fw fa-lg fa-crown"></i></a>
+    </li>
     <li class="nav-item" *ngIf="isLogedIn()" routerLinkActive="active">
       <a (click)="navigate('/account')" class="nav-link">
         <span class="circle p-1">
@@ -65,9 +68,6 @@
           <i class="fa fa-fw fa-lg fa-user-circle" *ngIf="!userSession.user.photoURL"></i>
         </span>{{userSession.user.username}}
       </a>
-    </li>
-    <li class="nav-item" *ngIf="hasAdmin()">
-      <a class="nav-link pointer" title="settings"><i class="fa fa-fw fa-lg" [ngClass]="{'fa-user-circle' : isAdmin(), 'fa-user-circle-o': !isAdmin()}"></i></a>
     </li>
     <li class="nav-item" *ngIf="isLogedIn()">
       <a (click)="logout()" class="nav-link pointer" title="signin">Logout</a>

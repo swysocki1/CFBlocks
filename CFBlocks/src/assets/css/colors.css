@@ -223,3 +223,27 @@
   fill: #FFD700 !important;
   background: #FFD700 !important;
 }
+.facebook:hover .fa-facebook {
+  /*color: #fff !important;*/
+  /*text-shadow: 1px 1px 1px #4267b2 !important;*/
+  /*background-color: #4267b2;*/
+  /*fill: #4267b2;*/
+}
+.twitter:hover .twitter {
+  /*color: #00aced !important;*/
+  /*text-shadow: 1px 1px 1px #fff !important;*/
+  /*background-color: #fff;*/
+  /*fill: #fff;*/
+}
+.instagram:hover .fa-instagram {
+  /*color: #fff !important;*/
+  /*text-shadow: 1px 1px 1px #4267b2 !important;*/
+  /*background-color: #4267b2;*/
+  /*fill: #4267b2;*/
+}
+.youtube:hover .fa-youtube {
+  /*color: #ff0000 !important;*/
+  /*text-shadow: 1px 1px 1px #fff !important;*/
+  /*background-color: #fff;*/
+  /*fill: #fff;*/
+}
