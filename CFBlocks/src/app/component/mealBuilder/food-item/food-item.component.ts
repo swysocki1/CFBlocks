@@ -12,7 +12,7 @@ import {LoginService} from "../../../../services/login.service";
     .card-body { padding: 10px;}
     .update-food {
       display:inline-block;
-      padding:3px;
+      min-width:22px;
       margin: .2em;
       opacity:.8;
     }
@@ -34,6 +34,7 @@ export class FoodItemComponent {
   @Output() updateFood: EventEmitter<Food> = new EventEmitter<Food>();
   @Output() add: EventEmitter<Food> = new EventEmitter<Food>();
   @Output() remove: EventEmitter<Food> = new EventEmitter<Food>();
+  displayNutritionFacts = true;
   constructor(private bc: BlockCalculatorService, private mealService: MealService, private fsa: FirebaseAbstractionLayerService,
               private ls: LoginService) { }
   calcCalories(food: Food) {
@@ -95,5 +96,8 @@ export class FoodItemComponent {
     },error => {
       console.error(error);
     });
+  }
+  toggleNutritionFacts() {
+    this.displayNutritionFacts = !this.displayNutritionFacts;
   }
 }

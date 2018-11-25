@@ -58,7 +58,7 @@
         <div class="form-group" style="width:100%;margin-bottom: 0;">
           <label class="control-label" style="display:inline-block;">Meal's Name: </label>
           <input class="form-control form-control-sm" [ngClass]="{'is-invalid': !meal.name}" type="text" [(ngModel)]="meal.name"/>
-          <div class="invalid-feedback">Must have Name of Meal</div>
+          <div class="invalid-feedback">Meal Must Have A Name</div>
         </div>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <i class="fa fa-fw fa-times coal"></i>
@@ -70,6 +70,7 @@
             <div class="form-group">
               <div class="input-group">
                 <input type="search" class="form-control form-control-sm" [ngClass]="{'is-invalid': (foods | foodFilter:search:meal?.foods:user?.favFoods).length < 1}" id="food-filter" [(ngModel)]="search" placeholder="Filter"/>
+                <span class="text-sm-center pl-1 pr-2" style="padding: .25rem .5rem;font-style: italic;">or</span>
                 <div class="input-group-append">
                   <button type="button" class="btn btn-sm btn-primary" (click)="loadFoodModal()">Create Food</button>
                 </div>
