@@ -67,8 +67,8 @@ export class MealBuilderComponent implements OnInit {
   }
   ngOnInit() {
     this.user = this.ls.getUser();
-    this.ls.getUserUpdates.subscribe(user => {
-      this.user = user;
+    this.ls.getUserSessionUpdates.subscribe(userSession => {
+      this.user = userSession.user;
       this.getAllFoods();
     });
     this.route.paramMap.pipe(
