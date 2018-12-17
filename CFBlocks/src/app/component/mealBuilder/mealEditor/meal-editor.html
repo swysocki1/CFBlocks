@@ -64,10 +64,11 @@
       </div>
     </div>
     <div class="row meal-editor-submit-container mt-1">
-      <div class="col text-center">
-        <button type="button" class="btn btn-primary btn-block mb-1" (click)="createNewMeal()">Add New Meal</button>
-        <button type="button" class="btn btn-default" (click)="reset()" *ngIf="hasFoods()">Reset</button>
-        <button type="button" class="btn btn-primary" style="margin-left: 15px;" *ngIf="hasFoods()" (click)="save()">Save</button>
+      <div class="col-12 text-center">
+        <button type="button" class="btn btn-primary mr-1" (click)="searchPreviousMeals()">Search Previous Meals</button>
+        <button type="button" class="btn btn-primary mr-1" (click)="createNewMeal()">Add New Meal</button>
+        <button type="button" class="btn btn-default mr-1" (click)="reset()" *ngIf="hasFoods()">Reset</button>
+        <button type="button" class="btn btn-primary" *ngIf="hasFoods()" (click)="save()">Update</button>
       </div>
     </div>
   </div>

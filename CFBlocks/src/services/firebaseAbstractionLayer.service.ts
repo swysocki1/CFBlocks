@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Injectable} from '@angular/core';
-import {Food, MealCalendar} from '../models/meal.module';
+import {Food, Meal, MealCalendar} from '../models/meal.module';
 import {User} from '../models/user.model';
 import {map} from 'rxjs/operators';
 import {FirebaseService} from './firebase.service';
@@ -42,13 +42,13 @@ export class FirebaseAbstractionLayerService {
             // if (this.cs.isSameDay(startRange, endRange)) {
             //   sub.next(mealCalendar[0] as MealCalendar);
             // } else {
-              sub.next(mealCalendar as [MealCalendar]);
+              sub.next(mealCalendar as MealCalendar[]);
             // }
           } else {
-            sub.next([] as [MealCalendar]);
+            sub.next([] as MealCalendar[]);
           }
         } else {
-          sub.next([] as [MealCalendar]);
+          sub.next([] as MealCalendar[]);
         }
       }, error => {
         sub.error(error);
@@ -114,7 +114,7 @@ export class FirebaseAbstractionLayerService {
   }
   favoriteFood(user: User, food: Food) {
     if (user && !user.favFoods) {
-      user.favFoods = [] as [string];
+      user.favFoods = [];
     }
     if (user && !user.favFoods.some(favFood => favFood === food.id)) {
       user.favFoods.push(food.id);
@@ -140,6 +140,39 @@ export class FirebaseAbstractionLayerService {
           sub.error(new Error('USER_NOT_PROVIDED'));
         } else {
           sub.next(new Error('FOOD_NOT_FOUND_IN_FAVORITES'));
+        }
+        sub.complete();
+      });
+    }
+  }
+  favoriteMeal(user: User, meal: Meal) {
+    if (user && !user.favMeals) {
+      user.favMeals = [];
+    }
+    if (user && !user.favMeals.some(favMeal => favMeal === meal.id)) {
+      user.favMeals.push(meal.id);
+      return this.ls.updateUser(user);
+    } else {
+      return new Observable(sub => {
+        if (!user) {
+          sub.error(new Error('USER_NOT_PROVIDED'));
+        } else {
+          sub.next(new Error('MEAL_ALREADY_A_FAVORITE'));
+        }
+        sub.complete();
+      });
+    }
+  }
+  unFavoriteMeal(user: User, meal: Meal) {
+    if (user && user.favMeals.some(favMeal => favMeal === meal.id)) {
+      user.favMeals.splice(user.favMeals.findIndex(favMeal => favMeal === meal.id), 1);
+      return this.ls.updateUser(user);
+    } else {
+      return new Observable(sub => {
+        if (!user) {
+          sub.error(new Error('USER_NOT_PROVIDED'));
+        } else {
+          sub.next(new Error('MEAL_NOT_FOUND_IN_FAVORITES'));
         }
         sub.complete();
       });

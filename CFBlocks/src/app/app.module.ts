@@ -27,6 +27,7 @@ import {UserAccountModule} from './component/userAccount/userAccount.module';
 import {SigninModule} from './containers/signin/signin.module';
 import {MealBuilderModule} from './component/mealBuilder/mealBuilder.module';
 import {FirebaseAbstractionLayerService} from '../services/firebaseAbstractionLayer.service';
+import {AppRoutingModule} from "./app.routing-module";
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import {FirebaseAbstractionLayerService} from '../services/firebaseAbstractionLa
     ReactiveFormsModule,
     FormsModule,
     BrowserModule,
-    RouterModule.forRoot(routes),
+    AppRoutingModule,
     FirebaseModule,
     BlockCalculatorModule,
     CalendarModule,
@@ -51,7 +52,8 @@ import {FirebaseAbstractionLayerService} from '../services/firebaseAbstractionLa
     UserAccountModule,
     MealBuilderModule
   ],
-  providers: [LoginService,
+  providers: [
+    LoginService,
     ValidationService,
     NavbarSearchService,
     NotificationService,

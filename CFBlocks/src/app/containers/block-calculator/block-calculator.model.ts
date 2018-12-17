@@ -6,7 +6,7 @@ export class TextInput {
   type: string;
 }
 export class SelectInput extends TextInput {
-  options: [OptionInput] = [] as [OptionInput];
+  options: OptionInput[] = [];
   value: any;
 }
 

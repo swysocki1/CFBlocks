@@ -9,8 +9,8 @@ import {Observable} from 'rxjs/internal/Observable';
 export class MealService {
   constructor(private loginService: LoginService, private helper: HelperService) {}
 
-  getMealCalendar(start: Date, end: Date): Observable<[MealCalendar]> {
-    return new Observable<[MealCalendar]>(subscriber => {
+  getMealCalendar(start: Date, end: Date): Observable<MealCalendar[]> {
+    return new Observable<MealCalendar[]>(subscriber => {
       const user = this.loginService.getUser();
 
       // TODO query for user food
@@ -53,8 +53,8 @@ export class MealService {
   isSnack(meal: Meal): boolean {
     return (meal && meal.type && meal.type.toUpperCase() === 'SNACK') || (!this.isBreakFast(meal) || !this.isLunch(meal) || !this.isDinner(meal));
   }
-  private getTestMealCalendar(start: Date, end: Date): [MealCalendar] {
-    const cal: [MealCalendar] = [] as [MealCalendar];
+  private getTestMealCalendar(start: Date, end: Date): MealCalendar[] {
+    const cal: MealCalendar[] = [];
     for (let day = start; moment(day).isSameOrBefore(moment(end)); day = moment(day).add(1, 'days').toDate()) {
       const mc = new MealCalendar();
       mc.user = 'swysoc1@gmail,com';
@@ -96,15 +96,19 @@ export class MealService {
       sauceMeal.food = cheese;
       sauceMeal.servingAmount = 1;
 
-      meal1.foods = [] as [MealFood];
+      meal1.foods = [];
       meal1.foods.push(cheeseMeal, sauceMeal, doughMeal);
-      mc.meals = [] as [Meal];
+      mc.meals = [];
       mc.meals.push(meal1);
       cal.push(mc);
     }
     return cal;
   }
   isFavoriteFood(food: Food) {
-    return this.loginService.getUser().favFoods.some(favFoodId => favFoodId === food.id)
+    return this.loginService.getUser().favFoods.some(favFoodId => favFoodId === food.id);
+  }
+  
+  isFavoriteMeal(meal: Meal) {
+    return this.loginService.getUser().favMeals.some(favMealId => favMealId === meal.id);
   }
 }

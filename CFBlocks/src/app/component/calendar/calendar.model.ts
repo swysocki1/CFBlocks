@@ -4,13 +4,13 @@ export class CalendarMonth {
   id: string;
   name: string;
   year: number;
-  weeks: [CalendarWeek] = [] as [CalendarWeek];
+  weeks: CalendarWeek[] = [];
 }
 
 export class CalendarWeek {
   id: string;
   month: string;
-  days: [CalendarDay] = [] as [CalendarDay];
+  days: CalendarDay[] = [];
 }
 export class CalendarDay {
   id: string;

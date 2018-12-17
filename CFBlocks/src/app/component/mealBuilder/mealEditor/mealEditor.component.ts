@@ -47,9 +47,10 @@ import {LoginService} from '../../../../services/login.service';
   `]
 })
 export class MealEditorComponent implements OnInit, OnChanges {
-  @Input() meals: [Meal] = [] as [Meal];
-  @Output() saveMeals = new EventEmitter<[Meal]>();
+  @Input() meals: Meal[] = [];
+  @Output() saveMeals = new EventEmitter<Meal[]>();
   @Output() loadMealModal = new EventEmitter();
+  @Output() loadMealSelectModal = new EventEmitter();
   form: FormGroup;
   constructor(private bc: BlockCalculatorService, private fb: FormBuilder, private vs: ValidationService, private fs: FirebaseService, private ls: LoginService) { }
   ngOnInit() {
@@ -58,9 +59,9 @@ export class MealEditorComponent implements OnInit, OnChanges {
   save() {
     this.saveMeals.emit(this.meals);
   }
-  loadForm(meals?: [Meal]) {
+  loadForm(meals?: Meal[]) {
     if (!meals || this.meals) {
-      meals = [] as [Meal];
+      meals = [];
     }
     if (this.meals) {
       this.meals.forEach(m => {
@@ -152,6 +153,9 @@ export class MealEditorComponent implements OnInit, OnChanges {
   }
   createNewMeal() {
     this.loadMealModal.emit();
+  }
+  searchPreviousMeals() {
+    this.loadMealSelectModal.emit();
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes.meals.currentValue) {

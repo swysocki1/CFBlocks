@@ -15,34 +15,38 @@
         <div class="row meal-totals">
           <div class="col text-center">
             <span class="todays-totals">
-              <label class="control-label"><b>Carbs:</b></label><span class="mr-2 ">&nbsp;{{(getTodaysCarbTotal() | number:'1.0-2') + 'g / ' + (getDailyCarbTotal() | number:'1.0-2' ) + 'g'}}</span>
+              <label class="control-label"><b>Carbs:</b></label><span class="mr-2 ">&nbsp;{{(getTodaysCarbTotal() | number:'1.0-2') + 'g / ' + (getDailyCarbTotal() | number:'1.0-2' ) + 'g'}}
+                {{ ' - ' + ( getTodaysCarbTotalPercentage() | number:'1.0-2' ) + '%'}}</span>
             </span>
             <div class="progress" *ngIf="getDailyCarbTotal()">
-              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width.%]="getTodaysCarbTotal()/getDailyCarbTotal()"></div>
+              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width.%]="getTodaysCarbTotalPercentage()"></div>
             </div>
             <span class="todays-totals">
-              <label class="control-label"><b>Fats:</b></label><span class="mr-2">&nbsp;{{(getTodaysFatTotal() | number:'1.0-2') + 'g / ' + (getDailyFatTotal() | number:'1.0-2') + 'g'}}</span>
+              <label class="control-label"><b>Fats:</b></label><span class="mr-2">&nbsp;{{(getTodaysFatTotal() | number:'1.0-2') + 'g / ' + (getDailyFatTotal() | number:'1.0-2') + 'g'}}
+                {{ ' - ' + ( getTodaysFatTotalPercentage() | number:'1.0-2' ) + '%'}}</span>
             </span>
             <div class="progress" *ngIf="getDailyCarbTotal()">
-              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width.%]="getTodaysFatTotal()/getDailyFatTotal()"></div>
+              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width.%]="getTodaysFatTotalPercentage()"></div>
             </div>
             <span class="todays-totals">
-              <label class="control-label"><b>Protein:</b></label><span class="mr-2">&nbsp;{{(getTodaysProteinTotal() | number:'1.0-2') + 'g / ' + (getDailyProteinTotal() | number:'1.0-2') + 'g'}}</span>
+              <label class="control-label"><b>Protein:</b></label><span class="mr-2">&nbsp;{{(getTodaysProteinTotal() | number:'1.0-2') + 'g / ' + (getDailyProteinTotal() | number:'1.0-2') + 'g'}}
+                {{ ' - ' + ( getTodaysProteinTotalPercentage() | number:'1.0-2' ) + '%'}}</span>
             </span>
             <div class="progress" *ngIf="getDailyCarbTotal()">
-              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width.%]="getTodaysProteinTotal()/getDailyProteinTotal()"></div>
+              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width.%]="getTodaysProteinTotalPercentage()"></div>
             </div>
             <span class="todays-totals">
-              <label class="control-label"><b>Calories:</b></label><span class="mr-2">&nbsp;{{(getTodaysCalorieTotal() | number:'1.0-2') + 'kcals / ' + (getDailyCalorieTotal() | number:'1.0-2') + 'kcals'}}</span>
+              <label class="control-label"><b>Calories:</b></label><span class="mr-2">&nbsp;{{(getTodaysCalorieTotal() | number:'1.0-2') + 'kcals / ' + (getDailyCalorieTotal() | number:'1.0-2') + 'kcals'}}
+                {{ ' - ' + ( getTodaysCalorieTotalPercentage() | number:'1.0-2' ) + '%'}}</span>
             </span>
             <div class="progress" *ngIf="getDailyCarbTotal()">
-              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width.%]="getTodaysCalorieTotal()/getDailyCalorieTotal()"></div>
+              <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" [style.width.%]="getTodaysCalorieTotalPercentage()"></div>
             </div>
           </div>
         </div>
         <div class="row meals">
           <div class="col">
-            <meal-editor [meals]="mealCalendar.meals" (loadMealModal)="loadSelectFoodModule()" (saveMeals)="updateAndSaveMeals($event)"></meal-editor>
+            <meal-editor [meals]="mealCalendar.meals" (loadMealModal)="loadSelectFoodModule()" (saveMeals)="updateAndSaveMeals($event)" (loadMealSelectModal)="loadMealSelectModal()"></meal-editor>
           </div>
         </div>
       </div>
@@ -69,7 +73,7 @@
           <div class="col">
             <div class="form-group">
               <div class="input-group">
-                <input type="search" class="form-control form-control-sm" [ngClass]="{'is-invalid': (foods | foodFilter:search:meal?.foods:user?.favFoods).length < 1}" id="food-filter" [(ngModel)]="search" placeholder="Filter"/>
+                <input type="search" class="form-control form-control-sm" [ngClass]="{'is-invalid': (foods | foodFilter:foodSearch:meal?.foods:user?.favFoods).length < 1}" id="food-filter" [(ngModel)]="foodSearch" placeholder="Filter"/>
                 <span class="text-sm-center pl-1 pr-2" style="padding: .25rem .5rem;font-style: italic;">or</span>
                 <div class="input-group-append">
                   <button type="button" class="btn btn-sm btn-primary" (click)="loadFoodModal()">Create Food</button>
@@ -79,8 +83,7 @@
           </div>
         </div>
         <div class="row food-container" style="margin-left:0;margin-right:0;">
-          <div class="col-sm-12 col-md-6 col-lg-3" *ngFor="let food of foods | foodFilter:search:meal?.foods:user?.favFoods">
-            <!--<food-item *ngFor="let food of foods | foodFilter : {search: search, alreadyUsed: meal.foods}" [food]="food"  (updateFood)="loadFoodModal(food)"></food-item>-->
+          <div class="col-sm-12 col-md-6 col-lg-3" *ngFor="let food of foods | foodFilter:foodSearch:meal?.foods:user?.favFoods">
             <food-item [food]="food" [isSelected]="inMeal(food)" [canAdd]="!inMeal(food)" [canUpdate]="true" [canRemove]="inMeal(food)" (updateFood)="loadFoodModal(food)" (add)="addFoodToMeal($event)" (remove)="removeFoodFromMeal($event)"></food-item>
           </div>
         </div>
@@ -89,7 +92,34 @@
         <div class="row">
           <div class="col text-center">
             <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Cancel">Cancel</button>
-            <button type="submit" class="btn btn-primary" style="margin-left: 15px;" [disabled]="!canUpdateMeal()" (click)="updateMeal()">Create Meal</button>
+            <button type="submit" class="btn btn-primary" style="margin-left: 15px;" [disabled]="!canUpdateMeal()" (click)="updateMeal(meal)">Create Meal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal scroll fade" id="meal-selector-modal" tabindex="-1" role="dialog" [style.height.px]="getWindowHeight()">
+  <div class="modal-dialog modal-lg" role="document" style="max-width:98%;">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <div class="input-group">
+                <input type="search" class="form-control form-control-sm" [ngClass]="{'is-invalid': (foods | foodFilter:mealSearch:meal?.foods:user?.favFoods).length < 1}" id="food-filter" [(ngModel)]="mealSearch" placeholder="Filter"/>
+                <span class="text-sm-center pl-1 pr-2" style="padding: .25rem .5rem;font-style: italic;">or</span>
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-sm btn-primary" (click)="loadFoodModal()">Create Food</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row food-container" style="margin-left:0;margin-right:0;">
+          <div class="col-sm-12 col-md-6 col-lg-3" *ngFor="let meal of meals | mealFilter:mealSearch:user?.favFoods">
+            <meal-item [meal]="meal" (mealSelection)="updateMeal($event)"></meal-item>
           </div>
         </div>
       </div>

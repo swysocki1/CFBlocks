@@ -45,14 +45,17 @@ import {Subscription} from "rxjs/internal/Subscription";
 export class MealBuilderComponent implements OnInit {
   user: User;
   mealCalendar: MealCalendar = new MealCalendar();
-  // @Input() meals: [Meal] = [] as [Meal];
+  // @Input() meals: Meal[] = [] as [Meal];
   @Output() mealUpdated: Meal;
-  foods: [Food] = [] as [Food];
+  foods: Food[] = [];
+  meals: Meal[] = [];
   meal: Meal = new Meal();
-  search = '';
+  foodSearch = '';
+  mealSearch = '';
   updateFood: Food;
   mealDay: Date = new Date();
   allFoodsSub = new Subscription();
+  allMealsSub = new Subscription();
   constructor(private fs: FirebaseService, private fsa: FirebaseAbstractionLayerService, private bc: BlockCalculatorService,
               private route: ActivatedRoute, private router: Router, private ls: LoginService) { }
   getFormatedName() {
@@ -70,6 +73,7 @@ export class MealBuilderComponent implements OnInit {
     this.ls.getUserSessionUpdates.subscribe(userSession => {
       this.user = userSession.user;
       this.getAllFoods();
+      this.getAllMeals();
     });
     this.route.paramMap.pipe(
       map((params: ParamMap) =>
@@ -86,6 +90,7 @@ export class MealBuilderComponent implements OnInit {
       this.router.navigate(['/meal-builder', moment(event.date).format('MMDDYY')]);
     });
     this.getAllFoods();
+    this.getAllMeals();
   }
   getAllFoods() {
     if (this.allFoodsSub) {
@@ -94,6 +99,29 @@ export class MealBuilderComponent implements OnInit {
     this.allFoodsSub = this.fs.getAllFoods(this.ls.getUser(), this.ls.isAdmin()).subscribe(foods => {
       this.foods = foods as [Food];
     });
+  }
+  getAllMeals() {
+    if (this.allMealsSub) {
+      this.allMealsSub.unsubscribe();
+    }
+    this.allMealsSub = this.fsa.getMealCalendarByDateRange(this.ls.getUser(), moment().subtract(1, 'year').toDate(), moment().endOf('day').toDate()).subscribe((mealCalendars:[MealCalendar]) => {
+      mealCalendars.forEach(mc => {
+        mc.meals.forEach(meal => {
+          console.log(this.meals.find(m => m.id === meal.id));
+          if (!this.meals.some(m => m.id === meal.id)) {
+            console.log('push meal ' + meal.name);
+            this.meals.push(meal);
+          } else {
+            const mealIndex = this.meals.findIndex(m => m.id === meal.id);
+            console.log('update meal ' + meal.name);
+            this.meals[mealIndex] = meal;
+          }
+        });
+      })
+    });
+    // this.allMealsSub = this.fs.getAllMeals(this.ls.getUser(), this.ls.isAdmin()).subscribe(meals => {
+    //   this.meals = meals as [Meal];
+    // });
   }
   loadCalendarDay(date: Date) {
     if (this.ls.getUserSession().authenticated) {
@@ -118,6 +146,9 @@ export class MealBuilderComponent implements OnInit {
     }
     this.resetFoodCreator();
     $('#food-selector-modal').modal('show');
+  }
+  loadMealSelectModal() {
+    $('#meal-selector-modal').modal('show');
   }
   loadFoodModal(food?: Food) {
     if (food) {
@@ -148,13 +179,13 @@ export class MealBuilderComponent implements OnInit {
       this.meal.foods.splice(this.meal.foods.findIndex(f => f.food.name === food.name), 1);
     }
   }
-  updateMeal() {
-    if (this.meal) {
-      let meal = this.mealCalendar.meals.find(m => m.name === this.meal.name);
+  updateMeal(updateMeal?: Meal) {
+    if (updateMeal) {
+      let meal = this.mealCalendar.meals.find(m => m.name === updateMeal.name);
       if (meal) {
-        meal = {... this.meal};
+        meal = {... updateMeal};
       } else {
-        this.mealCalendar.meals.push({... this.meal});
+        this.mealCalendar.meals.push({... updateMeal});
       }
     }
     // TODO update to firestore
@@ -228,7 +259,18 @@ export class MealBuilderComponent implements OnInit {
     });
     return total;
   }
-
+  getTodaysCarbTotalPercentage() {
+    return this.getTodaysCarbTotal() / this.getDailyCarbTotal() * 100;
+  }
+  getTodaysFatTotalPercentage() {
+    return this.getTodaysFatTotal() / this.getDailyFatTotal() * 100;
+  }
+  getTodaysProteinTotalPercentage() {
+    return this.getTodaysProteinTotal() / this.getDailyProteinTotal() * 100;
+  }
+  getTodaysCalorieTotalPercentage() {
+    return this.getTodaysCalorieTotal() / this.getDailyCalorieTotal() * 100;
+  }
   // Based from User template
   getDailyCarbTotal() {
     return this.bc.dailyCarbs(this.user);

@@ -26,11 +26,11 @@ import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstrac
 })
 export class CalendarComponent implements OnInit {
   @Input() name: string;
-  daysOfWeek: [string] = [] as [string];
-  monthsOfYear: [string] = [] as [string];
+  daysOfWeek: string[] = [];
+  monthsOfYear: string[] = [];
   month: CalendarMonth = new CalendarMonth();
   selectedDate: Date;
-  mealCalendar: [MealCalendar] = [] as [MealCalendar];
+  mealCalendar: MealCalendar[] = [];
   view = 'Bi-Weekly';
   constructor(private cs: CalendarService, private mealService: MealService, private router: Router, private ls: LoginService, private fsa: FirebaseAbstractionLayerService) { }
   ngOnInit() {
@@ -121,7 +121,7 @@ export class CalendarComponent implements OnInit {
   todayIsSelected() {
     return this.isSameDay(this.selectedDate, new Date());
   }
-  getMeal(day: CalendarDay): [Meal] {
+  getMeal(day: CalendarDay): Meal[] {
     // if (this.cs.isSameDay(day.date, new Date())) {
     //   console.log(this.mealCalendar);
     //   console.log(day.date);
@@ -138,7 +138,7 @@ export class CalendarComponent implements OnInit {
         return mealCalendar.meals;
       }
     }
-    return [] as [Meal];
+    return [];
   }
   getMealCalendar(start?: Date, end?: Date, doNotRepeat?: boolean) {
     if (start && end) {

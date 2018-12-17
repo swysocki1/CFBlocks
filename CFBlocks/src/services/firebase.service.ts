@@ -1,5 +1,4 @@
-import { AngularFirestore } from 'angularfire2/firestore';
-import {AngularFireAuth} from 'angularfire2/auth';
+
 import {Injectable} from '@angular/core';
 import {Food, Meal, MealCalendar} from '../models/meal.module';
 import {User} from '../models/user.model';
@@ -9,6 +8,8 @@ import * as moment from 'moment';
 import { combineLatest, merge  } from "rxjs";
 import {Observable} from "rxjs/internal/Observable";
 import {forkJoin} from "rxjs/internal/observable/forkJoin";
+import {AngularFirestore} from "@angular/fire/firestore";
+import {AngularFireAuth} from "@angular/fire/auth";
 
 @Injectable()
 export class FirebaseService {
@@ -79,7 +80,6 @@ export class FirebaseService {
     }
   }
   getAllFoods(user: User, isAdmin?: boolean) {
-    console.log(user.favFoods);
     const queryAllFoods = this.queryAllFoods(isAdmin).snapshotChanges().pipe(map(actions => {
       return actions.map(a => {
         const data = a.payload.doc.data() as Food;
@@ -103,6 +103,20 @@ export class FirebaseService {
       return foods;
     }
   }
+  getAllMeals(user: User, isAdmin?: boolean) {
+    this.getMealCalendarByDateRange(user, moment().subtract(1, 'year').toDate(), moment().endOf('day').toDate()).subscribe(mealCalendars => {
+    
+    });
+  }
+  queryAllMeals(user: User, isAdmin: boolean) {
+    if (isAdmin) {
+      return this.firebaseDb.collection('mealCalendar');
+    } else {
+      return this.firebaseDb.collection('food', ref => {
+        return ref.where('user', '==', user.username);
+      });
+    }
+  }
   queryFood(food: Food) {
     if (food && !food.id) {
       food.id = this.firebaseDb.createId();
@@ -112,9 +126,6 @@ export class FirebaseService {
   getFoodByRef(ref) {
     return ref.get();
   }
-  // getFood(food: Food) {
-  //   return this.mapSnapShotChanges(this.queryFood(food));
-  // }
   createFood(food: Food) {
     return this.queryFood(food).set(this.formatObj(food));
   }

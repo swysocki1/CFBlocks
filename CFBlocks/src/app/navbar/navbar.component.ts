@@ -19,7 +19,7 @@ export class NavbarComponent implements OnInit {
   twitter: string = environment.twitter;
   youtube: string = environment.youtube;
   instagram: string = environment.instagram;
-  notifications = [] as [Notification];
+  notifications: Notification[] = [];
   userSession: UserSession;
   userSessionChange: EventEmitter<UserSession> = new EventEmitter<UserSession>();
   loginErrorMessage: string;

@@ -13,9 +13,10 @@ export class User {
   lifeStyle: UserLifeStyle = new UserLifeStyle();
   blockTemplate: BlockTemplate = new BlockTemplate();
   photoURL: string;
-  favFoods?: [string] = [] as [string];
-  customFoods?: [Food] = [] as [Food];
-  // favMeals?: [Meal] = [] as [Meal];
+  favFoods?: string[] = [];
+  favMeals?: string[] = [];
+  customFoods?: Food[] = [];
+  // favMeals?: Meal[] = [];
 }
 export function mergeUser(oldUser: User, newUser: User): User {
   // oldUser.email = isBlank(newUser.email) ? isBlank(newUser.email) : oldUser.email;
@@ -44,6 +45,7 @@ export function mergeUser(oldUser: User, newUser: User): User {
   oldUser.blockTemplate.fats = newUser.blockTemplate.fats ? newUser.blockTemplate.fats : oldUser.blockTemplate.fats;
   oldUser.blockTemplate.protein = newUser.blockTemplate.protein ? newUser.blockTemplate.protein : oldUser.blockTemplate.protein;
   oldUser.favFoods = newUser.favFoods && newUser.favFoods.length ? newUser.favFoods : oldUser.favFoods;
+  oldUser.favMeals = newUser.favMeals && newUser.favMeals.length ? newUser.favMeals : oldUser.favMeals;
   return oldUser;
 }
 export function isBlank(value: string): string {
@@ -67,7 +69,7 @@ export class UserLifeStyle {
 export class Role {
   id: string;
   type: string;
-  permissions: [Permission] = [] as [Permission];
+  permissions: Permission[] = [];
   lastUpdated: Date = new Date();
   updatedBy: string; // User 'id'
   active: boolean;
@@ -84,7 +86,7 @@ export class UserSession {
   created: Date;
   userAgent: string = navigator.userAgent;
   authenticated: boolean;
-  roles: [Role] = [] as [Role];
+  roles: Role[] = [];
 
   setTestUser() {
     this.user.id = 'abc123';

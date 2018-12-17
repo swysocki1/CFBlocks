@@ -2,7 +2,7 @@ export class Meal {
   id: string;
   name: string;
   type: string;
-  foods: [MealFood] = [] as [MealFood];
+  foods: MealFood[] = [];
   description: string;
 }
 export class MealFood {
@@ -49,7 +49,7 @@ export class MealCalendar {
   id?: string;
   user = '';
   date: Date = new Date();
-  meals: [Meal] = [] as [Meal];
+  meals: Meal[] = [];
 }
 export class BlockTemplate {
   metric: string;
