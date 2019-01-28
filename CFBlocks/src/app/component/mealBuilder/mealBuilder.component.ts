@@ -156,7 +156,8 @@ export class MealBuilderComponent implements OnInit {
     } else {
       this.updateFood = new Food();
     }
-    $('#modify-food-modal').modal('show');
+    this.router.navigate([`/meal-builder/${moment(this.mealDay).format('MMDDYY')}/meal/${this.meal.name}/food/${food ? food.id : 'new'}`]);
+    // $('#modify-food-modal').modal('show');
   }
   resetFoodCreator() {
     $('#modify-food-modal').modal('hide');

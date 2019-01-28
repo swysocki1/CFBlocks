@@ -12,6 +12,19 @@ import {LoginService} from "./login.service";
 @Injectable()
 export class FirebaseAbstractionLayerService {
   constructor(private fs: FirebaseService, private cs: CalendarService, private ls: LoginService) { }
+  getFoodById(id: string) {
+    return new Observable(subscriber => {
+      const food = new Food();
+      food.id = id;
+      this.fs.queryFood(food).ref.get().then(res => {
+        subscriber.next(res.data());
+        subscriber.complete();
+      }, error => {
+        subscriber.error(error);
+        subscriber.complete();
+      });
+    });
+  }
   getMealCalendarByDateRange(user: User, startRange?: Date, endRange?: Date) {
     return new Observable(sub => {
       this.fs.queryMealCalendarByDateRange(user, startRange, endRange).snapshotChanges().pipe(map(actions => {

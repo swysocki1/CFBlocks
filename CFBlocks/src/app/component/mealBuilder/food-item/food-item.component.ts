@@ -1,9 +1,10 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Food, Meal} from '../../../../models/meal.module';
 import {BlockCalculatorService} from '../../../../services/block-calculator.service';
 import {MealService} from "../../../../services/meal.service";
 import {FirebaseAbstractionLayerService} from "../../../../services/firebaseAbstractionLayer.service";
 import {LoginService} from "../../../../services/login.service";
+import {User, UserSession} from "../../../../models/user.model";
 
 @Component({
   selector: 'food-item',
@@ -34,7 +35,7 @@ export class FoodItemComponent {
   @Output() updateFood: EventEmitter<Food> = new EventEmitter<Food>();
   @Output() add: EventEmitter<Food> = new EventEmitter<Food>();
   @Output() remove: EventEmitter<Food> = new EventEmitter<Food>();
-  displayNutritionFacts = true;
+  displayNutritionFacts = false;
   constructor(private bc: BlockCalculatorService, private mealService: MealService, private fsa: FirebaseAbstractionLayerService,
               private ls: LoginService) { }
   calcCalories(food: Food) {

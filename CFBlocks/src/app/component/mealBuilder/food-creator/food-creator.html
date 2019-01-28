@@ -1,6 +1,15 @@
 <form class="form-horizontal needs-validation" role="form" [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="card">
     <div class="card-body">
+      <div class="row" style="margin-bottom:5px;">
+        <div class="col text-center">
+          <button type="button" class="btn btn-dark pull-left font-italic" style="padding:5px;" (click)="goBack()"><i class="fa fa-arrow-left fa-fw fa-lg"></i>Go Back</button>
+          <div class="btn-group btn-group-lg">
+            <button type="button" class="btn btn-outline-dark" (click)="toggleView('Mix Foods')" [ngClass]="{'active': viewIsActive('Mix Foods')}">Mix Foods</button>
+            <button type="button" class="btn btn-outline-dark" (click)="toggleView('Create New')" [ngClass]="{'active': viewIsActive('Create New')}">Create New</button>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('name'), 'has-feedback': this.isFieldInvalid('name')}">
           <label for="food-name" class="control-label required">Name of Food</label>
@@ -8,8 +17,6 @@
                  [ngClass]="{'is-invalid': this.isFieldInvalid('name'), 'is-valid': this.isFieldValid('name')}" required>
           <div class="invalid-feedback">Food's Name is required!</div>
         </div>
-      </div>
-      <div class="row">
         <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('servings'), 'has-feedback': this.isFieldInvalid('servings')}">
           <label for="food-serving-amount" class="control-label required">Serving Amount</label>
           <input type="number" id="food-serving-amount" formControlName="servings" placeholder="Amount of Serving Size" class="form-control"
@@ -23,46 +30,81 @@
           <div class="invalid-feedback">Metric of Serving Size is required!</div>
         </div>
       </div>
+
+      <div class="row" *ngIf="viewIsActive('Mix Foods')">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <span style="display:inline-block;">Select Foods to Mix</span>
+              <button type="button" class="pull-right btn btn-sm coal" (click)="collapseAllFoods()">
+                <span *ngIf="showAllFoods"><i class="fas fa-2x fa-angle-down"></i></span>
+                <span *ngIf="!showAllFoods"><i class="fas fa-2x fa-angle-up"></i></span>
+              </button>
+            </div>
+            <div class="card-body" *ngIf="showAllFoods">
+              <div class="row">
+                <div class="col-10 offset-1">
+                  <div class="form-group">
+                    <input type="search" class="form-control form-control-sm" id="food-filter" formControlName="foodFilter" placeholder="Filter"/>
+                  </div>
+                </div>
+              </div>
+              <div class="row allFoods">
+                <div class="col-sm-12 col-md-6 col-lg-3" *ngFor="let food of allFoods | foodFilter:form?.value?.foodFilter:foodsSelected:user?.favFoods">
+                  <food-item [food]="food" [isSelected]="isSelected(food)" [canAdd]="true" [canUpdate]="true" [canRemove]="!isSelected(food)" (updateFood)="loadFood(food)" (add)="selectFood($event)" (remove)="unselectFood($event)"></food-item>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <h2>Amount Per Serving</h2>
       <div class="row">
-        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('carb'), 'has-feedback': this.isFieldInvalid('carb')}">
-          <label for="food-carb" class="control-label required">Amount of Carbs</label>
-          <div class="input-group mb-3">
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('carb'), 'has-feedback': this.isFieldInvalid('carb'), 'text-right': !viewIsActive('Create New')}">
+          <label for="food-carb" class="control-label" [ngClass]="{'required': viewIsActive('Create New')}">Amount of Carbs</label>
+          <div class="input-group mb-3" *ngIf="viewIsActive('Create New')">
             <input type="number" id="food-carb" formControlName="carb" placeholder="Carbs" class="form-control"
                    [ngClass]="{'is-invalid': this.isFieldInvalid('carb'), 'is-valid': this.isFieldValid('carb')}" required>
               <div class="input-group-append">
                 <span class="input-group-text">g</span>
               </div>
           </div>
-          <div class="invalid-feedback">Must be Greater than 0g</div>
+          <div class="invalid-feedback" *ngIf="viewIsActive('Create New')">Must be Greater than 0g</div>
+          <span *ngIf="!viewIsActive('Create New')" style="display:inline-block;">&nbsp;{{getMixedCarbs() || 0}}g</span>
         </div>
-        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('fat'), 'has-feedback': this.isFieldInvalid('fat')}">
-          <label for="food-fat" class="control-label required">Amount of Fats</label>
-          <div class="input-group mb-3">
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('fat'), 'has-feedback': this.isFieldInvalid('fat'), 'text-center': !viewIsActive('Create New')}">
+          <label for="food-fat" class="control-label" [ngClass]="{'required': viewIsActive('Create New')}">Amount of Fats</label>
+          <div class="input-group mb-3" *ngIf="viewIsActive('Create New')">
             <input type="number" id="food-fat" formControlName="fat" placeholder="Fats" class="form-control"
                  [ngClass]="{'is-invalid': this.isFieldInvalid('fat'), 'is-valid': this.isFieldValid('fat')}" required>
             <div class="input-group-append">
               <span class="input-group-text">g</span>
             </div>
           </div>
-          <div class="invalid-feedback">Must be Greater than 0g</div>
+          <div class="invalid-feedback" *ngIf="viewIsActive('Create New')">Must be Greater than 0g</div>
+          <span *ngIf="!viewIsActive('Create New')" style="display:inline-block;">&nbsp;{{getMixedFats() || 0}}g</span>
         </div>
-        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('protein'), 'has-feedback': this.isFieldInvalid('protein')}">
-          <label for="food-protein" class="control-label required">Amount of Protein</label>
-          <div class="input-group mb-3">
+        <div class="form-group col" [ngClass]="{'has-error': this.isFieldInvalid('protein'), 'has-feedback': this.isFieldInvalid('protein'), 'text-center': !viewIsActive('Create New')}">
+          <label for="food-protein" class="control-label" [ngClass]="{'required': viewIsActive('Create New')}">Amount of Protein</label>
+          <div class="input-group mb-3" *ngIf="viewIsActive('Create New')">
             <input type="number" id="food-protein" formControlName="protein" placeholder="Protein" class="form-control"
                    [ngClass]="{'is-invalid': this.isFieldInvalid('protein'), 'is-valid': this.isFieldValid('protein')}" required>
             <div class="input-group-append">
               <span class="input-group-text">g</span>
             </div>
           </div>
-          <div class="invalid-feedback">Must be Greater than 0g</div>
+          <div class="invalid-feedback" *ngIf="viewIsActive('Create New')">Must be Greater than 0g</div>
+          <span *ngIf="!viewIsActive('Create New')" style="display:inline-block;">&nbsp;{{getMixedProtein() || 0}}g</span>
+        </div>
+        <div class="col" [ngClass]="{'text-left': !viewIsActive('Create New')}" *ngIf="!viewIsActive('Create New')">
+          <span style="display:inline-block;">&nbsp;{{getMixCallories() || 0}}g</span>
         </div>
       </div>
       <div class="row">
         <div class="col text-center">
           <button type="button" class="btn btn-default" (click)="reset()">Cancel</button>
-          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" [disabled]="!form.valid">{{food ? 'Save' : 'Create'}}</button>
+          <button type="submit" class="btn btn-primary" style="margin-left: 15px;" [disabled]="!form.valid">Save</button>
           <label style="display:inline-block;" *ngIf="isAdmin()" class="ml-3">
             <input type="checkbox" class="checkbox" formControlName="isCustom" /><b> Is Custom?</b>
           </label>

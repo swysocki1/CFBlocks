@@ -5,18 +5,77 @@ import {ValidationService} from '../../../../services/validation.service';
 import {mergeUser, User, UserSession} from '../../../../models/user.model';
 import {FirebaseService} from '../../../../services/firebase.service';
 import {LoginService} from "../../../../services/login.service";
+import {Router} from "@angular/router";
+import {FirebaseAbstractionLayerService} from "../../../../services/firebaseAbstractionLayer.service";
 
 @Component({
   selector: 'food-creator',
-  templateUrl: 'food-creator.html'
+  templateUrl: 'food-creator.html',
+  styles: [`
+    .allFoods {
+      overflow-y: auto;
+      max-height: 30vh;
+    }
+  `]
 })
-export class FoodCreatorComponent implements OnInit, OnChanges {
-  @Input() food: Food = new Food();
-  @Output() cancelEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+export class FoodCreatorComponent implements OnInit {
+  user: User;
+  food: Food;
   form: FormGroup;
-  constructor(private fb: FormBuilder, private vs: ValidationService, private firebase: FirebaseService, private ls: LoginService) { }
+  view = 'Create New';
+  allFoods = [];
+  foodsSelected = [];
+  showAllFoods = true;
+  constructor(private fb: FormBuilder, private vs: ValidationService, private firebase: FirebaseService,
+              private ls: LoginService, private router: Router, private fba: FirebaseAbstractionLayerService) {}
   ngOnInit() {
+    this.user = this.ls.getUser();
+    this.ls.getUserUpdates.subscribe(user => {
+      this.user = user;
+    }, error => {console.error(error)});
     this.loadForm();
+    this.router.events.subscribe(event => {
+      if (event && event['url']) {
+        const food = this.getFoodFromUrl(event['url']);
+        console.log(food);
+        this.loadFood(food);
+      }
+    });
+    this.firebase.getAllFoods(this.ls.getUser(), this.isAdmin()).subscribe(foods => {
+      this.allFoods = foods;
+      console.log(foods);
+    }, error => {console.error(error)});
+  }
+  getFoodFromUrl(url: string): string {
+    if (url) {
+      const urlParseArr = url.split('/');
+      console.log(urlParseArr);
+      let str = urlParseArr[urlParseArr.length - 1];
+      console.log(str);
+      if (str.indexOf(';') >= 0) {
+        str = str.substring(0, str.indexOf(';'));
+      }
+      if (str.indexOf('?') >= 0) {
+        str = str.substring(0, str.indexOf('?'));
+      }
+      if (str === 'new') {
+        return null;
+      }
+      return str;
+    }
+    return null;
+  }
+  loadFood(food: string) {
+    if (food) {
+      this.fba.getFoodById(food).subscribe(food => {
+        this.food = food;
+        this.loadForm();
+      }, error => {
+        console.error(error);
+      })
+    } else {
+      this.loadForm();
+    }
   }
   onSubmit() {
     if (this.form.valid) {
@@ -41,7 +100,7 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
         this.firebase.createFood(this.food).then(() => {
           if (this.food.isCustom) {
             this.ls.addCustomFood(this.food).subscribe(res => {
-              this.cancelEvent.emit(true);
+              // this.cancelEvent.emit(true);
             }, error => {
               console.error(error);
             });
@@ -51,7 +110,7 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
         });
       } else {
         this.firebase.updateFood(this.food).then(() => {
-          this.cancelEvent.emit(true);
+          // this.cancelEvent.emit(true);
         });
       }
     } else {
@@ -60,10 +119,13 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
   }
   loadForm() {
     let food  = new Food();
+    console.log(food);
     if (this.food) {
       food = {... this.food} as Food;
     }
+    console.log(food);
     this.form = this.fb.group({
+      foodFilter: [''],
       name: [food.name, Validators.required],
       carb: [food.carb, Validators.required],
       fat: [food.fat, Validators.required],
@@ -78,7 +140,6 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
   }
   reset() {
     this.loadForm();
-    this.cancelEvent.emit(true);
   }
   isFieldInvalid(field: string) {
     return this.vs.isFieldInvalid(this.form, field);
@@ -89,10 +150,39 @@ export class FoodCreatorComponent implements OnInit, OnChanges {
   isAdmin() {
     return this.ls.isAdmin();
   }
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.food && changes.food.currentValue !== changes.food.previousValue) {
-      this.food = changes.food.currentValue;
-      this.loadForm();
+  goBack() {
+  
+  }
+  isSelected(food: Food) {
+    if (food) {
+      return this.foodsSelected.some(f => f.id === food.id);
+    } else {
+      return false;
     }
+  }
+  selectFood(food: Food) {
+    if (!this.isSelected(food)) {
+      this.foodsSelected.push(food);
+    }
+  }
+  unselectFood(food: Food) {
+    if (this.isSelected(food)) {
+      this.foodsSelected.splice(this.foodsSelected.findIndex(f => f.id === food.id), 1);
+    }
+  }
+  toggleView(view: string) {
+    if (this.view !== view) {
+      this.loadFood(this.food ? this.food.id : null);
+      this.view = view;
+      if (view !== 'Mix Foods') {
+        this.foodsSelected = [];
+      }
+    }
+  }
+  viewIsActive(view: string) {
+    return this.view === view;
+  }
+  collapseAllFoods() {
+    this.showAllFoods = !this.showAllFoods;
   }
 }

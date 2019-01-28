@@ -146,21 +146,21 @@ export class BlockCalculatorService {
   }
   dailyCarbs(user: User) {
     if (user && user.username) {
-      return this.dailyCals(user) / 100 * user.blockTemplate.carbs;
+      return this.dailyCals(user) / 100 * user.blockTemplate.carbs / 4;
     } else {
       return 0;
     }
   }
   dailyFats(user: User) {
     if (user && user.username) {
-      return this.dailyCals(user) / 100 * user.blockTemplate.fats;
+      return this.dailyCals(user) / 100 * user.blockTemplate.fats / 9;
     } else {
       return 0;
     }
   }
   dailyProtein(user: User) {
     if (user && user.username) {
-      return this.dailyCals(user) / 100 * user.blockTemplate.protein;
+      return (this.dailyCals(user) / 100 * user.blockTemplate.protein) / 7;
     } else {
       return 0;
     }

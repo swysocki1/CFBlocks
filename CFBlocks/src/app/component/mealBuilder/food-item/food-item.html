@@ -3,8 +3,8 @@
     <span style="display:inline-block;">{{food.name}}</span>
   <!--<div class="col">-->
       <span style="white-space: nowrap;display:inline-block;" class="pull-right">
-      <span class="text-center rounded-circle grey1-fill grey3-fill-hover pull-right update-food favorite pointer" title="Favorite Food" [ngClass]="{'active': isFavoriteFood()}"
-            (click)="$event.stopPropagation();isFavoriteFood() ? unFavoriteFood() : favoriteFood()"><i class="fa fa-xs fa-fw fa-star" [ngClass]="{'gold': isFavoriteFood(), 'coal': !isFavoriteFood()}"></i></span>
+      <span class="text-center rounded-circle grey1-fill grey3-fill-hover pull-right update-food favorite pointer" title="Favorite Food" [ngClass]="{'active': isFavoriteFood(), 'gold': isFavoriteFood(), 'coal': !isFavoriteFood()}"
+            (click)="$event.stopPropagation();isFavoriteFood() ? unFavoriteFood() : favoriteFood()"><i class="fa fa-xs fa-fw fa-star"></i></span>
       <span class="text-center rounded-circle grey1-fill grey3-fill-hover pull-right update-food edit pointer" title="Update Food"
             (click)="$event.stopPropagation();loadFoodModal()" *ngIf="canEdit()"><i class="fas fa-xs fa-fw fa-edit coal"></i></span>
       <span class="text-center rounded-circle coal grey1-fill grey3-fill-hover pull-right update-food see-nutrition-facts pointer"

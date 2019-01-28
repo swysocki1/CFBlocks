@@ -4,6 +4,7 @@ import {LoginService} from './login.service';
 import {HelperService} from './helper.service';
 import * as moment from 'moment';
 import {Observable} from 'rxjs/internal/Observable';
+import {User} from "../models/user.model";
 
 @Injectable()
 export class MealService {

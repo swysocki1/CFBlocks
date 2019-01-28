@@ -27,6 +27,7 @@ declare var $:any;
 })
 export class MealItemComponent {
   @Input() meal: Meal;
+  @Input() isSelected: boolean;
   @Output() mealSelection: EventEmitter<Meal> = new EventEmitter<Meal>();
   displayNutritionFacts = true;
   constructor(private ls: LoginService, private fsa: FirebaseAbstractionLayerService, private mealService: MealService, private bc: BlockCalculatorService) { }

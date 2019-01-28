@@ -39,7 +39,6 @@
     "nativescript": "^5.0.3",
     "nativescript-angular": "~7.0.0",
     "nativescript-theme-core": "~1.0.4",
-    "phonegap": "^8.2.2",
     "popper.js": "^1.14.6",
     "reflect-metadata": "~0.1.8",
     "rxjs": "^6.3.3",
