@@ -11,6 +11,7 @@ import {User} from '../../../models/user.model';
 import {LoginService} from '../../../services/login.service';
 import {FirebaseAbstractionLayerService} from '../../../services/firebaseAbstractionLayer.service';
 import {Subscription} from "rxjs/internal/Subscription";
+import {Color} from "tns-core-modules/color";
 
 @Component({
   selector: 'meal-builder',
@@ -107,13 +108,13 @@ export class MealBuilderComponent implements OnInit {
     this.allMealsSub = this.fsa.getMealCalendarByDateRange(this.ls.getUser(), moment().subtract(1, 'year').toDate(), moment().endOf('day').toDate()).subscribe((mealCalendars:[MealCalendar]) => {
       mealCalendars.forEach(mc => {
         mc.meals.forEach(meal => {
-          console.log(this.meals.find(m => m.id === meal.id));
+          // console.log(this.meals.find(m => m.id === meal.id));
           if (!this.meals.some(m => m.id === meal.id)) {
-            console.log('push meal ' + meal.name);
+            // console.log('push meal ' + meal.name);
             this.meals.push(meal);
           } else {
             const mealIndex = this.meals.findIndex(m => m.id === meal.id);
-            console.log('update meal ' + meal.name);
+            // console.log('update meal ' + meal.name);
             this.meals[mealIndex] = meal;
           }
         });
@@ -297,6 +298,40 @@ export class MealBuilderComponent implements OnInit {
   }
   getWindowHeight() {
     return window.innerHeight;
+  }
+  progressBarColor(currentPercentage: number): string {
+    const sod = moment(this.mealDay).set('hour', 8).startOf('hour');
+    const eod = moment(this.mealDay).set('hour', 20).startOf('hour');
+    const dayLength = eod.diff(sod);
+    const timeAwake = moment().isBetween(sod, eod) ? moment().diff(sod) : sod.isSameOrBefore(moment()) ? 0 : dayLength;
+    const percentDayPast = (timeAwake / dayLength) * 100;
+    let perc = 1;
+    if (currentPercentage <= 100)
+      perc = currentPercentage / percentDayPast;
+    else
+      perc = (currentPercentage - ((currentPercentage % 100) * 2)) / percentDayPast;
+    perc *= 100;
+    if (perc > 100)
+      perc = perc - ((perc % 100) * 2);
+  
+    const differential = 33.333;
+    perc = perc >= (100 - differential) ? ((perc - (100 - differential)) / differential) * 100 : 0;
+    
+    return this.perc2color(perc);
+  }
+  
+  perc2color(perc): string {
+    var r, g, b = 0;
+    if(perc < 50) {
+      r = 255;
+      g = Math.round(5.1 * perc);
+    }
+    else {
+      g = 255;
+      r = Math.round(510 - 5.10 * perc);
+    }
+    var h = r * 0x10000 + g * 0x100 + b * 0x1;
+    return '#' + ('000000' + h.toString(16)).slice(-6);
   }
 }
 

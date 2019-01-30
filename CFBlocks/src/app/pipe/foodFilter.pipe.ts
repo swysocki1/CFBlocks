@@ -7,7 +7,7 @@ import {ValidationService} from '../../services/validation.service';
 })
 export class FoodFilterPipe implements PipeTransform {
   transform(items: [Food], search: string, alreadyUsed: [Food], favFoods: [string]): [Food] {
-    console.log(items, alreadyUsed, favFoods);
+    // console.log(items, alreadyUsed, favFoods);
     if (!items || items.length < 1) {
       return items;
     }
