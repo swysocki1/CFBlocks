@@ -104,8 +104,9 @@ export class FirebaseAbstractionLayerService {
     });
   }
   saveMealCalendar(user: User, mc: MealCalendar) {
-    const copy = this.mealCalendarDeepCopy(user, mc);
-    if (mc && !mc.id) {
+    let copy = this.mealCalendarDeepCopy(user, mc);
+    copy = this.fs.mealCalendarVerifyIds(copy);
+    if (copy && !copy.id) {
       return this.fs.createMealCalendar(copy);
     } else {
       return this.fs.updateMealCalendar(copy);

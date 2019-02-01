@@ -178,6 +178,13 @@ export class FirebaseService {
   updateMealCalendar(mc) {
     return this.queryMealCalendarById(mc.id).update(mc);
   }
+  mealCalendarVerifyIds(mc) {
+    mc.meals.forEach((meal, index) => {
+      if (!meal.id)
+        mc.meals[index].id = this.firebaseDb.createId();
+    });
+    return mc;
+  }
   // Email Encode/Decode
   encodeEmail(email: string): string {
     if (email) {

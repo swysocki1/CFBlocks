@@ -107,13 +107,16 @@ export class MealBuilderComponent implements OnInit {
     }
     this.allMealsSub = this.fsa.getMealCalendarByDateRange(this.ls.getUser(), moment().subtract(1, 'year').toDate(), moment().endOf('day').toDate()).subscribe((mealCalendars:[MealCalendar]) => {
       mealCalendars.forEach(mc => {
+        console.log(mc);
         mc.meals.forEach(meal => {
           // console.log(this.meals.find(m => m.id === meal.id));
           if (!this.meals.some(m => m.id === meal.id)) {
-            // console.log('push meal ' + meal.name);
+            // console.log('push meal ' + meal.name);d
+            console.log('new meal: ' + meal);
             this.meals.push(meal);
           } else {
             const mealIndex = this.meals.findIndex(m => m.id === meal.id);
+            console.log('repeat meal: ' + this.meals[mealIndex].id);
             // console.log('update meal ' + meal.name);
             this.meals[mealIndex] = meal;
           }
